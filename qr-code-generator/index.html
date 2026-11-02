@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free QR Code Generator – No Sign-up, Never Expires | etoolbox</title>
+<meta name="description" content="Turn any web address or text into a QR code. Download a high-resolution PNG or SVG. There&#x27;s no sign-up and the code never expires.">
+<link rel="canonical" href="https://etoolbox.co.uk/qr-code-generator/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free QR Code Generator – No Sign-up, Never Expires | etoolbox">
+<meta property="og:description" content="Turn any web address or text into a QR code. Download a high-resolution PNG or SVG. There&#x27;s no sign-up and the code never expires.">
+<meta property="og:url" content="https://etoolbox.co.uk/qr-code-generator/">
+<meta name="theme-color" content="#14213d">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do these QR codes expire?", "acceptedAnswer": {"@type": "Answer", "text": "No. A free code here contains your link directly, so it keeps working for as long as that web page exists. We can't switch it off."}}, {"@type": "Question", "name": "Can I change the link after printing?", "acceptedAnswer": {"@type": "Answer", "text": "Not with a free (static) code, because the link is built into the pattern. If you think the link may change, use a Pro dynamic QR code, which you can redirect at any time."}}, {"@type": "Question", "name": "Can I use them commercially?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Use them on menus, packaging, flyers and signs at no cost and with no attribution needed."}}, {"@type": "Question", "name": "PNG or SVG?", "acceptedAnswer": {"@type": "Answer", "text": "PNG works everywhere. SVG stays sharp at any size, so it's best for printers and large signs."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Free QR code generator", "url": "https://etoolbox.co.uk/qr-code-generator/", "applicationCategory": "BusinessApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
+</head>
+<body>
+<header class="site-header"><div class="wrap">
+  <a class="logo" href="/"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#14213d"/><rect x="6" y="6" width="9" height="9" rx="2" fill="#ff6b35"/><rect x="17" y="6" width="9" height="9" rx="2" fill="#fff"/><rect x="6" y="17" width="9" height="9" rx="2" fill="#fff"/><rect x="17" y="17" width="4" height="4" rx="1" fill="#ff6b35"/><rect x="22" y="22" width="4" height="4" rx="1" fill="#ff6b35"/></svg><span>e<b>tool</b>box</span></a>
+  <nav class="nav">
+    <a class="hide-sm" href="/#tools">Free tools</a>
+    <a href="/pricing/">Pricing</a>
+    <a class="btn small" href="/qr-code-generator/">Make a QR code</a>
+  </nav>
+</div></header>
+<main>
+
+<div class="wrap">
+  <div class="page-head"><h1>Free QR code generator</h1><p>Turn any web address or text into a QR code. Download a high-resolution PNG or SVG. There's no sign-up and the code never expires.</p></div>
+  <div class="gen">
+    <form class="panel" id="qr-form" data-tool="url" autocomplete="off" novalidate>
+      <label for="url">Website address or text</label>
+<input type="text" id="url" name="url" placeholder="e.g. yourbusiness.co.uk" inputmode="url">
+<p class="hint" style="margin:6px 0 0">Tip: link to your Google reviews page to collect more reviews.</p>
+      
+<details class="style-opts">
+  <summary>Colours &amp; download size</summary>
+  <div class="colors" style="margin-top:12px">
+    <label class="check">Code <input type="color" name="fg" value="#000000"></label>
+    <label class="check">Background <input type="color" name="bg" value="#ffffff"></label>
+  </div>
+  <div class="row">
+    <div><label for="ecc">Error correction <span class="hint">(higher survives scratches)</span></label>
+      <select id="ecc" name="ecc"><option value="L">Low</option><option value="M" selected>Medium</option><option value="Q">High</option><option value="H">Highest</option></select></div>
+    <div><label for="size">PNG size</label>
+      <select id="size" name="size"><option value="512">512 px</option><option value="1024" selected>1024 px</option><option value="2048">2048 px (print)</option></select></div>
+  </div>
+</details>
+
+    </form>
+    
+<div class="panel preview" aria-live="polite">
+  <div id="qr-empty" class="empty">Your QR code will appear here as you type.</div>
+  <canvas id="qr-canvas" width="640" height="640" hidden aria-label="Generated QR code"></canvas>
+  <div id="qr-warn" class="warn" role="status"></div>
+  <div id="qr-actions" class="actions" hidden>
+    
+    <button type="button" class="btn" id="dl-png">Download PNG</button>
+    <button type="button" class="btn secondary" id="dl-svg">Download SVG</button>
+  </div>
+  <p class="note">Made in your browser. Nothing you type is uploaded or stored.<br>Free codes never expire.</p>
+</div>
+  </div>
+  
+<div class="upsell">
+  <div><h3>Printed it already and need to change the link?</h3>
+  <p>Pro dynamic QR codes let you change where a code points at any time, and show you how many scans each one gets.</p></div>
+  <a class="btn" href="/pricing/">See Pro</a>
+</div>
+  <section class="prose"><h2>How to make a QR code</h2>
+<ol><li>Type or paste your web address. We add <code>https://</code> for you.</li>
+<li>Check the preview, then point your phone camera at it to test it.</li>
+<li>Download a PNG for screens and documents, or an SVG for professional printing.</li></ol>
+<h2>Good ideas for small businesses</h2>
+<ul><li><strong>Google reviews:</strong> put a code on receipts and the counter to ask happy customers for a review.</li>
+<li><strong>Bookings:</strong> link straight to your booking page from posters and shop windows.</li>
+<li><strong>Social media:</strong> send people to your Instagram or Facebook page.</li>
+<li><strong>Flyers:</strong> link to an offer page so you can see whether the flyer works.</li></ul></section>
+  <section class="faq prose"><h2>Questions</h2><details><summary>Do these QR codes expire?</summary><p>No. A free code here contains your link directly, so it keeps working for as long as that web page exists. We can't switch it off.</p></details><details><summary>Can I change the link after printing?</summary><p>Not with a free (static) code, because the link is built into the pattern. If you think the link may change, use a Pro dynamic QR code, which you can redirect at any time.</p></details><details><summary>Can I use them commercially?</summary><p>Yes. Use them on menus, packaging, flyers and signs at no cost and with no attribution needed.</p></details><details><summary>PNG or SVG?</summary><p>PNG works everywhere. SVG stays sharp at any size, so it's best for printers and large signs.</p></details></section>
+  <section><h2>More free QR tools</h2><div class="grid"><a class="tool-card" href="/menu-qr-code-generator/"><div class="icon">🍽️</div><h3>Menu QR code + table card</h3><p>Print-ready table cards for cafés, pubs and takeaways.</p></a><a class="tool-card" href="/wifi-qr-code-generator/"><div class="icon">📶</div><h3>Wi-Fi QR code</h3><p>Guests scan to join your Wi-Fi. No more spelling out passwords.</p></a><a class="tool-card" href="/vcard-qr-code-generator/"><div class="icon">👤</div><h3>Contact card QR code</h3><p>Put your contact details on business cards and flyers.</p></a><a class="tool-card" href="/whatsapp-qr-code-generator/"><div class="icon">💬</div><h3>WhatsApp QR code</h3><p>Customers scan to start a WhatsApp chat with you.</p></a></div></section>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+  <div>© 2026 etoolbox.co.uk · Free tools for small businesses</div>
+  <div><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a data-contact href="#">Contact</a></div>
+</div></footer>
+<script src="/assets/config.js"></script>
+<script src="/assets/qrcode.js"></script>
+<script src="/assets/app.js"></script>
+</body>
+</html>

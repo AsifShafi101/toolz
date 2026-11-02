@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Contact Card (vCard) QR Code Generator | etoolbox</title>
+<meta name="description" content="Put your phone number, email, website and address into a QR code. When someone scans it, their phone offers to save you as a contact.">
+<link rel="canonical" href="https://etoolbox.co.uk/vcard-qr-code-generator/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free Contact Card (vCard) QR Code Generator | etoolbox">
+<meta property="og:description" content="Put your phone number, email, website and address into a QR code. When someone scans it, their phone offers to save you as a contact.">
+<meta property="og:url" content="https://etoolbox.co.uk/vcard-qr-code-generator/">
+<meta name="theme-color" content="#14213d">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What happens when someone scans it?", "acceptedAnswer": {"@type": "Answer", "text": "Their phone shows your details and offers to add you to their contacts."}}, {"@type": "Question", "name": "Can I update my details later?", "acceptedAnswer": {"@type": "Answer", "text": "A free code can't be edited, so you'd make a new one. A Pro dynamic code can point to details you update at any time."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Contact card QR code (vCard)", "url": "https://etoolbox.co.uk/vcard-qr-code-generator/", "applicationCategory": "BusinessApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
+</head>
+<body>
+<header class="site-header"><div class="wrap">
+  <a class="logo" href="/"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#14213d"/><rect x="6" y="6" width="9" height="9" rx="2" fill="#ff6b35"/><rect x="17" y="6" width="9" height="9" rx="2" fill="#fff"/><rect x="6" y="17" width="9" height="9" rx="2" fill="#fff"/><rect x="17" y="17" width="4" height="4" rx="1" fill="#ff6b35"/><rect x="22" y="22" width="4" height="4" rx="1" fill="#ff6b35"/></svg><span>e<b>tool</b>box</span></a>
+  <nav class="nav">
+    <a class="hide-sm" href="/#tools">Free tools</a>
+    <a href="/pricing/">Pricing</a>
+    <a class="btn small" href="/qr-code-generator/">Make a QR code</a>
+  </nav>
+</div></header>
+<main>
+
+<div class="wrap">
+  <div class="page-head"><h1>Contact card QR code (vCard)</h1><p>Put your phone number, email, website and address into a QR code. When someone scans it, their phone offers to save you as a contact.</p></div>
+  <div class="gen">
+    <form class="panel" id="qr-form" data-tool="vcard" autocomplete="off" novalidate>
+      <div class="row">
+  <div><label for="first">First name</label><input type="text" id="first" name="first"></div>
+  <div><label for="last">Last name</label><input type="text" id="last" name="last"></div>
+</div>
+<div class="row">
+  <div><label for="org">Business name</label><input type="text" id="org" name="org"></div>
+  <div><label for="title">Job title</label><input type="text" id="title" name="title"></div>
+</div>
+<div class="row">
+  <div><label for="phone">Mobile</label><input type="tel" id="phone" name="phone"></div>
+  <div><label for="workphone">Work phone</label><input type="tel" id="workphone" name="workphone"></div>
+</div>
+<div class="row">
+  <div><label for="email">Email</label><input type="email" id="email" name="email"></div>
+  <div><label for="website">Website</label><input type="text" id="website" name="website" inputmode="url"></div>
+</div>
+<label for="street">Address <span class="hint">(optional)</span></label>
+<input type="text" id="street" name="street" placeholder="Street">
+<div class="row" style="margin-top:8px">
+  <input type="text" name="city" placeholder="Town / city" aria-label="Town or city">
+  <input type="text" name="postcode" placeholder="Postcode" aria-label="Postcode">
+</div>
+<input type="hidden" name="country" value="">
+      
+<details class="style-opts">
+  <summary>Colours &amp; download size</summary>
+  <div class="colors" style="margin-top:12px">
+    <label class="check">Code <input type="color" name="fg" value="#000000"></label>
+    <label class="check">Background <input type="color" name="bg" value="#ffffff"></label>
+  </div>
+  <div class="row">
+    <div><label for="ecc">Error correction <span class="hint">(higher survives scratches)</span></label>
+      <select id="ecc" name="ecc"><option value="L">Low</option><option value="M" selected>Medium</option><option value="Q">High</option><option value="H">Highest</option></select></div>
+    <div><label for="size">PNG size</label>
+      <select id="size" name="size"><option value="512">512 px</option><option value="1024" selected>1024 px</option><option value="2048">2048 px (print)</option></select></div>
+  </div>
+</details>
+
+    </form>
+    
+<div class="panel preview" aria-live="polite">
+  <div id="qr-empty" class="empty">Your QR code will appear here as you type.</div>
+  <canvas id="qr-canvas" width="640" height="640" hidden aria-label="Generated QR code"></canvas>
+  <div id="qr-warn" class="warn" role="status"></div>
+  <div id="qr-actions" class="actions" hidden>
+    
+    <button type="button" class="btn" id="dl-png">Download PNG</button>
+    <button type="button" class="btn secondary" id="dl-svg">Download SVG</button>
+  </div>
+  <p class="note">Made in your browser. Nothing you type is uploaded or stored.<br>Free codes never expire.</p>
+</div>
+  </div>
+  
+<div class="upsell">
+  <div><h3>Printed it already and need to change the link?</h3>
+  <p>Pro dynamic QR codes let you change where a code points at any time, and show you how many scans each one gets.</p></div>
+  <a class="btn" href="/pricing/">See Pro</a>
+</div>
+  <section class="prose"><h2>Where to use a contact QR code</h2>
+<ul><li>On the back of business cards, so people save you in one tap.</li>
+<li>On your van, shop window or market stall banner.</li>
+<li>On email signatures, quotes and invoices.</li></ul>
+<p>Only fill in what you want to share. The more details you add, the denser the code gets, so keep it short for small prints.</p></section>
+  <section class="faq prose"><h2>Questions</h2><details><summary>What happens when someone scans it?</summary><p>Their phone shows your details and offers to add you to their contacts.</p></details><details><summary>Can I update my details later?</summary><p>A free code can't be edited, so you'd make a new one. A Pro dynamic code can point to details you update at any time.</p></details></section>
+  <section><h2>More free QR tools</h2><div class="grid"><a class="tool-card" href="/qr-code-generator/"><div class="icon">🔗</div><h3>Website QR code</h3><p>Send people to any web page, review page or booking link.</p></a><a class="tool-card" href="/menu-qr-code-generator/"><div class="icon">🍽️</div><h3>Menu QR code + table card</h3><p>Print-ready table cards for cafés, pubs and takeaways.</p></a><a class="tool-card" href="/wifi-qr-code-generator/"><div class="icon">📶</div><h3>Wi-Fi QR code</h3><p>Guests scan to join your Wi-Fi. No more spelling out passwords.</p></a><a class="tool-card" href="/whatsapp-qr-code-generator/"><div class="icon">💬</div><h3>WhatsApp QR code</h3><p>Customers scan to start a WhatsApp chat with you.</p></a></div></section>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+  <div>© 2026 etoolbox.co.uk · Free tools for small businesses</div>
+  <div><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a data-contact href="#">Contact</a></div>
+</div></footer>
+<script src="/assets/config.js"></script>
+<script src="/assets/qrcode.js"></script>
+<script src="/assets/app.js"></script>
+</body>
+</html>

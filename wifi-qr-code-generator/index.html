@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Wi-Fi QR Code Generator – Guests Scan to Connect | etoolbox</title>
+<meta name="description" content="Let customers and guests join your Wi-Fi by scanning a code, without typing a password. It works with iPhone and Android cameras.">
+<link rel="canonical" href="https://etoolbox.co.uk/wifi-qr-code-generator/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free Wi-Fi QR Code Generator – Guests Scan to Connect | etoolbox">
+<meta property="og:description" content="Let customers and guests join your Wi-Fi by scanning a code, without typing a password. It works with iPhone and Android cameras.">
+<meta property="og:url" content="https://etoolbox.co.uk/wifi-qr-code-generator/">
+<meta name="theme-color" content="#14213d">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is my Wi-Fi password sent anywhere?", "acceptedAnswer": {"@type": "Answer", "text": "No. The code is made entirely in your browser, and your password never leaves your device."}}, {"@type": "Question", "name": "Does it work on iPhone?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. iPhones (iOS 11 and later) and modern Android phones join Wi-Fi straight from the camera app."}}, {"@type": "Question", "name": "I changed my Wi-Fi password. Does the code still work?", "acceptedAnswer": {"@type": "Answer", "text": "No. The password is built into the code, so make a new code whenever you change it."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Wi-Fi QR code generator", "url": "https://etoolbox.co.uk/wifi-qr-code-generator/", "applicationCategory": "BusinessApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
+</head>
+<body>
+<header class="site-header"><div class="wrap">
+  <a class="logo" href="/"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#14213d"/><rect x="6" y="6" width="9" height="9" rx="2" fill="#ff6b35"/><rect x="17" y="6" width="9" height="9" rx="2" fill="#fff"/><rect x="6" y="17" width="9" height="9" rx="2" fill="#fff"/><rect x="17" y="17" width="4" height="4" rx="1" fill="#ff6b35"/><rect x="22" y="22" width="4" height="4" rx="1" fill="#ff6b35"/></svg><span>e<b>tool</b>box</span></a>
+  <nav class="nav">
+    <a class="hide-sm" href="/#tools">Free tools</a>
+    <a href="/pricing/">Pricing</a>
+    <a class="btn small" href="/qr-code-generator/">Make a QR code</a>
+  </nav>
+</div></header>
+<main>
+
+<div class="wrap">
+  <div class="page-head"><h1>Wi-Fi QR code generator</h1><p>Let customers and guests join your Wi-Fi by scanning a code, without typing a password. It works with iPhone and Android cameras.</p></div>
+  <div class="gen">
+    <form class="panel" id="qr-form" data-tool="wifi" autocomplete="off" novalidate>
+      <label for="ssid">Network name (SSID)</label>
+<input type="text" id="ssid" name="ssid" placeholder="e.g. CornerCafe-Guest">
+<div class="row">
+  <div><label for="security">Security</label>
+  <select id="security" name="security"><option value="WPA" selected>WPA / WPA2 / WPA3</option><option value="WEP">WEP (old)</option><option value="nopass">No password</option></select></div>
+  <div><label for="password">Password</label><input type="text" id="password" name="password" placeholder="Wi-Fi password"></div>
+</div>
+<label class="check" style="margin-top:12px"><input type="checkbox" name="hidden"> Hidden network</label>
+      
+<details class="style-opts">
+  <summary>Colours &amp; download size</summary>
+  <div class="colors" style="margin-top:12px">
+    <label class="check">Code <input type="color" name="fg" value="#000000"></label>
+    <label class="check">Background <input type="color" name="bg" value="#ffffff"></label>
+  </div>
+  <div class="row">
+    <div><label for="ecc">Error correction <span class="hint">(higher survives scratches)</span></label>
+      <select id="ecc" name="ecc"><option value="L">Low</option><option value="M" selected>Medium</option><option value="Q">High</option><option value="H">Highest</option></select></div>
+    <div><label for="size">PNG size</label>
+      <select id="size" name="size"><option value="512">512 px</option><option value="1024" selected>1024 px</option><option value="2048">2048 px (print)</option></select></div>
+  </div>
+</details>
+
+    </form>
+    
+<div class="panel preview" aria-live="polite">
+  <div id="qr-empty" class="empty">Your QR code will appear here as you type.</div>
+  <canvas id="qr-canvas" width="640" height="640" hidden aria-label="Generated QR code"></canvas>
+  <div id="qr-warn" class="warn" role="status"></div>
+  <div id="qr-actions" class="actions" hidden>
+    
+    <button type="button" class="btn" id="dl-png">Download PNG</button>
+    <button type="button" class="btn secondary" id="dl-svg">Download SVG</button>
+  </div>
+  <p class="note">Made in your browser. Nothing you type is uploaded or stored.<br>Free codes never expire.</p>
+</div>
+  </div>
+  
+<div class="upsell">
+  <div><h3>Printed it already and need to change the link?</h3>
+  <p>Pro dynamic QR codes let you change where a code points at any time, and show you how many scans each one gets.</p></div>
+  <a class="btn" href="/pricing/">See Pro</a>
+</div>
+  <section class="prose"><h2>How to share your Wi-Fi with a QR code</h2>
+<ol><li>Enter your network name exactly as it appears on your phone, including capital letters.</li>
+<li>Choose the security type. Most routers use WPA2 or WPA3, which is the default.</li>
+<li>Enter the password and test the code with your phone camera.</li>
+<li>Print it for the counter, tables or reception.</li></ol>
+<h2>Keep your business network safe</h2>
+<p>Share a separate <strong>guest network</strong>, not the one your till or office computers use. Most broadband routers let you turn on a guest network in their settings.</p></section>
+  <section class="faq prose"><h2>Questions</h2><details><summary>Is my Wi-Fi password sent anywhere?</summary><p>No. The code is made entirely in your browser, and your password never leaves your device.</p></details><details><summary>Does it work on iPhone?</summary><p>Yes. iPhones (iOS 11 and later) and modern Android phones join Wi-Fi straight from the camera app.</p></details><details><summary>I changed my Wi-Fi password. Does the code still work?</summary><p>No. The password is built into the code, so make a new code whenever you change it.</p></details></section>
+  <section><h2>More free QR tools</h2><div class="grid"><a class="tool-card" href="/qr-code-generator/"><div class="icon">🔗</div><h3>Website QR code</h3><p>Send people to any web page, review page or booking link.</p></a><a class="tool-card" href="/menu-qr-code-generator/"><div class="icon">🍽️</div><h3>Menu QR code + table card</h3><p>Print-ready table cards for cafés, pubs and takeaways.</p></a><a class="tool-card" href="/vcard-qr-code-generator/"><div class="icon">👤</div><h3>Contact card QR code</h3><p>Put your contact details on business cards and flyers.</p></a><a class="tool-card" href="/whatsapp-qr-code-generator/"><div class="icon">💬</div><h3>WhatsApp QR code</h3><p>Customers scan to start a WhatsApp chat with you.</p></a></div></section>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+  <div>© 2026 etoolbox.co.uk · Free tools for small businesses</div>
+  <div><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a data-contact href="#">Contact</a></div>
+</div></footer>
+<script src="/assets/config.js"></script>
+<script src="/assets/qrcode.js"></script>
+<script src="/assets/app.js"></script>
+</body>
+</html>
