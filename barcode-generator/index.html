@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Barcode Generator – EAN-13, UPC &amp; Code 128 | etoolbox</title>
+<meta name="description" content="Create EAN-13, UPC-A and Code 128 barcodes for products, stock labels and shelf edges. Download them as PNG or SVG. The check digits are calculated for you.">
+<link rel="canonical" href="https://etoolbox.co.uk/barcode-generator/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free Barcode Generator – EAN-13, UPC &amp; Code 128 | etoolbox">
+<meta property="og:description" content="Create EAN-13, UPC-A and Code 128 barcodes for products, stock labels and shelf edges. Download them as PNG or SVG. The check digits are calculated for you.">
+<meta property="og:url" content="https://etoolbox.co.uk/barcode-generator/">
+<meta name="theme-color" content="#14213d">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do I need to buy barcodes?", "acceptedAnswer": {"@type": "Answer", "text": "For retail products, yes. Retailers expect GS1-registered numbers. For your own stock system, any Code 128 barcode works."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Barcode generator", "url": "https://etoolbox.co.uk/barcode-generator/", "applicationCategory": "BusinessApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
+</head>
+<body>
+<header class="site-header"><div class="wrap">
+  <a class="logo" href="/"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#14213d"/><rect x="6" y="6" width="9" height="9" rx="2" fill="#ff6b35"/><rect x="17" y="6" width="9" height="9" rx="2" fill="#fff"/><rect x="6" y="17" width="9" height="9" rx="2" fill="#fff"/><rect x="17" y="17" width="4" height="4" rx="1" fill="#ff6b35"/><rect x="22" y="22" width="4" height="4" rx="1" fill="#ff6b35"/></svg><span>e<b>tool</b>box</span></a>
+  <nav class="nav">
+    <a class="hide-sm" href="/#tools">All tools</a>
+    <a href="/pricing/">Pricing</a>
+    <a class="btn small" href="/invoice-generator/">Free invoice</a>
+  </nav>
+</div></header>
+<main>
+
+<div class="wrap">
+  <div class="page-head"><h1>Barcode generator</h1><p>Create EAN-13, UPC-A and Code 128 barcodes for products, stock labels and shelf edges. Download them as PNG or SVG. The check digits are calculated for you.</p></div>
+  
+  <div class="gen">
+    <form class="panel" data-barcode novalidate>
+      <label for="btype">Barcode type</label>
+      <select id="btype" name="btype"><option value="code128">Code 128 (stock, SKUs, any text)</option><option value="ean13">EAN-13 (retail products, UK/EU)</option><option value="upca">UPC-A (retail products, US)</option></select>
+      <label for="data">Data</label><input type="text" id="data" name="data" autocomplete="off">
+      <div class="row"><div><label for="module">Bar width</label><select id="module" name="module"><option value="2">Thin</option><option value="3" selected>Normal</option><option value="4">Wide (print)</option></select></div>
+      <div><label for="bh">Height (px)</label><input type="number" id="bh" name="bh" value="100" min="30" max="400"></div></div>
+      <label class="check" style="margin-top:12px"><input type="checkbox" name="showtext" checked> Show the numbers under the barcode</label>
+    </form>
+    <div class="panel preview"><div id="bc-canvas"></div><div id="bc-warn" class="warn" role="status"></div>
+      <div id="bc-actions" class="actions" hidden><button type="button" class="btn" id="bc-png">Download PNG</button><button type="button" class="btn secondary" id="bc-svg">Download SVG</button></div>
+      <p class="note">Always test-scan before printing a batch.</p></div>
+  </div>
+  <section class="prose"><h2>Which barcode do I need?</h2><ul><li><strong>Selling in shops or on Amazon?</strong> You need a real <strong>EAN-13</strong> number registered to your business through GS1 UK. You can't just make up the number, but you can use this tool to draw the barcode once you have it.</li>
+<li><strong>Stock control, shelf labels, internal SKUs:</strong> use <strong>Code 128</strong>, which works with letters and numbers.</li></ul></section>
+  <section class="faq prose"><h2>Questions</h2><details><summary>Do I need to buy barcodes?</summary><p>For retail products, yes. Retailers expect GS1-registered numbers. For your own stock system, any Code 128 barcode works.</p></details></section>
+  <section><h2>More free tools</h2><div class="grid"><a class="tool-card" href="/invoice-generator/"><div class="icon">🧾</div><h3>Invoice generator</h3><p>Make a professional invoice with VAT and save it as a PDF.</p></a><a class="tool-card" href="/quote-generator/"><div class="icon">📝</div><h3>Quote generator</h3><p>Send customers a clear, professional quote or estimate.</p></a><a class="tool-card" href="/email-signature-generator/"><div class="icon">✉️</div><h3>Email signature generator</h3><p>A professional signature for Gmail, Outlook and Apple Mail.</p></a><a class="tool-card" href="/merge-pdf/"><div class="icon">📑</div><h3>Merge PDF</h3><p>Combine several PDFs into one file, in any order.</p></a><a class="tool-card" href="/take-home-pay-calculator/"><div class="icon">💰</div><h3>Take-home pay calculator</h3><p>Your UK salary after tax, NI, pension and student loan (2026/27).</p></a><a class="tool-card" href="/vat-calculator/"><div class="icon">💷</div><h3>VAT calculator</h3><p>Add or remove UK VAT at 20%, 5% or any rate.</p></a></div></section>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+  <div>© 2026 etoolbox.co.uk · Free tools for small businesses</div>
+  <div><a href="/#tools">All tools</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a data-contact href="#">Contact</a></div>
+</div></footer>
+<script src="/assets/config.js"></script>
+<script src="/assets/barcode.js"></script>
+<script src="/assets/app.js"></script>
+</body>
+</html>

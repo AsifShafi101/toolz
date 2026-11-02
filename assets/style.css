@@ -215,3 +215,19 @@ input[type=number] { width: 100%; font: inherit; padding: 11px 12px; border: 1.5
   .tool-card p { font-size: .8rem; }
   .hero { padding: 40px 0 24px; }
 }
+
+/* PDF tools */
+.file-list { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 6px; }
+.file-row { display: flex; align-items: center; gap: 6px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+.file-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; font-size: .92rem; }
+.icon-btn { border: 1px solid var(--line); background: #fff; border-radius: 6px; width: 30px; height: 30px; cursor: pointer; font-size: 1rem; line-height: 1; color: var(--ink); }
+.icon-btn:disabled { opacity: .35; cursor: default; }
+.pdf-ico { width: 56px; height: 56px; border-radius: 6px; background: #fde8e1; color: #c2410c; display: grid; place-items: center; font-weight: 800; font-size: .8rem; flex: none; }
+.run-row { display: flex; gap: 10px; align-items: center; margin-top: 16px; flex-wrap: wrap; }
+
+/* Signature */
+.sig-preview { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 20px; overflow-x: auto; text-align: left; min-height: 120px; }
+
+/* Barcode */
+#bc-canvas canvas { max-width: 100%; height: auto; }
+#bc-canvas .empty { color: var(--ink-soft); padding: 50px 10px; border: 2px dashed var(--line); border-radius: 12px; }

@@ -4,7 +4,7 @@ here = os.path.dirname(os.path.abspath(__file__))
 G = {}
 exec(open(os.path.join(here, "core.py")).read(), G)
 G["OUT"] = os.path.dirname(here)  # site root = repo root
-for part in ("qr_pages.py", "tools_pages.py"):
+for part in ("qr_pages.py", "tools_pages.py", "tools2_pages.py"):
     exec(open(os.path.join(here, part)).read(), G)
 
 exec('''
@@ -16,15 +16,15 @@ def cat_grid():
     return "".join(out)
 
 home = head("etoolbox – Free Online Tools for UK Small Businesses",
-            "Free invoice generator, VAT and margin calculators, QR codes, and image and text tools. No sign-up, nothing uploaded. Made for UK small businesses.",
+            "Free PDF tools, an invoice generator, UK take-home pay, VAT and mileage calculators, QR codes, and image tools. No sign-up, nothing uploaded. Made for UK small businesses.",
             "/") + f"""
 <div class="wrap">
   <div class="hero">
     <span class="pill">{len(TOOLS)} free tools · No sign-up · Nothing uploaded</span>
     <h1>Free tools for <em>small businesses</em></h1>
-    <p class="lead">Invoices, quotes, VAT and pricing calculators, QR codes for menus and Wi-Fi, and image and text tools. Everything runs in your browser, and it's made in the UK for cafés, shops, salons, trades and freelancers.</p>
+    <p class="lead">Invoices, PDF tools, UK pay, VAT and mileage calculators, QR codes, and image and everyday tools. Everything runs in your browser, so your files stay private. Made in the UK for small businesses, freelancers and everyone else.</p>
     <a class="btn" href="/invoice-generator/">Make an invoice</a>
-    <a class="btn secondary" href="/menu-qr-code-generator/">Menu QR code</a>
+    <a class="btn secondary" href="/merge-pdf/">Merge PDFs</a>
   </div>
   <div id="tools">{cat_grid()}</div>
   {UPSELL}

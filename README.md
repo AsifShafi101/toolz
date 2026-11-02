@@ -2,14 +2,17 @@
 
 Free QR code tools for UK small businesses. This is a plain static site: no build step, no server and no database.
 
-## Tools
+## Tools (38 pages, 34 tools)
 | Category | Pages |
 |---|---|
-| QR codes | `/qr-code-generator/`, `/menu-qr-code-generator/` (+ A6 table card), `/wifi-qr-code-generator/`, `/vcard-qr-code-generator/`, `/whatsapp-qr-code-generator/` |
-| Invoices & quotes | `/invoice-generator/`, `/quote-generator/` (live A4 preview, VAT, print/save as PDF, details remembered in the browser) |
-| Calculators | `/vat-calculator/`, `/profit-margin-calculator/`, `/hourly-rate-calculator/`, `/percentage-calculator/` |
-| Images | `/image-compressor/`, `/image-resizer/`, `/image-converter/` (JPG/PNG/WebP, batch, in the browser) |
-| Text | `/word-counter/`, `/case-converter/`, `/password-generator/` |
+| Documents | invoice, quote, email signature, barcode (EAN-13/UPC-A/Code 128) |
+| PDF | merge, split/extract/remove, JPG→PDF, PDF→JPG, rotate, page numbers (pdf-lib + pdf.js in `assets/vendor/`) |
+| Money (2026/27 UK rates) | take-home pay, VAT, profit margin, hourly rate, mileage (55p/25p), loan, mortgage, compound interest, discount, percentage |
+| QR codes | website, menu + table card, Wi-Fi, vCard, WhatsApp |
+| Images | compressor, resizer, converter |
+| Everyday | age, days between dates (E&W bank holidays 2025–28), unit converter, word counter, case converter, password generator |
+
+**Yearly maintenance:** tax rates live in `assets/calc.js` (`TAX`, mileage rates, `BH_EW` bank holidays). Update them each April and re-run the tests.
 
 Every tool runs in the visitor's browser; nothing is uploaded.
 

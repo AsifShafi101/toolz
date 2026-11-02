@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Discount Calculator – Sale Price &amp; % Off | etoolbox</title>
+<meta name="description" content="Work out a sale price after a percentage discount, including &#x27;extra % off&#x27; deals, or find what percentage off a price is.">
+<link rel="canonical" href="https://etoolbox.co.uk/discount-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Discount Calculator – Sale Price &amp; % Off | etoolbox">
+<meta property="og:description" content="Work out a sale price after a percentage discount, including &#x27;extra % off&#x27; deals, or find what percentage off a price is.">
+<meta property="og:url" content="https://etoolbox.co.uk/discount-calculator/">
+<meta name="theme-color" content="#14213d">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I work out 20% off?", "acceptedAnswer": {"@type": "Answer", "text": "Multiply the price by 0.8. For example, \u00a350 \u00d7 0.8 = \u00a340."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Discount calculator", "url": "https://etoolbox.co.uk/discount-calculator/", "applicationCategory": "BusinessApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
+</head>
+<body>
+<header class="site-header"><div class="wrap">
+  <a class="logo" href="/"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#14213d"/><rect x="6" y="6" width="9" height="9" rx="2" fill="#ff6b35"/><rect x="17" y="6" width="9" height="9" rx="2" fill="#fff"/><rect x="6" y="17" width="9" height="9" rx="2" fill="#fff"/><rect x="17" y="17" width="4" height="4" rx="1" fill="#ff6b35"/><rect x="22" y="22" width="4" height="4" rx="1" fill="#ff6b35"/></svg><span>e<b>tool</b>box</span></a>
+  <nav class="nav">
+    <a class="hide-sm" href="/#tools">All tools</a>
+    <a href="/pricing/">Pricing</a>
+    <a class="btn small" href="/invoice-generator/">Free invoice</a>
+  </nav>
+</div></header>
+<main>
+
+<div class="wrap">
+  <div class="page-head"><h1>Discount calculator</h1><p>Work out a sale price after a percentage discount, including 'extra % off' deals, or find what percentage off a price is.</p></div>
+  
+  <div class="gen">
+    <form class="panel" data-calc="discount" autocomplete="off" novalidate>
+<label>Calculation</label><div class="seg" role="radiogroup"><label><input type="radio" name="mode" value="price" checked><span>Sale price</span></label><label><input type="radio" name="mode" value="find"><span>% off</span></label></div>
+<label for="price">Original price (£)</label><input type="text" id="price" name="price" inputmode="decimal" placeholder="e.g. 80">
+<div data-show-when="mode=price"><div class="row"><div><label for="off">Discount (%)</label><input type="text" id="off" name="off" inputmode="decimal" placeholder="e.g. 25"></div>
+<div><label for="extra">Extra % off <span class="hint">(optional)</span></label><input type="text" id="extra" name="extra" inputmode="decimal"></div></div></div>
+<div data-show-when="mode=find"><label for="sale">Sale price (£)</label><input type="text" id="sale" name="sale" inputmode="decimal"></div></form>
+    <div class="panel preview"><div id="calc-out" class="calc-out" aria-live="polite"></div>
+      <p class="note">Calculated on your device. Figures are rounded to the nearest penny.</p></div>
+  </div>
+  <section class="prose"><p><strong>Tip:</strong> '25% off, then an extra 10% off' is a 32.5% discount in total, not 35%. The second discount applies to the already-reduced price.</p></section>
+  <section class="faq prose"><h2>Questions</h2><details><summary>How do I work out 20% off?</summary><p>Multiply the price by 0.8. For example, £50 × 0.8 = £40.</p></details></section>
+  <section><h2>More free tools</h2><div class="grid"><a class="tool-card" href="/take-home-pay-calculator/"><div class="icon">💰</div><h3>Take-home pay calculator</h3><p>Your UK salary after tax, NI, pension and student loan (2026/27).</p></a><a class="tool-card" href="/vat-calculator/"><div class="icon">💷</div><h3>VAT calculator</h3><p>Add or remove UK VAT at 20%, 5% or any rate.</p></a><a class="tool-card" href="/profit-margin-calculator/"><div class="icon">📈</div><h3>Profit margin calculator</h3><p>Work out margin, markup and the right selling price.</p></a><a class="tool-card" href="/hourly-rate-calculator/"><div class="icon">⏱️</div><h3>Hourly rate calculator</h3><p>Find the rate you need to charge as a freelancer.</p></a><a class="tool-card" href="/mileage-allowance-calculator/"><div class="icon">🚗</div><h3>Mileage allowance calculator</h3><p>HMRC mileage at the 2026/27 rates (55p/25p).</p></a><a class="tool-card" href="/invoice-generator/"><div class="icon">🧾</div><h3>Invoice generator</h3><p>Make a professional invoice with VAT and save it as a PDF.</p></a></div></section>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+  <div>© 2026 etoolbox.co.uk · Free tools for small businesses</div>
+  <div><a href="/#tools">All tools</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a data-contact href="#">Contact</a></div>
+</div></footer>
+<script src="/assets/config.js"></script>
+<script src="/assets/calc.js"></script>
+<script src="/assets/app.js"></script>
+</body>
+</html>
