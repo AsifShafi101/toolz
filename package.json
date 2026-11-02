@@ -1,0 +1,8 @@
+{
+  "name": "etoolbox",
+  "private": true,
+  "description": "etoolbox.co.uk static site + screenshot worker",
+  "dependencies": {
+    "@cloudflare/puppeteer": "^1.0.0"
+  }
+}

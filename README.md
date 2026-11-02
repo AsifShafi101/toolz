@@ -2,15 +2,20 @@
 
 Free QR code tools for UK small businesses. This is a plain static site: no build step, no server and no database.
 
-## Tools (38 pages, 34 tools)
+## Tools (54 pages)
 | Category | Pages |
 |---|---|
-| Documents | invoice, quote, email signature, barcode (EAN-13/UPC-A/Code 128) |
-| PDF | merge, split/extract/remove, JPG→PDF, PDF→JPG, rotate, page numbers (pdf-lib + pdf.js in `assets/vendor/`) |
-| Money (2026/27 UK rates) | take-home pay, VAT, profit margin, hourly rate, mileage (55p/25p), loan, mortgage, compound interest, discount, percentage |
+| Documents | invoice, quote, email signature, barcode |
+| PDF | merge, split, compress, PDF→Word, Word→PDF, JPG→PDF, PDF→JPG, rotate, page numbers |
+| Money (2026/27 UK) | take-home pay, VAT, margin, hourly rate, mileage, loan, mortgage, savings, discount, percentage, currency (ECB via Frankfurter) |
+| Images | compressor, resizer, converter, JPG→PNG, PNG→JPG, WebP→JPG, background remover, colour picker |
 | QR codes | website, menu + table card, Wi-Fi, vCard, WhatsApp |
-| Images | compressor, resizer, converter |
-| Everyday | age, days between dates (E&W bank holidays 2025–28), unit converter, word counter, case converter, password generator |
+| Website & dev | meta description + SERP preview, website screenshot, JSON formatter |
+| Media & audio | YouTube thumbnails, text to speech, speech to text |
+| Everyday | age, days between dates, unit converter, BMI, word counter, case converter, password generator |
+
+## Worker (`_worker/index.js`)
+Everything is static except `/api/screenshot`, which uses Cloudflare Browser Rendering (`BROWSER` binding in `wrangler.jsonc`). The Workers Free plan includes 10 minutes of browser time per day. Screenshots are cached for 24 hours on custom domains. Only public http(s) sites are allowed (no IPs, localhost or internal hosts).
 
 **Yearly maintenance:** tax rates live in `assets/calc.js` (`TAX`, mileage rates, `BH_EW` bank holidays). Update them each April and re-run the tests.
 

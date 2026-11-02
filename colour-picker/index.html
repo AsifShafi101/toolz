@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colour Picker – HEX, RGB, HSL, CMYK &amp; Contrast Checker | etoolbox</title>
+<meta name="description" content="Pick a colour and get its HEX, RGB, HSL and CMYK codes, lighter and darker shades, and WCAG contrast scores. You can also pick colours from your screen or a photo.">
+<link rel="canonical" href="https://etoolbox.co.uk/colour-picker/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Colour Picker – HEX, RGB, HSL, CMYK &amp; Contrast Checker | etoolbox">
+<meta property="og:description" content="Pick a colour and get its HEX, RGB, HSL and CMYK codes, lighter and darker shades, and WCAG contrast scores. You can also pick colours from your screen or a photo.">
+<meta property="og:url" content="https://etoolbox.co.uk/colour-picker/">
+<meta name="theme-color" content="#14213d">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I find a colour from my logo?", "acceptedAnswer": {"@type": "Answer", "text": "Click 'Pick from a photo', upload your logo, then click the colour you want."}}, {"@type": "Question", "name": "Are CMYK values exact?", "acceptedAnswer": {"@type": "Answer", "text": "They're a standard conversion. For brand-critical printing, ask your printer for a proof, because inks and paper affect the result."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Colour picker & converter", "url": "https://etoolbox.co.uk/colour-picker/", "applicationCategory": "BusinessApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
+</head>
+<body>
+<header class="site-header"><div class="wrap">
+  <a class="logo" href="/"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#14213d"/><rect x="6" y="6" width="9" height="9" rx="2" fill="#ff6b35"/><rect x="17" y="6" width="9" height="9" rx="2" fill="#fff"/><rect x="6" y="17" width="9" height="9" rx="2" fill="#fff"/><rect x="17" y="17" width="4" height="4" rx="1" fill="#ff6b35"/><rect x="22" y="22" width="4" height="4" rx="1" fill="#ff6b35"/></svg><span>e<b>tool</b>box</span></a>
+  <nav class="nav">
+    <a class="hide-sm" href="/#tools">All tools</a>
+    <a href="/pricing/">Pricing</a>
+    <a class="btn small" href="/invoice-generator/">Free invoice</a>
+  </nav>
+</div></header>
+<main>
+
+<div class="wrap">
+  <div class="page-head"><h1>Colour picker &amp; converter</h1><p>Pick a colour and get its HEX, RGB, HSL and CMYK codes, lighter and darker shades, and WCAG contrast scores. You can also pick colours from your screen or a photo.</p></div>
+  
+  <div class="gen">
+    <form class="panel" data-colour novalidate>
+      <div class="swatch" id="swatch"></div>
+      <div class="row"><div><label for="picker">Pick a colour</label><input type="color" id="picker" name="picker" value="#ff6b35" style="width:100%;height:46px"></div>
+      <div><label for="code">Or type a code</label><input type="text" id="code" name="code" placeholder="#FF6B35, rgb(…) or hsl(…)"></div></div>
+      <p id="code-msg" class="warn"></p>
+      <div class="btn-row"><button type="button" class="btn secondary small" id="eyedropper">💧 Pick from screen</button>
+        <label class="btn secondary small" for="pick-input" style="margin:0">🖼️ Pick from a photo<input type="file" id="pick-input" accept="image/*" class="sr-only"></label></div>
+      <canvas id="pick-canvas" hidden></canvas>
+    </form>
+    <div class="panel preview" style="text-align:left"><div id="formats" class="calc-out"></div>
+      <h3 style="margin:16px 0 0">Shades</h3><div class="shades" id="shades"></div>
+      <h3 style="margin:16px 0 0">Text contrast (WCAG)</h3><div id="contrast"></div></div>
+  </div>
+  <section class="prose"><h2>Which code do I need?</h2><ul><li><strong>HEX</strong> (#FF6B35): websites, Canva and most design apps.</li><li><strong>RGB:</strong> screens and CSS.</li><li><strong>CMYK:</strong> print shops and leaflets.</li></ul>
+<p><strong>Contrast:</strong> for readable text, aim for at least <strong>4.5:1</strong> (WCAG AA). Large headings need 3:1.</p></section>
+  <section class="faq prose"><h2>Questions</h2><details><summary>How do I find a colour from my logo?</summary><p>Click 'Pick from a photo', upload your logo, then click the colour you want.</p></details><details><summary>Are CMYK values exact?</summary><p>They're a standard conversion. For brand-critical printing, ask your printer for a proof, because inks and paper affect the result.</p></details></section>
+  <section><h2>More free tools</h2><div class="grid"><a class="tool-card" href="/image-compressor/"><div class="icon">🗜️</div><h3>Image compressor</h3><p>Make JPG, PNG and WebP files smaller without visible quality loss.</p></a><a class="tool-card" href="/image-resizer/"><div class="icon">📐</div><h3>Image resizer</h3><p>Resize photos to exact pixels or by percentage.</p></a><a class="tool-card" href="/image-converter/"><div class="icon">🔄</div><h3>Image converter</h3><p>Convert between JPG, PNG and WebP.</p></a><a class="tool-card" href="/background-remover/"><div class="icon">✨</div><h3>Background remover</h3><p>Remove plain backgrounds from product photos and logos.</p></a><a class="tool-card" href="/jpg-to-png/"><div class="icon">🖼️</div><h3>JPG to PNG</h3><p>Convert JPG photos to PNG.</p></a><a class="tool-card" href="/invoice-generator/"><div class="icon">🧾</div><h3>Invoice generator</h3><p>Make a professional invoice with VAT and save it as a PDF.</p></a></div></section>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+  <div>© 2026 etoolbox.co.uk · Free tools for small businesses</div>
+  <div><a href="/#tools">All tools</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a data-contact href="#">Contact</a></div>
+</div></footer>
+<script src="/assets/config.js"></script>
+<script src="/assets/colour.js"></script>
+<script src="/assets/app.js"></script>
+</body>
+</html>

@@ -161,8 +161,116 @@
         })(i);
         return chain.then(function () { return out; });
       });
+    },
+    compress: function (files, o) {
+      var f = files[0], level = o.level || "recommended";
+      return readBuf(f).then(function (orig) {
+        var origBytes = new Uint8Array(orig.slice(0));
+        var done = function (bytes, how) {
+          if (bytes.length >= origBytes.length) return [{ name: base(f.name) + "-compressed.pdf", bytes: origBytes, note: "This PDF is already well optimised, so we kept your original (" + kb(origBytes.length) + ")." }];
+          var saved = Math.round((1 - bytes.length / origBytes.length) * 100);
+          return [{ name: base(f.name) + "-compressed.pdf", bytes: bytes, note: kb(origBytes.length) + " → " + kb(bytes.length) + " (" + saved + "% smaller)" + how }];
+        };
+        if (level === "light") return loadPdf(orig).then(function (doc) { return doc.save({ useObjectStreams: true }); }).then(function (b) { return done(b, ". Text stays selectable."); });
+        var dpi = level === "strong" ? 96 : 144, q = level === "strong" ? 0.55 : 0.72;
+        return Promise.all([pdfjs(), loadPdf(orig)]).then(function (r) {
+          return r[0].getDocument({ data: origBytes.slice(0) }).promise.then(function (pdf) {
+            return PDFLib.PDFDocument.create().then(function (out) {
+              var chain = Promise.resolve();
+              for (var i = 1; i <= pdf.numPages; i++) (function (i) {
+                chain = chain.then(function () { return pdf.getPage(i); }).then(function (page) {
+                  var vp1 = page.getViewport({ scale: 1 }), vp = page.getViewport({ scale: dpi / 72 }), c = document.createElement("canvas");
+                  c.width = Math.ceil(vp.width); c.height = Math.ceil(vp.height);
+                  var ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height);
+                  return page.render({ canvasContext: ctx, viewport: vp }).promise.then(function () {
+                    return new Promise(function (res) { c.toBlob(res, "image/jpeg", q); });
+                  }).then(function (blob) { return blob.arrayBuffer(); }).then(function (ab) { return out.embedJpg(ab); }).then(function (img) {
+                    var pg = out.addPage([vp1.width, vp1.height]); pg.drawImage(img, { x: 0, y: 0, width: vp1.width, height: vp1.height });
+                  });
+                });
+              })(i);
+              return chain.then(function () { return out.save({ useObjectStreams: true }); });
+            });
+          });
+        }).then(function (b) { return done(b, ". Pages were converted to images, so text is no longer selectable."); });
+      });
+    },
+    pdf2word: function (files) {
+      var f = files[0];
+      return Promise.all([pdfjs(), readBuf(f)]).then(function (r) {
+        return r[0].getDocument({ data: new Uint8Array(r[1]) }).promise.catch(function (e) {
+          throw new Error(/password/i.test(e.name + e.message) ? "This PDF is password-protected." : "This file isn't a valid PDF.");
+        });
+      }).then(function (pdf) {
+        var pages = [], chain = Promise.resolve();
+        for (var i = 1; i <= pdf.numPages; i++) (function (i) {
+          chain = chain.then(function () { return pdf.getPage(i); }).then(function (pg) { return pg.getTextContent(); }).then(function (tc) { pages.push(tc.items); });
+        })(i);
+        return chain.then(function () {
+          var paras = textToParagraphs(pages);
+          if (!paras.some(function (p) { return p.text; })) throw new Error("No text found. This PDF looks like a scan (images only), so there's no text to convert.");
+          var xml = docxXml(paras);
+          var zip = fflate.zipSync({
+            "[Content_Types].xml": fflate.strToU8('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>'),
+            "_rels/.rels": fflate.strToU8('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>'),
+            "word/document.xml": fflate.strToU8(xml)
+          });
+          var words = paras.reduce(function (n, p) { return n + (p.text ? p.text.split(/\s+/).length : 0); }, 0);
+          return [{ name: base(f.name) + ".docx", blob: new Blob([zip], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" }),
+                    note: pdf.numPages + " page" + (pdf.numPages > 1 ? "s" : "") + " · " + words.toLocaleString("en-GB") + " words converted" }];
+        });
+      });
     }
   };
+
+  // Group pdf.js text items into lines and paragraphs. Exported for tests.
+  function textToParagraphs(pages) {
+    var all = [];
+    pages.forEach(function (items, pi) {
+      var lines = [];
+      items.forEach(function (it) {
+        if (!it.str && !it.hasEOL) return;
+        var x = it.transform[4], y = it.transform[5], h = Math.abs(it.transform[3]) || it.height || 10;
+        var line = null;
+        for (var k = 0; k < lines.length; k++) if (Math.abs(lines[k].y - y) < h * 0.5) { line = lines[k]; break; }
+        if (!line) { line = { y: y, h: h, items: [] }; lines.push(line); }
+        line.h = Math.max(line.h, h); line.items.push({ x: x, w: it.width || 0, s: it.str, h: h });
+      });
+      lines.sort(function (a, b) { return b.y - a.y; });
+      lines.forEach(function (l) {
+        l.items.sort(function (a, b) { return a.x - b.x; });
+        var t = "", end = null;
+        l.items.forEach(function (it) {
+          if (end !== null && it.x - end > it.h * 0.2 && !/\s$/.test(t) && !/^\s/.test(it.s)) t += " ";
+          t += it.s; end = it.x + it.w;
+        });
+        l.text = t.replace(/\s+/g, " ").trim();
+      });
+      lines = lines.filter(function (l) { return l.text; });
+      var hs = lines.map(function (l) { return l.h; }).sort(function (a, b) { return a - b; }), body = hs.length ? hs[Math.floor(hs.length / 2)] : 10;
+      var cur = null;
+      lines.forEach(function (l, i) {
+        var heading = l.h >= body * 1.25, prev = lines[i - 1];
+        var gap = prev ? prev.y - l.y : 0, newPara = !cur || heading || cur.heading || gap > Math.max(prev.h, l.h) * 1.6;
+        if (newPara) { cur = { text: l.text, heading: heading, size: l.h }; all.push(cur); }
+        else cur.text += (/-$/.test(cur.text) ? "" : " ") + l.text;
+      });
+      if (pi < pages.length - 1) all.push({ pageBreak: true });
+    });
+    return all;
+  }
+
+  function xmlEsc(s) { return String(s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function docxXml(paras) {
+    var body = paras.map(function (p) {
+      if (p.pageBreak) return '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
+      var rpr = p.heading ? "<w:rPr><w:b/><w:sz w:val=\"" + Math.min(48, Math.max(26, Math.round(p.size * 2))) + "\"/></w:rPr>" : "";
+      return "<w:p>" + (p.heading ? '<w:pPr><w:spacing w:before="240" w:after="120"/></w:pPr>' : '<w:pPr><w:spacing w:after="160"/></w:pPr>') +
+        "<w:r>" + rpr + '<w:t xml:space="preserve">' + xmlEsc(p.text) + "</w:t></w:r></w:p>";
+    }).join("");
+    return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' + body +
+      '<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="708" w:footer="708" w:gutter="0"/></w:sectPr></w:body></w:document>';
+  }
 
   function opts(form) {
     var o = {};
@@ -236,8 +344,8 @@
           '<ul class="img-results">' + results.map(function (r, i) {
             var blob = r.blob || new Blob([r.bytes], { type: "application/pdf" }), url = URL.createObjectURL(blob);
             return '<li class="img-item" data-out=\'' + JSON.stringify({ name: r.name, size: blob.size, mime: blob.type }) + "'>" +
-              (r.blob && /image/.test(blob.type) ? '<img src="' + url + '" alt="">' : '<span class="pdf-ico">PDF</span>') +
-              '<div class="img-info"><strong>' + esc(r.name) + '</strong><span class="muted">' + kb(blob.size) + (r.w ? " · " + r.w + "×" + r.h : "") + "</span></div>" +
+              (r.blob && /image/.test(blob.type) ? '<img src="' + url + '" alt="">' : '<span class="pdf-ico">' + (/word/.test(blob.type) ? "DOCX" : "PDF") + '</span>') +
+              '<div class="img-info"><strong>' + esc(r.name) + '</strong><span class="muted">' + (r.note ? esc(r.note) : kb(blob.size)) + (r.w ? " · " + r.w + "×" + r.h : "") + "</span></div>" +
               '<a class="btn small" href="' + url + '" download="' + esc(r.name) + '" data-dl="' + i + '">Download</a></li>';
           }).join("") + "</ul>" + (results.length > 1 ? '<button type="button" class="btn" id="dl-all" style="margin-top:12px">Download all</button>' : "");
         var all = document.getElementById("dl-all");
@@ -252,6 +360,6 @@
     syncUi(); renderList();
   }
 
-  window.ETBPdf = { parseRanges: parseRanges, ops: ops };
+  window.ETBPdf = { parseRanges: parseRanges, ops: ops, textToParagraphs: textToParagraphs };
   document.addEventListener("DOMContentLoaded", function () { var f = document.querySelector("form[data-pdf]"); if (f) init(f); });
 })();

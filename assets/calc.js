@@ -220,6 +220,21 @@
                raw: { days: total, workdays: work, holidays: hol } };
     }
   };
+
+  more.bmi = function (v) {
+    var h, w;
+    if (v.units === "imperial") { h = ((num(v.ft) || 0) * 12 + (num(v.inch) || 0)) * 0.0254; w = ((num(v.st) || 0) * 14 + (num(v.lb) || 0)) * 0.45359237; }
+    else { h = num(v.cm) / 100; w = num(v.kg); }
+    if (!h || h < 0.5 || h > 2.6) return { error: "Enter your height." };
+    if (!w || w < 10 || w > 400) return { error: "Enter your weight." };
+    var bmi = w / (h * h), lower = v.ethnic === "yes";
+    var over = lower ? 23 : 25, obese = lower ? 27.5 : 30;
+    var cat = bmi < 18.5 ? "Underweight range" : bmi < over ? "Healthy weight range" : bmi < obese ? "Overweight range" : bmi < 40 ? "Obese range" : "Severely obese range";
+    var lo = 18.5 * h * h, hi = (over - 0.1) * h * h;
+    var range = v.units === "imperial" ? function (kg) { var lb = kg / 0.45359237, st = Math.floor(lb / 14); return st + "st " + Math.round(lb - st * 14) + "lb"; } : function (kg) { return (Math.round(kg * 10) / 10) + " kg"; };
+    return { rows: [["Your BMI", (Math.round(bmi * 10) / 10).toFixed(1), true], ["Result", cat], ["Healthy weight range for your height", range(lo) + " – " + range(hi)]],
+             raw: { bmi: Math.round(bmi * 10) / 10, category: cat } };
+  };
   Object.keys(more).forEach(function (k) { calcs[k] = more[k]; });
   calcs._tax = TAX;
 

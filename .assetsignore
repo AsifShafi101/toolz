@@ -1,5 +1,10 @@
 .git
 _build
+_worker
+node_modules
+package.json
+package-lock.json
 README.md
 wrangler.jsonc
 .assetsignore
+.gitignore

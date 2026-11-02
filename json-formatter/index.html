@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JSON Formatter &amp; Validator – Beautify, Minify, Check | etoolbox</title>
+<meta name="description" content="Paste JSON to format it, validate it with clear error messages (line and column), sort keys or minify it. Everything runs in your browser.">
+<link rel="canonical" href="https://etoolbox.co.uk/json-formatter/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="JSON Formatter &amp; Validator – Beautify, Minify, Check | etoolbox">
+<meta property="og:description" content="Paste JSON to format it, validate it with clear error messages (line and column), sort keys or minify it. Everything runs in your browser.">
+<meta property="og:url" content="https://etoolbox.co.uk/json-formatter/">
+<meta name="theme-color" content="#14213d">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is my JSON sent anywhere?", "acceptedAnswer": {"@type": "Answer", "text": "No. Formatting and validation happen in your browser, so it's safe for API keys and private data."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "JSON formatter & validator", "url": "https://etoolbox.co.uk/json-formatter/", "applicationCategory": "BusinessApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
+</head>
+<body>
+<header class="site-header"><div class="wrap">
+  <a class="logo" href="/"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#14213d"/><rect x="6" y="6" width="9" height="9" rx="2" fill="#ff6b35"/><rect x="17" y="6" width="9" height="9" rx="2" fill="#fff"/><rect x="6" y="17" width="9" height="9" rx="2" fill="#fff"/><rect x="17" y="17" width="4" height="4" rx="1" fill="#ff6b35"/><rect x="22" y="22" width="4" height="4" rx="1" fill="#ff6b35"/></svg><span>e<b>tool</b>box</span></a>
+  <nav class="nav">
+    <a class="hide-sm" href="/#tools">All tools</a>
+    <a href="/pricing/">Pricing</a>
+    <a class="btn small" href="/invoice-generator/">Free invoice</a>
+  </nav>
+</div></header>
+<main>
+
+<div class="wrap">
+  <div class="page-head"><h1>JSON formatter &amp; validator</h1><p>Paste JSON to format it, validate it with clear error messages (line and column), sort keys or minify it. Everything runs in your browser.</p></div>
+  
+  <div class="panel" data-json>
+    <div class="btn-row" style="margin:0 0 12px">
+      <button type="button" class="btn small" id="json-format">Format</button><button type="button" class="btn secondary small" id="json-minify">Minify</button>
+      <label class="check" style="margin:0 8px">Indent <select id="indent" style="width:auto;padding:6px 8px"><option value="2">2 spaces</option><option value="4">4 spaces</option><option value="tab">Tab</option></select></label>
+      <label class="check" style="margin:0"><input type="checkbox" id="sortkeys"> Sort keys</label>
+      <button type="button" class="btn secondary small" id="json-sample" style="margin-left:auto">Load example</button>
+    </div>
+    <div class="json-grid">
+      <div><label for="json-in">Input</label><textarea id="json-in" class="code" spellcheck="false" placeholder='{"paste": "your JSON here"}'></textarea></div>
+      <div><label for="json-out">Output</label><textarea id="json-out" class="code" spellcheck="false" readonly></textarea>
+        <div class="btn-row"><button type="button" class="btn small" id="json-copy">Copy</button><button type="button" class="btn secondary small" id="json-dl">Download .json</button></div></div>
+    </div>
+    <p id="json-msg" class="muted" role="status" style="margin:12px 0 0">Paste JSON on the left.</p>
+  </div>
+  <section class="prose"><h2>Common JSON errors</h2><ul><li>Single quotes: JSON needs <code>"double quotes"</code>.</li><li>Trailing commas: <code>[1, 2, 3,]</code> isn't allowed.</li><li>Comments aren't allowed in JSON.</li><li>Keys must be quoted: <code>{"name": "x"}</code>, not <code>{name: "x"}</code>.</li></ul></section>
+  <section class="faq prose"><h2>Questions</h2><details><summary>Is my JSON sent anywhere?</summary><p>No. Formatting and validation happen in your browser, so it's safe for API keys and private data.</p></details></section>
+  <section><h2>More free tools</h2><div class="grid"><a class="tool-card" href="/meta-description-generator/"><div class="icon">🔍</div><h3>Meta description generator</h3><p>Write meta descriptions and preview your Google listing.</p></a><a class="tool-card" href="/website-screenshot/"><div class="icon">🖥️</div><h3>Website screenshot</h3><p>Capture any website on desktop, tablet or mobile.</p></a><a class="tool-card" href="/invoice-generator/"><div class="icon">🧾</div><h3>Invoice generator</h3><p>Make a professional invoice with VAT and save it as a PDF.</p></a><a class="tool-card" href="/merge-pdf/"><div class="icon">📑</div><h3>Merge PDF</h3><p>Combine several PDFs into one file, in any order.</p></a><a class="tool-card" href="/take-home-pay-calculator/"><div class="icon">💰</div><h3>Take-home pay calculator</h3><p>Your UK salary after tax, NI, pension and student loan (2026/27).</p></a><a class="tool-card" href="/vat-calculator/"><div class="icon">💷</div><h3>VAT calculator</h3><p>Add or remove UK VAT at 20%, 5% or any rate.</p></a></div></section>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+  <div>© 2026 etoolbox.co.uk · Free tools for small businesses</div>
+  <div><a href="/#tools">All tools</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a data-contact href="#">Contact</a></div>
+</div></footer>
+<script src="/assets/config.js"></script>
+<script src="/assets/devtools.js"></script>
+<script src="/assets/app.js"></script>
+</body>
+</html>
