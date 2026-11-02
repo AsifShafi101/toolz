@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Quote &amp; Estimate Generator UK – PDF Quotes | etoolbox</title>
+<meta name="description" content="Create a clear, professional quote or estimate for your customers, with VAT, terms and an expiry date. Download it as a PDF. It&#x27;s free with no sign-up.">
+<link rel="canonical" href="https://etoolbox.co.uk/quote-generator/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free Quote &amp; Estimate Generator UK – PDF Quotes | etoolbox">
+<meta property="og:description" content="Create a clear, professional quote or estimate for your customers, with VAT, terms and an expiry date. Download it as a PDF. It&#x27;s free with no sign-up.">
+<meta property="og:url" content="https://etoolbox.co.uk/quote-generator/">
+<meta name="theme-color" content="#14213d">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can I turn a quote into an invoice?", "acceptedAnswer": {"@type": "Answer", "text": "Your business details carry across. Open the invoice generator and they'll already be filled in, so you only need to add the items."}}, {"@type": "Question", "name": "Is my quote saved?", "acceptedAnswer": {"@type": "Answer", "text": "Your business details are saved in this browser. Download a PDF of each quote to keep a record."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Free quote generator", "url": "https://etoolbox.co.uk/quote-generator/", "applicationCategory": "BusinessApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
+</head>
+<body>
+<header class="site-header"><div class="wrap">
+  <a class="logo" href="/"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#14213d"/><rect x="6" y="6" width="9" height="9" rx="2" fill="#ff6b35"/><rect x="17" y="6" width="9" height="9" rx="2" fill="#fff"/><rect x="6" y="17" width="9" height="9" rx="2" fill="#fff"/><rect x="17" y="17" width="4" height="4" rx="1" fill="#ff6b35"/><rect x="22" y="22" width="4" height="4" rx="1" fill="#ff6b35"/></svg><span>e<b>tool</b>box</span></a>
+  <nav class="nav">
+    <a class="hide-sm" href="/#tools">All tools</a>
+    <a href="/pricing/">Pricing</a>
+    <a class="btn small" href="/invoice-generator/">Free invoice</a>
+  </nav>
+</div></header>
+<main>
+
+<div class="wrap">
+  <div class="page-head"><h1>Free quote generator</h1><p>Create a clear, professional quote or estimate for your customers, with VAT, terms and an expiry date. Download it as a PDF. It's free with no sign-up.</p></div>
+  
+  <div class="inv">
+    <form class="panel" data-doc="quote" autocomplete="on" novalidate>
+      <fieldset><legend>Your business</legend>
+        <label for="bizname">Business name</label><input type="text" id="bizname" name="bizname" autocomplete="organization">
+        <label for="bizaddress">Address</label><textarea id="bizaddress" name="bizaddress" rows="3" style="min-height:70px"></textarea>
+        <div class="row">
+          <div><label for="bizemail">Email</label><input type="email" id="bizemail" name="bizemail" autocomplete="email"></div>
+          <div><label for="bizphone">Phone</label><input type="tel" id="bizphone" name="bizphone" autocomplete="tel"></div>
+        </div>
+        <label for="vatno">VAT number <span class="hint">(only if VAT registered)</span></label><input type="text" id="vatno" name="vatno">
+      </fieldset>
+      <fieldset><legend>Customer</legend>
+        <label for="client">Customer name</label><input type="text" id="client" name="client" autocomplete="off">
+        <label for="clientaddress">Customer address</label><textarea id="clientaddress" name="clientaddress" rows="3" style="min-height:70px" autocomplete="off"></textarea>
+      </fieldset>
+      <fieldset><legend>Quote details</legend>
+        <div class="row">
+          <div><label for="number">Quote number</label><input type="text" id="number" name="number"></div>
+          <div><label for="date">Date</label><input type="date" id="date" name="date"></div>
+        </div>
+        <label for="due">Valid until</label><input type="date" id="due" name="due">
+      </fieldset>
+      <fieldset><legend>Items</legend>
+        <table class="items-table"><thead><tr><th>Description</th><th>Qty</th><th>Price £</th><th>VAT</th><th></th></tr></thead><tbody id="items"></tbody></table>
+        <button type="button" class="btn secondary small" id="add-row" style="margin-top:8px">+ Add line</button>
+      </fieldset>
+      <fieldset><legend>Terms</legend>
+        <textarea id="payment" name="payment" rows="3" style="min-height:70px" placeholder="e.g. 50% deposit to book. Price includes materials and labour."></textarea>
+        <label for="notes">Notes <span class="hint">(optional)</span></label><textarea id="notes" name="notes" rows="2" style="min-height:56px" placeholder="Thank you for your business!"></textarea>
+      </fieldset>
+      <div class="btn-row">
+        <button type="button" class="btn" id="print-doc">Download PDF / Print</button>
+        <button type="button" class="btn secondary" id="clear-doc">New quote (keep my details)</button>
+      </div>
+      <p class="hint" style="margin-top:10px">To save as a PDF, choose <strong>Save as PDF</strong> as the printer. Your business details are remembered on this device only.</p>
+    </form>
+    <div class="doc-wrap"><div class="doc" id="doc" aria-label="quote preview"></div></div>
+  </div>
+  <section class="prose"><h2>Quote vs estimate</h2>
+<p>A <strong>quote</strong> is a fixed price for the job. An <strong>estimate</strong> is your best guess and can change. Make clear which one you're giving, and say what's included and excluded.</p>
+<h2>Tips for winning more work</h2>
+<ul><li>Break the price into clear lines (labour, materials, extras).</li>
+<li>Add a 'valid until' date so prices don't drift.</li>
+<li>State your deposit and payment terms up front.</li></ul></section>
+  <section class="faq prose"><h2>Questions</h2><details><summary>Can I turn a quote into an invoice?</summary><p>Your business details carry across. Open the invoice generator and they'll already be filled in, so you only need to add the items.</p></details><details><summary>Is my quote saved?</summary><p>Your business details are saved in this browser. Download a PDF of each quote to keep a record.</p></details></section>
+  <section><h2>More free tools</h2><div class="grid"><a class="tool-card" href="/invoice-generator/"><div class="icon">🧾</div><h3>Invoice generator</h3><p>Make a professional invoice with VAT and save it as a PDF.</p></a><a class="tool-card" href="/menu-qr-code-generator/"><div class="icon">🍽️</div><h3>Menu QR code + table card</h3><p>Print-ready table cards for cafés, pubs and takeaways.</p></a><a class="tool-card" href="/vat-calculator/"><div class="icon">💷</div><h3>VAT calculator</h3><p>Add or remove UK VAT at 20%, 5% or any rate.</p></a><a class="tool-card" href="/image-compressor/"><div class="icon">🗜️</div><h3>Image compressor</h3><p>Make JPG, PNG and WebP files smaller without visible quality loss.</p></a></div></section>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+  <div>© 2026 etoolbox.co.uk · Free tools for small businesses</div>
+  <div><a href="/#tools">All tools</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a data-contact href="#">Contact</a></div>
+</div></footer>
+<script src="/assets/config.js"></script>
+<script src="/assets/invoice.js"></script>
+<script src="/assets/app.js"></script>
+</body>
+</html>

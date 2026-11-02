@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Image Resizer – Resize Photos Online | etoolbox</title>
+<meta name="description" content="Resize photos to exact pixel sizes or by percentage, for websites, social media, eBay, Etsy or email. It&#x27;s free, fast and private.">
+<link rel="canonical" href="https://etoolbox.co.uk/image-resizer/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free Image Resizer – Resize Photos Online | etoolbox">
+<meta property="og:description" content="Resize photos to exact pixel sizes or by percentage, for websites, social media, eBay, Etsy or email. It&#x27;s free, fast and private.">
+<meta property="og:url" content="https://etoolbox.co.uk/image-resizer/">
+<meta name="theme-color" content="#14213d">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Will resizing reduce quality?", "acceptedAnswer": {"@type": "Answer", "text": "Making images smaller keeps them sharp. Making them much bigger than the original will look blurry."}}, {"@type": "Question", "name": "Can I resize lots of images at once?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Select up to 30 images and they'll all be resized with the same settings."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Image resizer", "url": "https://etoolbox.co.uk/image-resizer/", "applicationCategory": "BusinessApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
+</head>
+<body>
+<header class="site-header"><div class="wrap">
+  <a class="logo" href="/"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#14213d"/><rect x="6" y="6" width="9" height="9" rx="2" fill="#ff6b35"/><rect x="17" y="6" width="9" height="9" rx="2" fill="#fff"/><rect x="6" y="17" width="9" height="9" rx="2" fill="#fff"/><rect x="17" y="17" width="4" height="4" rx="1" fill="#ff6b35"/><rect x="22" y="22" width="4" height="4" rx="1" fill="#ff6b35"/></svg><span>e<b>tool</b>box</span></a>
+  <nav class="nav">
+    <a class="hide-sm" href="/#tools">All tools</a>
+    <a href="/pricing/">Pricing</a>
+    <a class="btn small" href="/invoice-generator/">Free invoice</a>
+  </nav>
+</div></header>
+<main>
+
+<div class="wrap">
+  <div class="page-head"><h1>Image resizer</h1><p>Resize photos to exact pixel sizes or by percentage, for websites, social media, eBay, Etsy or email. It's free, fast and private.</p></div>
+  
+  <div class="gen">
+    <form class="panel" data-img="resize" novalidate>
+      <label class="drop" id="drop" for="img-input"><strong>Choose images or drop them here</strong><span class="muted">JPG, PNG or WebP · up to 30 at a time · nothing is uploaded</span>
+        <input type="file" id="img-input" accept="image/jpeg,image/png,image/webp" multiple class="sr-only"></label>
+      
+<label>Resize by</label>
+<div class="seg" role="radiogroup"><label><input type="radio" name="resizeby" value="pixels" checked><span>Pixels</span></label><label><input type="radio" name="resizeby" value="percent"><span>Percentage</span></label></div>
+<div data-show-when="resizeby=pixels"><div class="row">
+  <div><label for="width">Width (px)</label><input type="number" id="width" name="width" min="1" placeholder="e.g. 1080"></div>
+  <div><label for="height">Height (px)</label><input type="number" id="height" name="height" min="1" placeholder="auto"></div>
+</div><label class="check" style="margin-top:10px"><input type="checkbox" name="keepratio" checked> Keep proportions (fit inside)</label></div>
+<div data-show-when="resizeby=percent"><label for="percent">Percentage</label><input type="number" id="percent" name="percent" min="1" max="400" value="50"></div>
+<label for="format">Output format</label>
+<select id="format" name="format"><option value="same">Same as original</option><option value="jpeg">JPG</option><option value="png">PNG</option><option value="webp">WebP</option></select>
+<div data-show-when="format=same|jpeg|webp"><label for="quality">Quality <span class="hint" id="q-val"></span></label>
+<input type="range" id="quality" name="quality" min="10" max="100" value="90"></div>
+    </form>
+    <div class="panel"><h3 style="margin:0">Results</h3><ul class="img-results" id="img-results"><li class="muted">Your processed images will appear here.</li></ul>
+      <button type="button" class="btn" id="dl-all" hidden style="margin-top:12px">Download all</button></div>
+  </div>
+  <section class="prose"><h2>Popular sizes</h2>
+<ul><li><strong>Instagram post:</strong> 1080 × 1080 (square) or 1080 × 1350 (portrait)</li>
+<li><strong>Facebook cover:</strong> 851 × 315</li><li><strong>Website hero image:</strong> 1600–2000 wide</li>
+<li><strong>Product photos:</strong> 1200–2000 on the longest side</li></ul>
+<p>Platforms change their recommended sizes from time to time, so check their help pages for the latest.</p></section>
+  <section class="faq prose"><h2>Questions</h2><details><summary>Will resizing reduce quality?</summary><p>Making images smaller keeps them sharp. Making them much bigger than the original will look blurry.</p></details><details><summary>Can I resize lots of images at once?</summary><p>Yes. Select up to 30 images and they'll all be resized with the same settings.</p></details></section>
+  <section><h2>More free tools</h2><div class="grid"><a class="tool-card" href="/image-compressor/"><div class="icon">🗜️</div><h3>Image compressor</h3><p>Make JPG, PNG and WebP files smaller without visible quality loss.</p></a><a class="tool-card" href="/image-converter/"><div class="icon">🔄</div><h3>Image converter</h3><p>Convert between JPG, PNG and WebP.</p></a><a class="tool-card" href="/menu-qr-code-generator/"><div class="icon">🍽️</div><h3>Menu QR code + table card</h3><p>Print-ready table cards for cafés, pubs and takeaways.</p></a><a class="tool-card" href="/invoice-generator/"><div class="icon">🧾</div><h3>Invoice generator</h3><p>Make a professional invoice with VAT and save it as a PDF.</p></a><a class="tool-card" href="/vat-calculator/"><div class="icon">💷</div><h3>VAT calculator</h3><p>Add or remove UK VAT at 20%, 5% or any rate.</p></a></div></section>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+  <div>© 2026 etoolbox.co.uk · Free tools for small businesses</div>
+  <div><a href="/#tools">All tools</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a data-contact href="#">Contact</a></div>
+</div></footer>
+<script src="/assets/config.js"></script>
+<script src="/assets/image.js"></script>
+<script src="/assets/app.js"></script>
+</body>
+</html>

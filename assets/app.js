@@ -3,7 +3,7 @@
   "use strict";
 
   var CFG = window.ETB_CONFIG || {};
-  qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
+  if (window.qrcode) qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
 
   /* ---------- Payload builders (pure functions, exported for tests) ---------- */
 

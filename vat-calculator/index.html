@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VAT Calculator UK – Add or Remove 20% VAT | etoolbox</title>
+<meta name="description" content="Add VAT to a price or work out how much VAT is included. It covers the 20% standard rate, the 5% reduced rate, or any rate you choose.">
+<link rel="canonical" href="https://etoolbox.co.uk/vat-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="VAT Calculator UK – Add or Remove 20% VAT | etoolbox">
+<meta property="og:description" content="Add VAT to a price or work out how much VAT is included. It covers the 20% standard rate, the 5% reduced rate, or any rate you choose.">
+<meta property="og:url" content="https://etoolbox.co.uk/vat-calculator/">
+<meta name="theme-color" content="#14213d">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I calculate 20% VAT?", "acceptedAnswer": {"@type": "Answer", "text": "To add VAT, multiply by 1.2. To find the VAT inside a VAT-inclusive price, divide the price by 6. To get the price without VAT, divide by 1.2."}}, {"@type": "Question", "name": "When do I have to register for VAT?", "acceptedAnswer": {"@type": "Answer", "text": "You must register when your VAT-taxable turnover goes over the registration threshold set by HMRC. Check GOV.UK for the current figure."}}, {"@type": "Question", "name": "Is this calculator accurate?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. It works to the penny and rounds the final figures to 2 decimal places, as invoices do."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "UK VAT calculator", "url": "https://etoolbox.co.uk/vat-calculator/", "applicationCategory": "BusinessApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
+</head>
+<body>
+<header class="site-header"><div class="wrap">
+  <a class="logo" href="/"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#14213d"/><rect x="6" y="6" width="9" height="9" rx="2" fill="#ff6b35"/><rect x="17" y="6" width="9" height="9" rx="2" fill="#fff"/><rect x="6" y="17" width="9" height="9" rx="2" fill="#fff"/><rect x="17" y="17" width="4" height="4" rx="1" fill="#ff6b35"/><rect x="22" y="22" width="4" height="4" rx="1" fill="#ff6b35"/></svg><span>e<b>tool</b>box</span></a>
+  <nav class="nav">
+    <a class="hide-sm" href="/#tools">All tools</a>
+    <a href="/pricing/">Pricing</a>
+    <a class="btn small" href="/invoice-generator/">Free invoice</a>
+  </nav>
+</div></header>
+<main>
+
+<div class="wrap">
+  <div class="page-head"><h1>UK VAT calculator</h1><p>Add VAT to a price or work out how much VAT is included. It covers the 20% standard rate, the 5% reduced rate, or any rate you choose.</p></div>
+  
+  <div class="gen">
+    <form class="panel" data-calc="vat" autocomplete="off" novalidate>
+<label>What do you want to do?</label>
+<div class="seg" role="radiogroup"><label><input type="radio" name="mode" value="add" checked><span>Add VAT</span></label><label><input type="radio" name="mode" value="remove"><span>Remove VAT</span></label></div>
+<label for="amount">Amount (£)</label>
+<input type="text" id="amount" name="amount" inputmode="decimal" placeholder="e.g. 100">
+<label>VAT rate</label>
+<div class="seg" role="radiogroup"><label><input type="radio" name="rate" value="20" checked><span>20% standard</span></label><label><input type="radio" name="rate" value="5"><span>5% reduced</span></label><label><input type="radio" name="rate" value="0"><span>0% zero</span></label><label><input type="radio" name="rate" value="custom"><span>Other</span></label></div>
+<div data-show-when="rate=custom"><label for="custom">Custom rate (%)</label><input type="text" id="custom" name="custom" inputmode="decimal" placeholder="e.g. 12.5"></div></form>
+    <div class="panel preview"><div id="calc-out" class="calc-out" aria-live="polite"></div>
+      <p class="note">Calculated on your device. Figures are rounded to the nearest penny.</p></div>
+  </div>
+  <section class="prose"><h2>How to work out VAT</h2>
+<ul><li><strong>Adding 20% VAT:</strong> multiply the net price by 1.2. For example, £100 + VAT = £120.</li>
+<li><strong>Removing 20% VAT:</strong> divide the gross price by 1.2. For example, £120 including VAT is £100 net, with £20 of VAT.</li>
+<li><strong>Common mistake:</strong> taking 20% off a VAT-inclusive price gives the wrong answer. To find the VAT in a gross price, divide by 6, not 5.</li></ul>
+<h2>UK VAT rates</h2>
+<p>Most goods and services use the standard rate of 20%. Some, such as domestic energy and children's car seats, use the reduced 5% rate. Others, including most food and children's clothes, are zero-rated. Check GOV.UK for the rate that applies to what you sell.</p></section>
+  <section class="faq prose"><h2>Questions</h2><details><summary>How do I calculate 20% VAT?</summary><p>To add VAT, multiply by 1.2. To find the VAT inside a VAT-inclusive price, divide the price by 6. To get the price without VAT, divide by 1.2.</p></details><details><summary>When do I have to register for VAT?</summary><p>You must register when your VAT-taxable turnover goes over the registration threshold set by HMRC. Check GOV.UK for the current figure.</p></details><details><summary>Is this calculator accurate?</summary><p>Yes. It works to the penny and rounds the final figures to 2 decimal places, as invoices do.</p></details></section>
+  <section><h2>More free tools</h2><div class="grid"><a class="tool-card" href="/profit-margin-calculator/"><div class="icon">📈</div><h3>Profit margin calculator</h3><p>Work out margin, markup and the right selling price.</p></a><a class="tool-card" href="/hourly-rate-calculator/"><div class="icon">⏱️</div><h3>Hourly rate calculator</h3><p>Find the rate you need to charge as a freelancer.</p></a><a class="tool-card" href="/percentage-calculator/"><div class="icon">➗</div><h3>Percentage calculator</h3><p>Percentages of numbers, and percentage increases and decreases.</p></a><a class="tool-card" href="/menu-qr-code-generator/"><div class="icon">🍽️</div><h3>Menu QR code + table card</h3><p>Print-ready table cards for cafés, pubs and takeaways.</p></a><a class="tool-card" href="/invoice-generator/"><div class="icon">🧾</div><h3>Invoice generator</h3><p>Make a professional invoice with VAT and save it as a PDF.</p></a><a class="tool-card" href="/image-compressor/"><div class="icon">🗜️</div><h3>Image compressor</h3><p>Make JPG, PNG and WebP files smaller without visible quality loss.</p></a></div></section>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+  <div>© 2026 etoolbox.co.uk · Free tools for small businesses</div>
+  <div><a href="/#tools">All tools</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a data-contact href="#">Contact</a></div>
+</div></footer>
+<script src="/assets/config.js"></script>
+<script src="/assets/calc.js"></script>
+<script src="/assets/app.js"></script>
+</body>
+</html>

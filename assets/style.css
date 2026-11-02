@@ -124,4 +124,94 @@ details.style-opts summary { cursor: pointer; font-weight: 700; }
 .site-footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .site-footer a { color: var(--ink-soft); margin-right: 14px; }
 
+/* Category headings */
+.cat-head { display: flex; align-items: baseline; gap: 10px; }
+.cat-head p { margin: 0; color: var(--ink-soft); }
+
+/* Calculators */
+.calc-out { display: grid; gap: 10px; }
+.calc-row { display: flex; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); text-align: left; }
+.calc-row strong { font-variant-numeric: tabular-nums; }
+.calc-row.big { background: #fff1eb; border-color: #ffd2bf; }
+.calc-row.big strong { font-size: 1.5rem; color: var(--brand-dark); }
+.calc-empty { color: var(--ink-soft); padding: 40px 10px; border: 2px dashed var(--line); border-radius: 12px; margin: 0; }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg label { margin: 0; }
+.seg input { position: absolute; opacity: 0; }
+.seg span { display: inline-block; padding: 8px 14px; border: 1.5px solid var(--line); border-radius: 999px; cursor: pointer; font-weight: 600; font-size: .9rem; background: #fff; }
+.seg input:checked + span { background: var(--ink); border-color: var(--ink); color: #fff; }
+.seg input:focus-visible + span { box-shadow: 0 0 0 3px #ffe3d6; }
+
+/* Invoice */
+.inv { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; padding: 20px 0; }
+@media (max-width: 980px) { .inv { grid-template-columns: 1fr; } }
+.inv fieldset { border: 0; padding: 0; margin: 0 0 18px; }
+.inv legend { font-weight: 800; margin-bottom: 4px; font-size: 1rem; }
+.items-table { width: 100%; border-collapse: collapse; }
+.items-table th { text-align: left; font-size: .8rem; color: var(--ink-soft); font-weight: 600; padding: 0 4px 4px; }
+.items-table td { padding: 3px; vertical-align: top; }
+.items-table td:nth-child(2) { width: 64px; } .items-table td:nth-child(3) { width: 96px; } .items-table td:nth-child(4) { width: 92px; } .items-table td:nth-child(5) { width: 32px; }
+.items-table input, .items-table select { padding: 9px 8px; }
+.row-del { border: 0; background: none; font-size: 1.4rem; color: var(--ink-soft); cursor: pointer; padding: 6px; }
+.doc-wrap { position: sticky; top: 84px; }
+.doc { background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow); padding: 40px; aspect-ratio: 210 / 297; overflow: hidden; font-size: 12px; color: #1d2433; }
+.doc .muted { color: #5b6478; }
+.doc-top { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+.doc-biz { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+.doc-title { font-size: 26px; font-weight: 800; letter-spacing: .08em; color: var(--brand); }
+.doc-meta { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+.doc-meta span, .doc-notes > span { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: #5b6478; }
+.doc-facts { display: grid; gap: 6px; text-align: right; }
+.doc-items { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+.doc-items th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: #5b6478; border-bottom: 2px solid #1d2433; padding: 6px 4px; }
+.doc-items td { border-bottom: 1px solid #e6e9f0; padding: 8px 4px; vertical-align: top; }
+.doc .n { text-align: right; white-space: nowrap; }
+.doc-totals { margin-left: auto; min-width: 55%; border-collapse: collapse; }
+.doc-totals td { padding: 5px 4px; }
+.doc-totals .grand td { border-top: 2px solid #1d2433; font-weight: 800; font-size: 15px; padding-top: 8px; }
+.doc-notes { margin-top: 18px; }
+@media print {
+  @page { size: A4; margin: 14mm; }
+  :root:has(#doc), body:has(#doc) { background: #fff; }
+  body:has(#doc) .site-header, body:has(#doc) .site-footer, body:has(#doc) .page-head,
+  body:has(#doc) .inv > form, body:has(#doc) main section { display: none !important; }
+  body:has(#doc) .wrap { max-width: none; padding: 0; }
+  body:has(#doc) .inv { display: block; padding: 0; }
+  body:has(#doc) .doc-wrap { position: static; }
+  #doc { width: auto; aspect-ratio: auto; overflow: visible; border: 0; box-shadow: none; padding: 0; font-size: 10.5pt; }
+  #doc .doc-title { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* Image tools */
+.drop { border: 2px dashed #c9d1e3; border-radius: var(--radius); padding: 36px 16px; text-align: center; background: #fff; cursor: pointer; transition: border-color .15s, background .15s; display: block; }
+.drop.over, .drop:hover { border-color: var(--brand); background: #fff8f4; }
+.drop strong { display: block; font-size: 1.1rem; margin-bottom: 4px; }
+.img-results { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 10px; }
+.img-item { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 10px; }
+.img-item img { width: 56px; height: 56px; object-fit: cover; border-radius: 6px; background: var(--bg); }
+.img-info { flex: 1; min-width: 0; display: grid; }
+.img-info strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.img-info span { font-size: .85rem; }
+.good { color: var(--accent); }
+.muted { color: var(--ink-soft); }
+input[type=range] { width: 100%; accent-color: var(--brand); }
+input[type=number] { width: 100%; font: inherit; padding: 11px 12px; border: 1.5px solid var(--line); border-radius: 10px; }
+
+/* Text tools */
+.big-text { min-height: 260px; font-size: 1rem; }
+.stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 14px; }
+.stat { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+.stat strong { display: block; font-size: 1.5rem; }
+.stat span { color: var(--ink-soft); font-size: .85rem; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.pw-out { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 1.25rem; text-align: center; letter-spacing: .03em; }
+
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+@media (max-width: 640px) {
+  .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tool-card { padding: 14px; }
+  .tool-card h3 { font-size: .95rem; }
+  .tool-card p { font-size: .8rem; }
+  .hero { padding: 40px 0 24px; }
+}
