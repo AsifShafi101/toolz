@@ -13,22 +13,26 @@
 <meta name="theme-color" content="#14213d">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/style.css">
+<script>try{var t=localStorage.getItem("etb-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is my JSON sent anywhere?", "acceptedAnswer": {"@type": "Answer", "text": "No. Formatting and validation happen in your browser, so it's safe for API keys and private data."}}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "JSON formatter & validator", "url": "https://etoolbox.co.uk/json-formatter/", "applicationCategory": "BusinessApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
 </head>
 <body>
 <header class="site-header"><div class="wrap">
   <a class="logo" href="/"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#14213d"/><rect x="6" y="6" width="9" height="9" rx="2" fill="#ff6b35"/><rect x="17" y="6" width="9" height="9" rx="2" fill="#fff"/><rect x="6" y="17" width="9" height="9" rx="2" fill="#fff"/><rect x="17" y="17" width="4" height="4" rx="1" fill="#ff6b35"/><rect x="22" y="22" width="4" height="4" rx="1" fill="#ff6b35"/></svg><span>e<b>tool</b>box</span></a>
+  <div class="search" role="search"><label for="tool-search" class="sr-only">Search tools</label>
+    <input type="search" id="tool-search" placeholder="Search 70 free tools…" title="Tip: press / to search" autocomplete="off" aria-controls="search-results" aria-expanded="false">
+    <ul class="search-results" id="search-results" role="listbox" hidden></ul></div>
   <nav class="nav">
     <a class="hide-sm" href="/#tools">All tools</a>
     <a href="/pricing/">Pricing</a>
-    <a class="btn small" href="/invoice-generator/">Free invoice</a>
+    <button type="button" class="icon-toggle" id="theme-toggle" aria-label="Switch light or dark mode" title="Light / dark mode">◐</button>
   </nav>
 </div></header>
 <main>
 
 <div class="wrap">
-  <div class="page-head"><h1>JSON formatter &amp; validator</h1><p>Paste JSON to format it, validate it with clear error messages (line and column), sort keys or minify it. Everything runs in your browser.</p></div>
+  <div class="page-head" data-slug="json-formatter"><h1>JSON formatter &amp; validator</h1><p>Paste JSON to format it, validate it with clear error messages (line and column), sort keys or minify it. Everything runs in your browser.</p><span class="privacy-tag">🔒 Runs in your browser. Nothing is uploaded.</span></div>
   
   <div class="panel" data-json>
     <div class="btn-row" style="margin:0 0 12px">
@@ -46,7 +50,7 @@
   </div>
   <section class="prose"><h2>Common JSON errors</h2><ul><li>Single quotes: JSON needs <code>"double quotes"</code>.</li><li>Trailing commas: <code>[1, 2, 3,]</code> isn't allowed.</li><li>Comments aren't allowed in JSON.</li><li>Keys must be quoted: <code>{"name": "x"}</code>, not <code>{name: "x"}</code>.</li></ul></section>
   <section class="faq prose"><h2>Questions</h2><details><summary>Is my JSON sent anywhere?</summary><p>No. Formatting and validation happen in your browser, so it's safe for API keys and private data.</p></details></section>
-  <section><h2>More free tools</h2><div class="grid"><a class="tool-card" href="/meta-description-generator/"><div class="icon">🔍</div><h3>Meta description generator</h3><p>Write meta descriptions and preview your Google listing.</p></a><a class="tool-card" href="/website-screenshot/"><div class="icon">🖥️</div><h3>Website screenshot</h3><p>Capture any website on desktop, tablet or mobile.</p></a><a class="tool-card" href="/invoice-generator/"><div class="icon">🧾</div><h3>Invoice generator</h3><p>Make a professional invoice with VAT and save it as a PDF.</p></a><a class="tool-card" href="/merge-pdf/"><div class="icon">📑</div><h3>Merge PDF</h3><p>Combine several PDFs into one file, in any order.</p></a><a class="tool-card" href="/take-home-pay-calculator/"><div class="icon">💰</div><h3>Take-home pay calculator</h3><p>Your UK salary after tax, NI, pension and student loan (2026/27).</p></a><a class="tool-card" href="/vat-calculator/"><div class="icon">💷</div><h3>VAT calculator</h3><p>Add or remove UK VAT at 20%, 5% or any rate.</p></a></div></section>
+  <section><h2>More free tools</h2><div class="grid"><a class="tool-card" href="/meta-description-generator/"><div class="icon">🔍</div><h3>Meta description generator</h3><p>Write meta descriptions and preview your Google listing.</p></a><a class="tool-card" href="/website-screenshot/"><div class="icon">🖥️</div><h3>Website screenshot</h3><p>Capture any website on desktop, tablet or mobile.</p></a><a class="tool-card" href="/website-speed-test/"><div class="icon">⚡</div><h3>Website speed test</h3><p>Core Web Vitals and Google PageSpeed scores for any page.</p></a><a class="tool-card" href="/dns-checker/"><div class="icon">🌍</div><h3>DNS propagation checker</h3><p>See what 8 public DNS providers return for your domain.</p></a><a class="tool-card" href="/email-dns-checker/"><div class="icon">🛡️</div><h3>SPF, DKIM & DMARC checker</h3><p>Check your domain's email security records.</p></a><a class="tool-card" href="/invoice-generator/"><div class="icon">🧾</div><h3>Invoice generator</h3><p>Make a professional invoice with VAT and save it as a PDF.</p></a></div></section>
 </div>
 </main>
 <footer class="site-footer"><div class="wrap">
@@ -54,6 +58,7 @@
   <div><a href="/#tools">All tools</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a data-contact href="#">Contact</a></div>
 </div></footer>
 <script src="/assets/config.js"></script>
+<script src="/assets/tools-index.js"></script>
 <script src="/assets/devtools.js"></script>
 <script src="/assets/app.js"></script>
 </body>

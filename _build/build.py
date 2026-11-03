@@ -4,7 +4,7 @@ here = os.path.dirname(os.path.abspath(__file__))
 G = {}
 exec(open(os.path.join(here, "core.py")).read(), G)
 G["OUT"] = os.path.dirname(here)  # site root = repo root
-for part in ("qr_pages.py", "tools_pages.py", "tools2_pages.py", "tools3_pages.py"):
+for part in ("qr_pages.py", "tools_pages.py", "tools2_pages.py", "tools3_pages.py", "tools4_pages.py"):
     exec(open(os.path.join(here, part)).read(), G)
 
 exec('''
@@ -26,6 +26,7 @@ home = head("etoolbox – Free Online Tools for UK Small Businesses",
     <a class="btn" href="/invoice-generator/">Make an invoice</a>
     <a class="btn secondary" href="/merge-pdf/">Merge PDFs</a>
   </div>
+  <div id="my-tools"></div>
   <div id="tools">{cat_grid()}</div>
   {UPSELL}
   <section class="prose">
@@ -42,3 +43,4 @@ write("/", home)
 ''', G)
 
 exec(open(os.path.join(here, "rest_pages.py")).read(), G)
+G["write_index"]()

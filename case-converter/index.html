@@ -13,22 +13,26 @@
 <meta name="theme-color" content="#14213d">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/style.css">
+<script>try{var t=localStorage.getItem("etb-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does it work with accents?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Letters like \u00e9, \u00fc and \u00f1 are converted correctly."}}, {"@type": "Question", "name": "Is my text stored?", "acceptedAnswer": {"@type": "Answer", "text": "No. Everything happens in your browser."}}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Case converter", "url": "https://etoolbox.co.uk/case-converter/", "applicationCategory": "BusinessApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
 </head>
 <body>
 <header class="site-header"><div class="wrap">
   <a class="logo" href="/"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#14213d"/><rect x="6" y="6" width="9" height="9" rx="2" fill="#ff6b35"/><rect x="17" y="6" width="9" height="9" rx="2" fill="#fff"/><rect x="6" y="17" width="9" height="9" rx="2" fill="#fff"/><rect x="17" y="17" width="4" height="4" rx="1" fill="#ff6b35"/><rect x="22" y="22" width="4" height="4" rx="1" fill="#ff6b35"/></svg><span>e<b>tool</b>box</span></a>
+  <div class="search" role="search"><label for="tool-search" class="sr-only">Search tools</label>
+    <input type="search" id="tool-search" placeholder="Search 70 free tools…" title="Tip: press / to search" autocomplete="off" aria-controls="search-results" aria-expanded="false">
+    <ul class="search-results" id="search-results" role="listbox" hidden></ul></div>
   <nav class="nav">
     <a class="hide-sm" href="/#tools">All tools</a>
     <a href="/pricing/">Pricing</a>
-    <a class="btn small" href="/invoice-generator/">Free invoice</a>
+    <button type="button" class="icon-toggle" id="theme-toggle" aria-label="Switch light or dark mode" title="Light / dark mode">◐</button>
   </nav>
 </div></header>
 <main>
 
 <div class="wrap">
-  <div class="page-head"><h1>Case converter</h1><p>Change text to UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case or kebab-case in one click.</p></div>
+  <div class="page-head" data-slug="case-converter"><h1>Case converter</h1><p>Change text to UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case or kebab-case in one click.</p><span class="privacy-tag">🔒 Runs in your browser. Nothing is uploaded.</span></div>
   <div class="panel" data-text="case"><label for="cc-text" class="sr-only">Your text</label>
   <textarea id="cc-text" class="big-text" placeholder="Type or paste your text here…"></textarea>
   <div class="btn-row">
@@ -46,7 +50,7 @@
 <ul><li><strong>Sentence case:</strong> fixes text typed with Caps Lock on.</li><li><strong>Title Case:</strong> headings, product names and blog titles. Small words like 'and' and 'of' stay lowercase.</li>
 <li><strong>kebab-case:</strong> web addresses (slugs), such as /summer-sale-2026.</li></ul></section>
   <section class="faq prose"><h2>Questions</h2><details><summary>Does it work with accents?</summary><p>Yes. Letters like é, ü and ñ are converted correctly.</p></details><details><summary>Is my text stored?</summary><p>No. Everything happens in your browser.</p></details></section>
-  <section><h2>More free tools</h2><div class="grid"><a class="tool-card" href="/age-calculator/"><div class="icon">🎂</div><h3>Age calculator</h3><p>Exact age in years, months and days.</p></a><a class="tool-card" href="/days-between-dates/"><div class="icon">📅</div><h3>Days between dates</h3><p>Count days and working days, or add days to a date.</p></a><a class="tool-card" href="/unit-converter/"><div class="icon">📏</div><h3>Unit converter</h3><p>Length, weight, volume, temperature and more.</p></a><a class="tool-card" href="/bmi-calculator/"><div class="icon">⚖️</div><h3>BMI calculator</h3><p>Body mass index with NHS categories, in metric or imperial.</p></a><a class="tool-card" href="/word-counter/"><div class="icon">🔤</div><h3>Word counter</h3><p>Count words, characters and reading time.</p></a><a class="tool-card" href="/invoice-generator/"><div class="icon">🧾</div><h3>Invoice generator</h3><p>Make a professional invoice with VAT and save it as a PDF.</p></a></div></section>
+  <section><h2>More free tools</h2><div class="grid"><a class="tool-card" href="/age-calculator/"><div class="icon">🎂</div><h3>Age calculator</h3><p>Exact age in years, months and days.</p></a><a class="tool-card" href="/days-between-dates/"><div class="icon">📅</div><h3>Days between dates</h3><p>Count days and working days, or add days to a date.</p></a><a class="tool-card" href="/unit-converter/"><div class="icon">📏</div><h3>Unit converter</h3><p>Length, weight, volume, temperature and more.</p></a><a class="tool-card" href="/bmi-calculator/"><div class="icon">⚖️</div><h3>BMI calculator</h3><p>Body mass index with NHS categories, in metric or imperial.</p></a><a class="tool-card" href="/recipe-scaler/"><div class="icon">🍳</div><h3>Recipe scaler</h3><p>Scale ingredients up or down and convert cups to grams.</p></a><a class="tool-card" href="/invoice-generator/"><div class="icon">🧾</div><h3>Invoice generator</h3><p>Make a professional invoice with VAT and save it as a PDF.</p></a></div></section>
 </div>
 </main>
 <footer class="site-footer"><div class="wrap">
@@ -54,6 +58,7 @@
   <div><a href="/#tools">All tools</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a data-contact href="#">Contact</a></div>
 </div></footer>
 <script src="/assets/config.js"></script>
+<script src="/assets/tools-index.js"></script>
 <script src="/assets/text.js"></script>
 <script src="/assets/app.js"></script>
 </body>

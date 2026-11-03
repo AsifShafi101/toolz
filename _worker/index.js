@@ -71,6 +71,82 @@ async function screenshot(request, env, ctx, reqUrl) {
   }
 }
 
+
+// ---- DNS over HTTPS (RFC 8484) against several public resolvers ----
+export const RESOLVERS = {
+  cloudflare: { name: "Cloudflare", url: "https://cloudflare-dns.com/dns-query" },
+  google: { name: "Google", url: "https://dns.google/dns-query" },
+  quad9: { name: "Quad9", url: "https://dns.quad9.net/dns-query" },
+  opendns: { name: "Cisco OpenDNS", url: "https://doh.opendns.com/dns-query" },
+  adguard: { name: "AdGuard", url: "https://dns.adguard-dns.com/dns-query" },
+  mullvad: { name: "Mullvad", url: "https://dns.mullvad.net/dns-query" },
+  dnssb: { name: "DNS.SB", url: "https://doh.dns.sb/dns-query" },
+  controld: { name: "Control D", url: "https://freedns.controld.com/p0" },
+};
+export const TYPES = { A: 1, NS: 2, CNAME: 5, SOA: 6, MX: 15, TXT: 16, AAAA: 28, SRV: 33, CAA: 257 };
+const TYPE_NAMES = Object.fromEntries(Object.entries(TYPES).map(([k, v]) => [v, k]));
+const RCODES = ["NOERROR", "FORMERR", "SERVFAIL", "NXDOMAIN", "NOTIMP", "REFUSED"];
+
+export function encodeQuery(name, type) {
+  const labels = name.replace(/\.$/, "").split(".");
+  const parts = [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0];
+  for (const l of labels) { const b = new TextEncoder().encode(l); if (!b.length || b.length > 63) throw new Error("bad label"); parts.push(b.length, ...b); }
+  parts.push(0, TYPES[type] >> 8, TYPES[type] & 255, 0, 1);
+  return new Uint8Array(parts);
+}
+function readName(buf, off) {
+  const labels = []; let jumped = false, next = off, guard = 0;
+  while (guard++ < 128) {
+    const len = buf[off];
+    if (len === 0) { if (!jumped) next = off + 1; break; }
+    if ((len & 0xc0) === 0xc0) { if (!jumped) next = off + 2; off = ((len & 0x3f) << 8) | buf[off + 1]; jumped = true; continue; }
+    labels.push(new TextDecoder().decode(buf.subarray(off + 1, off + 1 + len))); off += len + 1;
+  }
+  return [labels.join(".") || ".", next];
+}
+export function decodeResponse(ab) {
+  const b = new Uint8Array(ab), dv = new DataView(ab);
+  const rcode = b[3] & 15, qd = dv.getUint16(4), an = dv.getUint16(6);
+  let off = 12;
+  for (let i = 0; i < qd; i++) { off = readName(b, off)[1] + 4; }
+  const answers = [];
+  for (let i = 0; i < an; i++) {
+    const [name, o2] = readName(b, off); off = o2;
+    const type = dv.getUint16(off), ttl = dv.getUint32(off + 4), len = dv.getUint16(off + 8), rd = off + 10; off = rd + len;
+    let data;
+    if (type === 1) data = [...b.subarray(rd, rd + 4)].join(".");
+    else if (type === 28) { const h = []; for (let j = 0; j < 16; j += 2) h.push(dv.getUint16(rd + j).toString(16)); data = h.join(":").replace(/\b(?:0+:){2,}/, ":").replace(/^0::|::0$/, "::"); }
+    else if (type === 2 || type === 5 || type === 12) data = readName(b, rd)[0];
+    else if (type === 15) data = dv.getUint16(rd) + " " + readName(b, rd + 2)[0];
+    else if (type === 16) { const t = []; let p = rd; while (p < rd + len) { const l = b[p]; t.push(new TextDecoder().decode(b.subarray(p + 1, p + 1 + l))); p += l + 1; } data = t.join(""); }
+    else if (type === 6) { const [m, p1] = readName(b, rd), [r, p2] = readName(b, p1); data = `${m} ${r} ${dv.getUint32(p2)} ${dv.getUint32(p2 + 4)} ${dv.getUint32(p2 + 8)} ${dv.getUint32(p2 + 12)} ${dv.getUint32(p2 + 16)}`; }
+    else if (type === 33) data = `${dv.getUint16(rd)} ${dv.getUint16(rd + 2)} ${dv.getUint16(rd + 4)} ${readName(b, rd + 6)[0]}`;
+    else if (type === 257) { const tl = b[rd + 1]; data = `${b[rd]} ${new TextDecoder().decode(b.subarray(rd + 2, rd + 2 + tl))} "${new TextDecoder().decode(b.subarray(rd + 2 + tl, rd + len))}"`; }
+    else data = [...b.subarray(rd, rd + len)].map(x => x.toString(16).padStart(2, "0")).join("");
+    answers.push({ name, type: TYPE_NAMES[type] || String(type), ttl, data });
+  }
+  return { status: RCODES[rcode] || "RCODE" + rcode, answers };
+}
+function b64url(u8) { let s = ""; for (const x of u8) s += String.fromCharCode(x); return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); }
+async function askResolver(key, name, type) {
+  const r = RESOLVERS[key], t0 = Date.now();
+  try {
+    const res = await fetch(r.url + "?dns=" + b64url(encodeQuery(name, type)), { headers: { accept: "application/dns-message" }, signal: AbortSignal.timeout(5000) });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return { id: key, resolver: r.name, ms: Date.now() - t0, ...decodeResponse(await res.arrayBuffer()) };
+  } catch (e) { return { id: key, resolver: r.name, ms: Date.now() - t0, status: "ERROR", error: String(e && e.message || e), answers: [] }; }
+}
+async function dnsApi(url) {
+  let name = (url.searchParams.get("name") || "").trim().toLowerCase().replace(/^https?:\/\//, "").split(/[/?#]/)[0].replace(/\.$/, "");
+  const type = (url.searchParams.get("type") || "A").toUpperCase();
+  if (!/^(?=.{1,253}$)([a-z0-9_](?:[a-z0-9_-]{0,61}[a-z0-9])?\.)+[a-z0-9-]{2,63}$/i.test(name)) return json(400, { error: "Enter a valid domain name, e.g. example.co.uk" });
+  if (!TYPES[type]) return json(400, { error: "Unsupported record type." });
+  const only = url.searchParams.get("resolver");
+  const keys = only && RESOLVERS[only] ? [only] : Object.keys(RESOLVERS);
+  const results = await Promise.all(keys.map(k => askResolver(k, name, type)));
+  return new Response(JSON.stringify({ name, type, results }), { headers: { "content-type": "application/json", "cache-control": "no-store" } });
+}
+
 // ---- Logo hosting for email signatures (KV: LOGOS) ----
 const MAX_LOGO = 200 * 1024;
 function sniff(b) {
@@ -108,6 +184,7 @@ export default {
     const url = new URL(request.url);
     if (url.pathname === "/api/screenshot") return screenshot(request, env, ctx, url);
     if (url.pathname === "/api/logo") return uploadLogo(request, env, url);
+    if (url.pathname === "/api/dns") return dnsApi(url);
     if (url.pathname.startsWith("/logo/")) return serveLogo(env, url.pathname);
     if (url.pathname.startsWith("/api/")) return json(404, { error: "Not found" });
     return env.ASSETS.fetch(request);

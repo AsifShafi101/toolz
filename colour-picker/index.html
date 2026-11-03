@@ -13,22 +13,26 @@
 <meta name="theme-color" content="#14213d">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/style.css">
+<script>try{var t=localStorage.getItem("etb-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I find a colour from my logo?", "acceptedAnswer": {"@type": "Answer", "text": "Click 'Pick from a photo', upload your logo, then click the colour you want."}}, {"@type": "Question", "name": "Are CMYK values exact?", "acceptedAnswer": {"@type": "Answer", "text": "They're a standard conversion. For brand-critical printing, ask your printer for a proof, because inks and paper affect the result."}}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Colour picker & converter", "url": "https://etoolbox.co.uk/colour-picker/", "applicationCategory": "BusinessApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
 </head>
 <body>
 <header class="site-header"><div class="wrap">
   <a class="logo" href="/"><svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#14213d"/><rect x="6" y="6" width="9" height="9" rx="2" fill="#ff6b35"/><rect x="17" y="6" width="9" height="9" rx="2" fill="#fff"/><rect x="6" y="17" width="9" height="9" rx="2" fill="#fff"/><rect x="17" y="17" width="4" height="4" rx="1" fill="#ff6b35"/><rect x="22" y="22" width="4" height="4" rx="1" fill="#ff6b35"/></svg><span>e<b>tool</b>box</span></a>
+  <div class="search" role="search"><label for="tool-search" class="sr-only">Search tools</label>
+    <input type="search" id="tool-search" placeholder="Search 70 free tools…" title="Tip: press / to search" autocomplete="off" aria-controls="search-results" aria-expanded="false">
+    <ul class="search-results" id="search-results" role="listbox" hidden></ul></div>
   <nav class="nav">
     <a class="hide-sm" href="/#tools">All tools</a>
     <a href="/pricing/">Pricing</a>
-    <a class="btn small" href="/invoice-generator/">Free invoice</a>
+    <button type="button" class="icon-toggle" id="theme-toggle" aria-label="Switch light or dark mode" title="Light / dark mode">◐</button>
   </nav>
 </div></header>
 <main>
 
 <div class="wrap">
-  <div class="page-head"><h1>Colour picker &amp; converter</h1><p>Pick a colour and get its HEX, RGB, HSL and CMYK codes, lighter and darker shades, and WCAG contrast scores. You can also pick colours from your screen or a photo.</p></div>
+  <div class="page-head" data-slug="colour-picker"><h1>Colour picker &amp; converter</h1><p>Pick a colour and get its HEX, RGB, HSL and CMYK codes, lighter and darker shades, and WCAG contrast scores. You can also pick colours from your screen or a photo.</p><span class="privacy-tag">🔒 Runs in your browser. Nothing is uploaded.</span></div>
   
   <div class="gen">
     <form class="panel" data-colour novalidate>
@@ -55,6 +59,7 @@
   <div><a href="/#tools">All tools</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a data-contact href="#">Contact</a></div>
 </div></footer>
 <script src="/assets/config.js"></script>
+<script src="/assets/tools-index.js"></script>
 <script src="/assets/colour.js"></script>
 <script src="/assets/app.js"></script>
 </body>

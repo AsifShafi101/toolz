@@ -2,20 +2,23 @@
 
 Free QR code tools for UK small businesses. This is a plain static site: no build step, no server and no database.
 
-## Tools (54 pages)
+## Tools (74 pages)
 | Category | Pages |
 |---|---|
-| Documents | invoice, quote, email signature, barcode |
-| PDF | merge, split, compress, PDF→Word, Word→PDF, JPG→PDF, PDF→JPG, rotate, page numbers |
-| Money (2026/27 UK) | take-home pay, VAT, margin, hourly rate, mileage, loan, mortgage, savings, discount, percentage, currency (ECB via Frankfurter) |
-| Images | compressor, resizer, converter, JPG→PNG, PNG→JPG, WebP→JPG, background remover, colour picker |
+| Documents | invoice, quote, email signature (logo upload), barcode |
+| PDF & docs | merge, split, compress, PDF→Word, Word→PDF, JPG→PDF, PDF→JPG, rotate, page numbers, compare documents, image to text (OCR, Tesseract), invoice data extractor |
+| Files | batch renamer (zip or rename script), duplicate finder (SHA-256), checksum (MD5/SHA) |
+| Money (2026/27 UK) | take-home pay, VAT, margin, hourly rate, mileage, loan, mortgage, savings, discount, percentage, currency |
+| Images | compressor, resizer, converter, JPG↔PNG, WebP→JPG, background remover, colour picker, photo metadata & GPS remover |
 | QR codes | website, menu + table card, Wi-Fi, vCard, WhatsApp |
-| Website & dev | meta description + SERP preview, website screenshot, JSON formatter |
-| Media & audio | YouTube thumbnails, text to speech, speech to text |
-| Everyday | age, days between dates, unit converter, BMI, word counter, case converter, password generator |
+| Website & dev | meta description, website screenshot, JSON formatter, speed test (PageSpeed/CWV), DNS propagation, SPF/DKIM/DMARC, email header analyser, API request builder, JWT decoder |
+| Planners | budget (50/30/20), subscriptions (+ .ics reminders), travel budget, trip splitter, meeting time finder |
+| Media & everyday | YouTube thumbnails, text to speech, speech to text, age, dates, units, BMI, recipe scaler, webcam & mic test, word counter, case converter, passwords |
+
+Site-wide: instant tool search (press `/`), favourites, recently used, light/dark mode, privacy labels showing which tools use a server.
 
 ## Worker (`_worker/index.js`)
-Everything is static except `/api/screenshot`, which uses Cloudflare Browser Rendering (`BROWSER` binding in `wrangler.jsonc`). The Workers Free plan includes 10 minutes of browser time per day. Screenshots are cached for 24 hours on custom domains. Only public http(s) sites are allowed (no IPs, localhost or internal hosts).
+Everything is static except `/api/screenshot`, `/api/dns` (DNS-over-HTTPS to 8 public resolvers), `/api/logo` + `/logo/*` (KV),, which uses Cloudflare Browser Rendering (`BROWSER` binding in `wrangler.jsonc`). The Workers Free plan includes 10 minutes of browser time per day. Screenshots are cached for 24 hours on custom domains. Only public http(s) sites are allowed (no IPs, localhost or internal hosts).
 
 **Yearly maintenance:** tax rates live in `assets/calc.js` (`TAX`, mileage rates, `BH_EW` bank holidays). Update them each April and re-run the tests.
 

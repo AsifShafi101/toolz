@@ -360,6 +360,6 @@
     syncUi(); renderList();
   }
 
-  window.ETBPdf = { parseRanges: parseRanges, ops: ops, textToParagraphs: textToParagraphs };
+  window.ETBPdf = { parseRanges: parseRanges, ops: ops, textToParagraphs: textToParagraphs, pdfjs: pdfjs };
   document.addEventListener("DOMContentLoaded", function () { var f = document.querySelector("form[data-pdf]"); if (f) init(f); });
 })();
