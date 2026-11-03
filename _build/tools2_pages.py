@@ -115,6 +115,7 @@ tool_page("take-home-pay-calculator",
 <li><strong>Scotland:</strong> 19%, 20%, 21%, 42%, 45% and 48% bands (starter rate up to £16,537, higher rate from £43,663, top rate over £125,140).</li>
 <li><strong>National Insurance (employees):</strong> 8% between £12,570 and £50,270, and 2% above.</li>
 <li><strong>Student loans:</strong> 9% above £26,900 (Plan 1), £29,385 (Plan 2), £33,795 (Plan 4) or £25,000 (Plan 5). Postgraduate loans are 6% above £21,000.</li></ul>
+<p>Want a quick answer? See our <a href="/salary-after-tax/">salary after tax table</a>, with a full breakdown for every salary from £15,000 to £200,000, such as <a href="/salary-after-tax/30000/">£30,000</a>, <a href="/salary-after-tax/40000/">£40,000</a> and <a href="/salary-after-tax/50000/">£50,000</a>.</p>
 <p>Rates were checked against GOV.UK in November 2026. This is an estimate for a standard tax code (1257L), and your payslip may differ slightly because of your tax code, benefits or pay timing.</p>""",
     [("How much is £30,000 after tax?", "In England, Wales or NI with no pension or student loan, it's about £25,120 a year (roughly £2,093 a month) in 2026/27. Enter your own figures above for an exact estimate."),
      ("What's the difference between net pay and salary sacrifice?", "Both reduce your Income Tax. Salary sacrifice also reduces your National Insurance, so you take home a little more for the same pension contribution."),

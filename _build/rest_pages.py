@@ -130,7 +130,7 @@ with open(os.path.join(OUT, "404.html"), "w") as f:
 # sitemap + robots
 import datetime
 TODAY = datetime.date.today().isoformat()
-paths = ["/", "/pricing/"] + [f"/{t[0]}/" for t in TOOLS] + ["/contact/", "/privacy/", "/terms/"]
+paths = ["/", "/pricing/"] + [f"/{t[0]}/" for t in TOOLS] + ["/contact/", "/privacy/", "/terms/"] + EXTRA_PATHS
 with open(os.path.join(OUT, "sitemap.xml"), "w") as f:
     f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n')
     for p in paths:

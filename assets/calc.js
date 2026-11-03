@@ -293,6 +293,15 @@
     }
     Array.prototype.forEach.call(form.querySelectorAll("input[data-today]"), function (el) { if (!el.value) el.value = todayIso(); });
     if (kind === "bmi") bmiUnits(form);
+    // Prefill from the address, e.g. /take-home-pay-calculator/?salary=30000&pension=0
+    try {
+      new URLSearchParams(location.search).forEach(function (val, key) {
+        var els = form.elements[key]; if (!els || val.length > 40) return;
+        if (els.length && els[0] && els[0].type === "radio") { Array.prototype.forEach.call(els, function (r) { r.checked = r.value === val; }); }
+        else if (els.tagName === "SELECT") { if (els.querySelector('option[value="' + val.replace(/"/g, "") + '"]')) els.value = val; }
+        else if (els.type !== "radio" && els.type !== "checkbox") els.value = val;
+      });
+    } catch (e) {}
     form.addEventListener("input", update);
     form.addEventListener("change", update);
     form.addEventListener("submit", function (e) { e.preventDefault(); });

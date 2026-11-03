@@ -762,3 +762,29 @@ main { position: relative; }
 :root:not([data-theme="light"]) .home .site-header .search-results li a { color: #e7ecf6; }
 }
 @media (prefers-reduced-motion: reduce) { .cube3d-in, .hc-rot, .hc-top, .hero-cube { animation: none !important; } }
+
+/* Share bar */
+.share-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 18px 0 6px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+.share-bar .sh-lead { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--ink); margin-right: 4px; font-size: .95rem; }
+.share-bar .sh { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); font: inherit; font-size: .88rem; font-weight: 600; text-decoration: none; cursor: pointer; }
+.share-bar .sh:hover { border-color: #ff6b35; color: #ff6b35; }
+.share-bar .sh .ic { width: 15px; height: 15px; }
+.share-bar .sh-lead .ic { width: 16px; height: 16px; color: #ff6b35; }
+
+/* Salary after tax pages */
+.sal-stats { display: grid; grid-template-columns: 1.4fr repeat(4, 1fr); gap: 10px; margin: 18px 0 6px; }
+.sal-stat { border: 1px solid var(--line); border-radius: 14px; background: var(--card); padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.sal-stat span { font-size: .85rem; color: var(--ink-soft); }
+.sal-stat strong { font-size: 1.25rem; }
+.sal-stat.big { background: linear-gradient(135deg, #ff6b35, #ff9566); border-color: transparent; color: #fff; }
+.sal-stat.big span { color: rgba(255,255,255,.85); }
+.sal-stat.big strong { font-size: 1.9rem; font-family: var(--serif); font-weight: 400; }
+.sal-table { width: 100%; border-collapse: collapse; margin: 10px 0 18px; font-variant-numeric: tabular-nums; }
+.sal-table th, .sal-table td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: right; }
+.sal-table th:first-child { text-align: left; font-weight: 600; }
+.sal-table thead th { font-size: .85rem; color: var(--ink-soft); font-weight: 600; }
+.sal-table tr.tot th, .sal-table tr.tot td { font-weight: 700; border-bottom: 2px solid #ff6b35; }
+.sal-near { justify-content: flex-start; }
+@media (max-width: 700px) { .sal-stats { grid-template-columns: 1fr 1fr; } .sal-stat.big { grid-column: 1 / -1; } }
+@media (max-width: 520px) { .sal-table { font-size: .82rem; } .sal-table th, .sal-table td { padding: 8px 4px; } }
+.prose > h2:first-child { font-size: clamp(1.6rem, 3vw, 2rem); }

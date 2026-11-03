@@ -453,3 +453,17 @@
     initProLinks(); initTheme(); initSearch(); initTabs(); initFavRecent(); initProBox(); initUsage();
   });
 })();
+
+/* Share bar: native share on phones, copy link everywhere */
+(function () {
+  document.querySelectorAll(".share-bar").forEach(function (bar) {
+    var url = bar.getAttribute("data-url"), text = bar.getAttribute("data-text");
+    var nat = bar.querySelector(".sh-native");
+    if (nat && navigator.share) { nat.hidden = false; nat.addEventListener("click", function () { navigator.share({ title: text, url: url }).catch(function () {}); }); }
+    var cp = bar.querySelector(".sh-copy");
+    if (cp) cp.addEventListener("click", function () {
+      var done = function () { var s = cp.querySelector("span"); s.textContent = "Copied!"; setTimeout(function () { s.textContent = "Copy link"; }, 1800); };
+      if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, done); else done();
+    });
+  });
+})();

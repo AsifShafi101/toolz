@@ -158,7 +158,7 @@ CAT_ICON = {"docs": "receipt", "pdf": "file-text", "files": "folder-search", "mo
             "web": "globe", "plan": "calendar-days", "media": "volume-2", "everyday": "calculator", "maths": "sigma"}
 CAT_SHORT = {"docs": "Business docs", "pdf": "PDF", "files": "Files", "money": "Money & tax", "qr": "QR codes", "images": "Images",
              "web": "Website", "plan": "Planners", "media": "Media", "maths": "Maths", "everyday": "Everyday"}
-UI_ICONS = ["lock", "shield", "sparkles", "zap", "smartphone", "badge-percent", "search", "arrow-right", "check", "upload", "download", "x"]
+UI_ICONS = ["lock", "shield", "sparkles", "zap", "smartphone", "badge-percent", "search", "arrow-right", "check", "upload", "download", "x", "share-2", "link", "message-circle", "mail"]
 
 
 def svg(name, cls="ic"):
@@ -327,6 +327,20 @@ def privacy_tag(slug):
     return f'<span class="privacy-tag">{svg("lock")} Runs in your browser. Nothing is uploaded.</span>'
 
 
+def share_bar(path, text):
+    from urllib.parse import quote
+    u = quote(SITE + path, safe=""); t = quote(text, safe="")
+    links = [("WhatsApp", f"https://wa.me/?text={t}%20{u}", "message-circle"),
+             ("X", f"https://x.com/intent/post?text={t}&url={u}", None),
+             ("LinkedIn", f"https://www.linkedin.com/sharing/share-offsite/?url={u}", None),
+             ("Facebook", f"https://www.facebook.com/sharer/sharer.php?u={u}", None),
+             ("Email", f"mailto:?subject={t}&body={u}", "mail")]
+    a = "".join(f'<a class="sh" href="{h}" target="_blank" rel="noopener nofollow" data-net="{n}">{svg(i) if i else ""}{n}</a>' for n, h, i in links)
+    return (f'<div class="share-bar" data-url="{SITE}{path}" data-text="{html.escape(text)}"><span class="sh-lead">{svg("share-2")} Useful? Share it free:</span>'
+            f'<button type="button" class="sh sh-native" hidden>{svg("share-2")}Share</button>{a}'
+            f'<button type="button" class="sh sh-copy">{svg("link")}<span>Copy link</span></button></div>')
+
+
 def tool_page(slug, title, h1, intro, ui, body, faqs, scripts):
     path = f"/{slug}/"
     nav, bld = crumbs(slug, h1)
@@ -335,6 +349,7 @@ def tool_page(slug, title, h1, intro, ui, body, faqs, scripts):
   {nav}
   <div class="page-head" data-slug="{slug}"><div class="ph-row">{tool_icon(slug)}<h1>{h1}</h1></div><p>{intro}</p>{privacy_tag(slug)}</div>
   {ui}
+  {share_bar(path, html.unescape(h1) + " – free, no sign-up, nothing uploaded")}
   <section class="prose">{body}</section>
   {faq_html(faqs)}
   {related(slug)}
