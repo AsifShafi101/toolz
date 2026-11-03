@@ -26,6 +26,10 @@ CATS = [
         ("add-page-numbers-to-pdf", "🔢", "Add page numbers", "Number the pages of any PDF."),
         ("compress-pdf", "🗜️", "Compress PDF", "Make PDFs smaller for email and uploads."),
         ("add-watermark-to-pdf", "💧", "Add watermark to PDF", "Stamp text or your logo on every page, tiled or centred."),
+        ("sign-pdf", "✍️", "Sign PDF", "Draw, type or upload your signature and place it on a PDF."),
+        ("protect-pdf", "🔒", "Protect PDF", "Add a password with strong AES-256 encryption."),
+        ("unlock-pdf", "🔓", "Unlock PDF", "Remove the password from a PDF you can open."),
+        ("pdf-to-excel", "📊", "PDF to Excel", "Turn PDF tables and statements into an Excel spreadsheet."),
         ("pdf-to-word", "📄", "PDF to Word", "Turn PDF text into an editable Word document."),
         ("word-to-pdf", "📘", "Word to PDF", "Convert .docx documents to PDF."),
         ("compare-documents", "🆚", "Compare documents", "Spot every change between two PDFs, Word files or texts."),
@@ -63,6 +67,7 @@ CATS = [
         ("image-converter", "🔄", "Image converter", "Convert between JPG, PNG and WebP."),
         ("background-remover", "✨", "Background remover (AI)", "Remove the background from any photo with AI, on your device."),
         ("add-watermark-to-image", "©️", "Watermark photos", "Add a text or logo watermark to up to 50 photos at once."),
+        ("heic-to-jpg", "📱", "HEIC to JPG", "Convert iPhone HEIC photos to JPG, up to 50 at once."),
         ("jpg-to-png", "🖼️", "JPG to PNG", "Convert JPG photos to PNG."),
         ("png-to-jpg", "📷", "PNG to JPG", "Convert PNG images to smaller JPGs."),
         ("webp-to-jpg", "🌐", "WebP to JPG", "Open-anywhere JPGs from WebP images."),
@@ -125,7 +130,8 @@ ICONS = {
     "travel-budget-planner": "luggage", "trip-cost-splitter": "handshake", "meeting-time-finder": "clock", "youtube-thumbnail-downloader": "play",
     "text-to-speech": "volume-2", "speech-to-text": "mic", "age-calculator": "cake", "days-between-dates": "calendar-days", "unit-converter": "ruler",
     "bmi-calculator": "scale", "recipe-scaler": "chef-hat", "webcam-mic-test": "webcam", "word-counter": "type", "case-converter": "case-sensitive",
-    "password-generator": "lock-keyhole",
+    "password-generator": "lock-keyhole", "sign-pdf": "signature", "protect-pdf": "file-lock", "unlock-pdf": "lock-keyhole-open",
+    "pdf-to-excel": "sheet", "heic-to-jpg": "image-up",
 }
 CAT_ICON = {"docs": "receipt", "pdf": "file-text", "files": "folder-search", "money": "wallet", "qr": "qr-code", "images": "image",
             "web": "globe", "plan": "calendar-days", "media": "volume-2", "everyday": "calculator"}

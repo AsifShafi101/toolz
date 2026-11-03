@@ -506,3 +506,29 @@ input[type=search]::-webkit-search-cancel-button { cursor: pointer; }
 .foot-links a { margin: 0 0 0 16px; } .foot-copy { font-size: .82rem; margin: 18px 0 0; }
 @media (max-width: 900px) { .directory { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 560px) { .directory { grid-template-columns: 1fr 1fr; } .foot-links a { margin: 0 14px 0 0; } }
+
+/* Sign PDF */
+.sign-layout { display: grid; grid-template-columns: 340px 1fr; gap: 24px; align-items: start; padding: 20px 0 8px; }
+@media (max-width: 900px) { .sign-layout { grid-template-columns: 1fr; } }
+.sign-tools { position: sticky; top: 84px; max-height: calc(100vh - 100px); overflow: auto; }
+@media (max-width: 900px) { .sign-tools { position: static; max-height: none; } }
+.sig-pad { width: 100%; height: auto; aspect-ratio: 600 / 220; border: 1.5px dashed var(--line); border-radius: 10px; background: #fff; touch-action: none; cursor: crosshair; display: block; margin: 10px 0 8px; }
+.inline-row { display: flex; gap: 8px; } .inline-row input { flex: 1; }
+.sign-pages { display: grid; gap: 18px; justify-items: center; background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; min-height: 300px; }
+.sign-empty { padding: 80px 0; }
+.sign-page { position: relative; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,.15); max-width: 100%; }
+.sign-page canvas { display: block; }
+.sign-pno { position: absolute; bottom: -18px; left: 0; font-size: .75rem; color: var(--ink-soft); }
+.sign-pages.placing .sign-page { cursor: copy; outline: 2px dashed var(--brand); }
+.sig-item { position: absolute; border: 1.5px dashed color-mix(in srgb, var(--brand) 70%, transparent); cursor: move; touch-action: none; }
+.sig-item img { width: 100%; height: 100%; display: block; pointer-events: none; user-select: none; }
+.sig-item:focus { outline: 2px solid var(--brand); }
+.sig-del { position: absolute; top: -12px; right: -12px; width: 24px; height: 24px; border-radius: 999px; border: 0; background: #e5484d; color: #fff; font-size: 16px; line-height: 1; cursor: pointer; }
+.sig-resize { position: absolute; right: -7px; bottom: -7px; width: 14px; height: 14px; border-radius: 3px; background: var(--brand); cursor: nwse-resize; }
+/* PDF to Excel */
+.xl-preview { overflow: auto; max-height: 460px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+.xl-preview > .muted { padding: 10px 12px; margin: 0; }
+.xl-table { border-collapse: collapse; font-size: .82rem; width: 100%; }
+.xl-table td { border: 1px solid var(--line); padding: 4px 8px; white-space: nowrap; }
+.xl-table td.num { text-align: right; font-variant-numeric: tabular-nums; color: var(--accent); }
+.heic-thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 6px; }
