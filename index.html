@@ -41,6 +41,7 @@
 <main id="main">
 
 <div class="hero-band">
+<canvas id="net-bg" class="net-bg" aria-hidden="true"></canvas>
 <div class="wrap hero">
   <span class="pill"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#sparkles"/></svg> 77 free tools · No sign-up · Files stay on your device</span>
   <h1>Free online tools for <em>PDFs, images, calculators</em> and more</h1>
@@ -50,7 +51,7 @@
     <ul class="search-results" id="hero-results" role="listbox" hidden></ul></div>
   <div class="pops" aria-label="Popular tools"><a class="pop" href="/merge-pdf/"><span class="ti c-pdf"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#files"/></svg></span><span>Merge PDF</span></a><a class="pop" href="/compress-pdf/"><span class="ti c-pdf"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#file-down"/></svg></span><span>Compress PDF</span></a><a class="pop" href="/background-remover/"><span class="ti c-images"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#eraser"/></svg></span><span>Remove background</span></a><a class="pop" href="/pdf-to-word/"><span class="ti c-pdf"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#file-type"/></svg></span><span>PDF to Word</span></a><a class="pop" href="/jpg-to-pdf/"><span class="ti c-pdf"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#file-image"/></svg></span><span>JPG to PDF</span></a><a class="pop" href="/add-watermark-to-pdf/"><span class="ti c-pdf"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#stamp"/></svg></span><span>Watermark PDF</span></a><a class="pop" href="/invoice-generator/"><span class="ti c-docs"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#receipt"/></svg></span><span>Invoice</span></a><a class="pop" href="/take-home-pay-calculator/"><span class="ti c-money"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#wallet"/></svg></span><span>Take-home pay</span></a><a class="pop" href="/bmi-calculator/"><span class="ti c-everyday"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#scale"/></svg></span><span>BMI calculator</span></a></div>
 </div>
-<div class="wrap"><ul class="trust">
+<div class="wrap trust-wrap"><ul class="trust trust-card">
   <li><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#lock"/></svg><div><strong>Private by design</strong><span>Files are processed on your device, not on our servers</span></div></li>
   <li><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#badge-percent"/></svg><div><strong>Free, no sign-up</strong><span>No accounts, no daily limits, no watermarks</span></div></li>
   <li><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#zap"/></svg><div><strong>Fast</strong><span>No upload queues. Results in seconds</span></div></li>
@@ -94,6 +95,7 @@
 </div></footer>
 <script src="/assets/config.js"></script>
 <script src="/assets/tools-index.js"></script>
+<script src="/assets/network-bg.js"></script>
 <script src="/assets/app.js"></script>
 </body>
 </html>

@@ -45,6 +45,7 @@ home = head("Free Online Tools – PDF, Image & Calculators, No Sign-up | etoolb
             f"Free tools for personal and business use: merge and compress PDFs, remove image backgrounds with AI, add watermarks, make invoices, and use BMI, VAT and UK tax calculators. {len(TOOLS)} free tools that run in your browser, so your files stay private.",
             "/", faq_ld(HOME_FAQ) + '<script type="application/ld+json">' + json.dumps(ORG) + "</script>\n") + f"""
 <div class="hero-band">
+<canvas id="net-bg" class="net-bg" aria-hidden="true"></canvas>
 <div class="wrap hero">
   <span class="pill">{svg("sparkles")} {len(TOOLS)} free tools · No sign-up · Files stay on your device</span>
   <h1>Free online tools for <em>PDFs, images, calculators</em> and more</h1>
@@ -54,7 +55,7 @@ home = head("Free Online Tools – PDF, Image & Calculators, No Sign-up | etoolb
     <ul class="search-results" id="hero-results" role="listbox" hidden></ul></div>
   <div class="pops" aria-label="Popular tools">{pop_chips}</div>
 </div>
-<div class="wrap"><ul class="trust">
+<div class="wrap trust-wrap"><ul class="trust trust-card">
   <li>{svg("lock")}<div><strong>Private by design</strong><span>Files are processed on your device, not on our servers</span></div></li>
   <li>{svg("badge-percent")}<div><strong>Free, no sign-up</strong><span>No accounts, no daily limits, no watermarks</span></div></li>
   <li>{svg("zap")}<div><strong>Fast</strong><span>No upload queues. Results in seconds</span></div></li>
@@ -81,5 +82,5 @@ home = head("Free Online Tools – PDF, Image & Calculators, No Sign-up | etoolb
   </section>
   {faq_html(HOME_FAQ)}
 </div>
-""" + foot(())
+""" + foot(("network-bg.js",))
 write("/", home)
