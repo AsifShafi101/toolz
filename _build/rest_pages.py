@@ -99,7 +99,7 @@ contact = head("Contact etoolbox – Email hello@etoolbox.co.uk", "Get in touch 
       "mainEntity": {"@type": "Organization", "name": "etoolbox", "url": SITE + "/", "email": "hello@etoolbox.co.uk",
         "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": "hello@etoolbox.co.uk", "areaServed": "GB", "availableLanguage": "English"}}}) + "</script>\n") + f"""
 <div class="wrap">
-  <div class="page-head"><h1>Contact us</h1><p>We're a small UK business and read every email. We aim to reply within one working day.</p></div>
+  <div class="page-head"><h1>Contact us</h1><p>We're a small UK business and read every email. We aim to reply within 3–5 working days.</p></div>
   <div class="contact-card panel">
     <span class="ti c-docs">{svg("mail")}</span>
     <div><h2>Email</h2><p class="contact-mail"><a href="mailto:hello@etoolbox.co.uk">hello@etoolbox.co.uk</a></p>

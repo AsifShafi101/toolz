@@ -206,6 +206,7 @@ def head(title, desc, path, extra=""):
   <nav class="nav" aria-label="Main">
     {navlinks}
     <a href="/pricing/"{' aria-current="page"' if path == '/pricing/' else ''}>Pricing</a>
+    <a class="nav-contact" href="/contact/"{' aria-current="page"' if path == '/contact/' else ''} title="hello@etoolbox.co.uk">{svg("mail")}<span>Contact</span></a>
     <button type="button" class="icon-toggle" id="theme-toggle" aria-label="Switch light or dark mode" title="Light / dark mode">◐</button>
   </nav>
 </div></header>
