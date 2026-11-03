@@ -43,10 +43,11 @@ ORG = {"@context": "https://schema.org", "@graph": [
 
 home = head("Free Online Tools – PDF, Image & Calculators, No Sign-up | etoolbox",
             f"Free tools for personal and business use: merge and compress PDFs, remove image backgrounds with AI, add watermarks, make invoices, and use BMI, VAT and UK tax calculators. {len(TOOLS)} free tools that run in your browser, so your files stay private.",
-            "/", faq_ld(HOME_FAQ) + '<script type="application/ld+json">' + json.dumps(ORG) + "</script>\n") + f"""
-<div class="hero-band">
+            "/", faq_ld(HOME_FAQ) + '<script type="application/ld+json">' + json.dumps(ORG) + "</script>\n", "home") + f"""
+<div class="hero-band dark-band">
 <canvas id="net-bg" class="net-bg" aria-hidden="true"></canvas>
-<div class="wrap hero">
+<div class="wrap hero hero-split">
+ <div class="hero-copy">
   <span class="pill">{svg("sparkles")} {len(TOOLS)} free tools · No sign-up · Files stay on your device</span>
   <h1 class="brand-h1"><span class="h1-main"><span class="h1-logo">{LOGO}<span class="h1-word">e<b>tool</b>box</span></span> has everything for you and your business</span><span class="h1-sub">Free online tools for PDFs, images, calculators and more</span></h1>
   <p class="lead">Merge and compress PDFs, remove photo backgrounds with AI, add watermarks, make invoices, and check your BMI or UK take-home pay. Everything runs in your browser, so nothing is uploaded.</p>
@@ -54,6 +55,8 @@ home = head("Free Online Tools – PDF, Image & Calculators, No Sign-up | etoolb
     {svg("search", "ic search-ic")}<input type="search" id="hero-search" placeholder="What do you need? e.g. compress PDF, remove background" autocomplete="off" aria-controls="hero-results" aria-expanded="false">
     <ul class="search-results" id="hero-results" role="listbox" hidden></ul></div>
   <div class="pops" aria-label="Popular tools">{pop_chips}</div>
+ </div>
+ <div class="hero-visual">{big_cube()}</div>
 </div>
 <div class="wrap trust-wrap"><ul class="trust trust-card">
   <li>{svg("lock")}<div><strong>Private by design</strong><span>Files are processed on your device, not on our servers</span></div></li>

@@ -18,7 +18,7 @@
     var ctx = canvas.getContext("2d"), W = 0, H = 0, DPR = Math.min(2, window.devicePixelRatio || 1);
     var nodes = [], links = [], sparks = [], raf = 0, last = 0, acc = 0, visible = true;
     function pal() {
-      var d = isDark(), k = opts.strength;
+      var d = opts.dark || isDark(), k = opts.strength;
       return d
         ? { node: CYAN, warm: [255, 150, 100], link: CYAN, linkA: 0.30 * k, glow: 0.85 * k, grid: "rgba(94,234,212," + 0.05 * k + ")" }
         : { node: TEAL, warm: ORANGE, link: opts.page ? NAVY : TEAL, linkA: (opts.page ? 0.16 : 0.28) * k, glow: 0.55 * k, grid: "rgba(20,33,61," + 0.045 * k + ")" };
@@ -137,7 +137,7 @@
   function init() {
     if (window.ETB_NO_NET) return;
     var hero = document.getElementById("net-bg");
-    if (hero && hero.getContext) Net(hero, { page: false, strength: 1, min: 10, max: 26, density: 52000, sparks: 40, grid: true, frameMs: 16 });
+    if (hero && hero.getContext) Net(hero, { page: false, dark: !!hero.closest(".dark-band"), strength: 1, min: 10, max: 26, density: 52000, sparks: 40, grid: true, frameMs: 16 });
     // Page-wide background (skip very small screens to save battery)
     if (window.innerWidth >= 560 && document.createElement("canvas").getContext) {
       var c = document.createElement("canvas"); c.id = "page-net"; c.className = "page-net"; c.setAttribute("aria-hidden", "true");

@@ -5,10 +5,24 @@ OUT = "/home/claude/toolz"
 SITE = "https://etoolbox.co.uk"
 YEAR = "2026"
 
-LOGO = ('<svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#14213d"/>'
-        '<rect x="6" y="6" width="9" height="9" rx="2" fill="#ff6b35"/><rect x="17" y="6" width="9" height="9" rx="2" fill="#fff"/>'
-        '<rect x="6" y="17" width="9" height="9" rx="2" fill="#fff"/><rect x="17" y="17" width="4" height="4" rx="1" fill="#ff6b35"/>'
-        '<rect x="22" y="22" width="4" height="4" rx="1" fill="#ff6b35"/></svg>')
+# The logo mark is a small 3D cube (each face shows the etoolbox mark) that tumbles in different directions.
+LOGO = ('<span class="logo-mark cube3d" aria-hidden="true"><span class="cube3d-in">'
+        + "".join(f'<i class="cf cf{i}"></i>' for i in range(1, 7)) + '</span></span>')
+
+
+def big_cube():
+    """Hero 3x3x3 cube made of small cubes in the logo colours; the top layer twists like a puzzle cube."""
+    accents = {(0, 0, 2): "o", (2, 0, 2): "w", (0, 2, 2): "w", (2, 2, 2): "o", (1, 1, 2): "n",
+               (2, 0, 0): "o", (0, 1, 0): "w", (2, 2, 1): "o", (0, 0, 1): "w", (1, 2, 0): "o"}
+    def cubelet(x, y, z):
+        acc = accents.get((x, y, z), "")
+        faces = "".join(f'<i class="bf bf{i}{" acc-" + acc if acc and i == (1 if z == 2 else 3 if z == 0 else 2 if x == 2 else 4) else ""}"></i>' for i in range(1, 7))
+        return f'<span class="bc" style="--x:{x - 1};--y:{y - 1};--z:{z - 1}">{faces}</span>'
+    top = "".join(cubelet(x, 0, z) for x in range(3) for z in range(3))
+    rest = "".join(cubelet(x, y, z) for y in (1, 2) for x in range(3) for z in range(3))
+    return ('<div class="hero-cube" aria-hidden="true"><div class="hc-rot">'
+            f'<div class="hc-layer hc-top">{top}</div><div class="hc-layer">{rest}</div></div><div class="hc-floor"></div></div>')
+
 
 CATS = [
     ("docs", "Invoices & business documents", "Professional documents in minutes, saved as a PDF.", [
@@ -176,7 +190,7 @@ def build_sprite(src_dir):
 NAV = [("pdf", "PDF tools"), ("images", "Image tools"), ("docs", "Invoices"), ("money", "Calculators")]
 
 
-def head(title, desc, path, extra=""):
+def head(title, desc, path, extra="", body_class=""):
     url = SITE + path
     navlinks = "".join(f'<a class="hide-md" href="/#{k}">{t}</a>' for k, t in NAV)
     return f"""<!doctype html>
@@ -203,7 +217,7 @@ def head(title, desc, path, extra=""):
 <link rel="stylesheet" href="/assets/style.css">
 <script>try{{var t=localStorage.getItem("etb-theme");if(t)document.documentElement.setAttribute("data-theme",t);}}catch(e){{}}</script>
 {extra}</head>
-<body>
+<body{(' class="' + body_class + '"') if body_class else ""}>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header"><div class="wrap">
   <a class="logo" href="/" aria-label="etoolbox home">{LOGO}<span>e<b>tool</b>box</span></a>
