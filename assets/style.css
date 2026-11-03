@@ -571,3 +571,14 @@ input[type=search]::-webkit-search-cancel-button { cursor: pointer; }
 main { position: relative; }
 .site-footer { position: relative; z-index: 0; }
 .hero-band { z-index: 0; }
+/* Hero headline with the etoolbox wordmark */
+.hero .pill { font-size: 1.05rem; padding: 9px 18px; gap: 8px; }
+.hero .pill .ic { width: 1.15em; height: 1.15em; }
+.brand-h1 { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.h1-main { display: block; font-size: clamp(2rem, 4.8vw, 3.3rem); line-height: 1.12; }
+.h1-logo { display: inline-flex; align-items: baseline; gap: .18em; white-space: nowrap; }
+.h1-logo .logo-mark { width: .9em; height: .9em; align-self: center; transform: translateY(.04em); }
+.h1-word { font-weight: 800; letter-spacing: -.035em; color: var(--ink); }
+.h1-word b { color: var(--brand); font-weight: 800; }
+.h1-sub { display: block; font-size: clamp(1.05rem, 2.2vw, 1.45rem); font-weight: 700; letter-spacing: -.01em; color: var(--brand-dark); }
+@media (max-width: 480px) { .hero .pill { font-size: .9rem; padding: 7px 12px; } }
