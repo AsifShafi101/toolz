@@ -259,7 +259,21 @@ async function proActivate(request, env) {
   return json(200, { ok: true, plan: rec.plan || "pro", expires: rec.expires || null });
 }
 
+/* ---------- IndexNow: tell Bing, Yandex, Seznam, Naver about every page (weekly cron) ---------- */
+const INDEXNOW_KEY = "f299230eb1b791933e0579b10765e831";
+async function indexNow(env) {
+  const sm = await (await env.ASSETS.fetch("https://etoolbox.co.uk/sitemap.xml")).text();
+  const urlList = [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  const r = await fetch("https://api.indexnow.org/indexnow", {
+    method: "POST", headers: { "content-type": "application/json; charset=utf-8" },
+    body: JSON.stringify({ host: "etoolbox.co.uk", key: INDEXNOW_KEY, keyLocation: `https://etoolbox.co.uk/${INDEXNOW_KEY}.txt`, urlList }),
+  });
+  console.log("IndexNow", r.status, urlList.length);
+  return { status: r.status, urls: urlList.length };
+}
+
 export default {
+  async scheduled(event, env, ctx) { ctx.waitUntil(indexNow(env)); },
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (url.pathname === "/api/screenshot") return screenshot(request, env, ctx, url);
