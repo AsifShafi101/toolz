@@ -9,5 +9,10 @@ window.ETB_CONFIG = {
   proMonthlyCheckoutUrl: "",
   proYearlyCheckoutUrl: "",
   proMonthlyPrice: "£5.99",
-  proYearlyPrice: "£49"
+  proYearlyPrice: "£49",
+  // Usage counter: only shown once the REAL count reaches these numbers (so low early numbers stay hidden).
+  showSiteCounterFrom: 1000,
+  showToolCounterFrom: 100,
+  // Ratings ("92% found this helpful") are shown once a tool has at least this many votes.
+  showRatingFrom: 5
 };

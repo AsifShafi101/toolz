@@ -50,3 +50,11 @@ Pro features (currently: your logo on invoices and quotes) unlock with a key lik
 2. In Cloudflare, go to **Workers & Pages → KV → etoolbox-pro → Add entry** and paste the printed KV key and value.
 3. Email the customer their key. They enter it on the Pricing page (or when they first download an invoice with a logo).
 4. To cancel a key, edit its value and add `"revoked": true`. Devices re-check keys daily.
+
+## Usage counter & feedback (D1 database "etoolbox", binding `DB`)
+- Every visit (once per browser session per page) and every real use (download, print, copy, or a few seconds of working with a tool) adds 1 to real counters. Bots and requests without our header aren't counted.
+- Each tool page has a 👍/👎 box with an optional comment. A prompt appears once after someone first uses a tool.
+- Counters only appear on the site once the real number passes `showSiteCounterFrom` / `showToolCounterFrom` in `assets/config.js`. Ratings appear after `showRatingFrom` votes.
+- **Read feedback:** Cloudflare → Workers & Pages → D1 → etoolbox → Console:
+  `SELECT tool, CASE vote WHEN 1 THEN '👍' ELSE '👎' END AS vote, comment, datetime(ts/1000,'unixepoch') AS time FROM feedback ORDER BY ts DESC LIMIT 100;`
+- **Usage by tool:** `SELECT key, n FROM counters ORDER BY n DESC;`

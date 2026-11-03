@@ -12,6 +12,7 @@
     "html_handling": "auto-trailing-slash"
   },
   "browser": { "binding": "BROWSER" },
+  "d1_databases": [{ "binding": "DB", "database_name": "etoolbox", "database_id": "f929c560-8723-419f-9a8f-599985a51ed9" }],
   "kv_namespaces": [
     { "binding": "LOGOS", "id": "5c09f08646244ede849dff8209506cd1" },
     { "binding": "PRO", "id": "adbb0b2ca9d4413b9ad2813d44c4b79b" }

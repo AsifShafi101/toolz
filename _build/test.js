@@ -3,7 +3,7 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
 const JSQR = fs.readFileSync('/home/claude/vendor/node_modules/jsqr/dist/jsQR.js', 'utf8');
-const BASE = 'http://localhost:8765';
+const BASE = process.env.BASE || 'http://localhost:8765';
 const SHOTS = '/home/claude/build/shots';
 fs.mkdirSync(SHOTS, { recursive: true });
 

@@ -179,6 +179,72 @@ async function serveLogo(env, path) {
     "x-content-type-options": "nosniff", "content-security-policy": "default-src 'none'", "access-control-allow-origin": "*" } });
 }
 
+
+// ---- Usage counters & feedback (D1: DB) ----
+const SCHEMA = [
+  "CREATE TABLE IF NOT EXISTS counters (key TEXT PRIMARY KEY, n INTEGER NOT NULL DEFAULT 0, updated INTEGER)",
+  "CREATE TABLE IF NOT EXISTS feedback (id INTEGER PRIMARY KEY AUTOINCREMENT, tool TEXT NOT NULL, vote INTEGER NOT NULL, comment TEXT, ts INTEGER NOT NULL, ipday TEXT)",
+  "CREATE INDEX IF NOT EXISTS fb_tool ON feedback(tool, ts)",
+  "CREATE INDEX IF NOT EXISTS fb_ipday ON feedback(ipday, tool)",
+];
+let schemaReady = null;
+function ensureSchema(env) { if (!schemaReady) schemaReady = env.DB.batch(SCHEMA.map(q => env.DB.prepare(q))).catch(e => { schemaReady = null; throw e; }); return schemaReady; }
+const SLUG = /^(home|[a-z0-9]+(?:-[a-z0-9]+){0,8})$/;
+const BOT = /bot|crawl|spider|slurp|headless|preview|facebookexternalhit|curl|wget|python|go-http|axios|node-fetch|lighthouse|pingdom|uptime/i;
+async function ipDay(request) {
+  const ip = request.headers.get("cf-connecting-ip") || "0", day = new Date().toISOString().slice(0, 10);
+  const h = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("etb|" + ip + "|" + day));
+  return [...new Uint8Array(h)].slice(0, 12).map(x => x.toString(16).padStart(2, "0")).join("");
+}
+async function readBody(request) { try { const t = await request.text(); return t.length > 4000 ? {} : JSON.parse(t); } catch { return {}; } }
+async function hit(request, env) {
+  if (request.method !== "POST") return json(405, { error: "Method not allowed" });
+  if (!env.DB) return json(503, { error: "off" });
+  if (request.headers.get("x-etb") !== "1" || BOT.test(request.headers.get("user-agent") || "")) return json(202, { ok: true, counted: false });
+  const b = await readBody(request), tool = String(b.tool || ""), kind = b.kind === "use" ? "use" : "visit";
+  if (!SLUG.test(tool)) return json(400, { error: "bad tool" });
+  await ensureSchema(env);
+  const now = Date.now(), up = "INSERT INTO counters (key, n, updated) VALUES (?1, 1, ?2) ON CONFLICT(key) DO UPDATE SET n = n + 1, updated = ?2";
+  await env.DB.batch([env.DB.prepare(up).bind("all", now), env.DB.prepare(up).bind("all:" + kind, now), env.DB.prepare(up).bind("tool:" + tool + ":" + kind, now)]);
+  return json(200, { ok: true, counted: true });
+}
+async function stats(url, env, ctx) {
+  if (!env.DB) return json(503, { error: "off" });
+  const tool = url.searchParams.get("tool") || "home";
+  if (!SLUG.test(tool)) return json(400, { error: "bad tool" });
+  const cacheKey = new Request("https://cache.etoolbox/stats?tool=" + tool), hitc = await caches.default.match(cacheKey);
+  if (hitc) return hitc;
+  await ensureSchema(env);
+  const [c, f] = await env.DB.batch([
+    env.DB.prepare("SELECT key, n FROM counters WHERE key IN ('all', ?1, ?2)").bind("tool:" + tool + ":use", "tool:" + tool + ":visit"),
+    env.DB.prepare("SELECT SUM(vote = 1) AS up, SUM(vote = -1) AS down FROM feedback WHERE tool = ?1").bind(tool),
+  ]);
+  const m = Object.fromEntries(c.results.map(r => [r.key, r.n]));
+  const body = { total: m.all || 0, toolUses: m["tool:" + tool + ":use"] || 0, toolVisits: m["tool:" + tool + ":visit"] || 0, up: f.results[0].up || 0, down: f.results[0].down || 0 };
+  const res = new Response(JSON.stringify(body), { headers: { "content-type": "application/json", "cache-control": "public, max-age=60" } });
+  ctx.waitUntil(caches.default.put(cacheKey, res.clone()));
+  return res;
+}
+async function feedback(request, env) {
+  if (request.method !== "POST") return json(405, { error: "Method not allowed" });
+  if (!env.DB) return json(503, { error: "Feedback isn't switched on yet." });
+  if (request.headers.get("x-etb") !== "1") return json(400, { error: "bad request" });
+  const b = await readBody(request), tool = String(b.tool || ""), vote = b.vote === 1 ? 1 : b.vote === -1 ? -1 : 0;
+  if (!SLUG.test(tool) || !vote) return json(400, { error: "Please choose 👍 or 👎." });
+  const comment = String(b.comment || "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").trim().slice(0, 1000) || null;
+  await ensureSchema(env);
+  const id = await ipDay(request), now = Date.now();
+  const prev = await env.DB.prepare("SELECT id FROM feedback WHERE ipday = ?1 AND tool = ?2 ORDER BY id DESC LIMIT 1").bind(id, tool).first();
+  if (prev) await env.DB.prepare("UPDATE feedback SET vote = ?1, comment = COALESCE(?2, comment), ts = ?3 WHERE id = ?4").bind(vote, comment, now, prev.id).run();
+  else {
+    const today = await env.DB.prepare("SELECT COUNT(*) AS n FROM feedback WHERE ipday = ?1").bind(id).first();
+    if (today && today.n >= 30) return json(429, { error: "Thanks! You've sent a lot of feedback today, so please try again tomorrow." });
+    await env.DB.prepare("INSERT INTO feedback (tool, vote, comment, ts, ipday) VALUES (?1, ?2, ?3, ?4, ?5)").bind(tool, vote, comment, now, id).run();
+  }
+  const f = await env.DB.prepare("SELECT SUM(vote = 1) AS up, SUM(vote = -1) AS down FROM feedback WHERE tool = ?1").bind(tool).first();
+  return json(200, { ok: true, up: f.up || 0, down: f.down || 0 });
+}
+
 // ---- Pro licence keys (KV: PRO). Entry: key "key:ETB-XXXX-XXXX-XXXX-XXXX" → {"email":"…","plan":"pro","expires":"2027-11-03"} ----
 async function proActivate(request, env) {
   if (request.method !== "POST") return json(405, { error: "Method not allowed" });
@@ -200,6 +266,9 @@ export default {
     if (url.pathname === "/api/logo") return uploadLogo(request, env, url);
     if (url.pathname === "/api/dns") return dnsApi(url);
     if (url.pathname === "/api/pro/activate") return proActivate(request, env);
+    if (url.pathname === "/api/hit") return hit(request, env);
+    if (url.pathname === "/api/stats") return stats(url, env, ctx);
+    if (url.pathname === "/api/feedback") return feedback(request, env);
     if (url.pathname.startsWith("/logo/")) return serveLogo(env, url.pathname);
     if (url.pathname.startsWith("/api/")) return json(404, { error: "Not found" });
     return env.ASSETS.fetch(request);

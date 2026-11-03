@@ -336,6 +336,82 @@
   })();
   window.ETBPro = ETBPro;
 
+
+  /* ---------- Usage counter & feedback ---------- */
+  function initUsage() {
+    var CFG2 = window.ETB_CONFIG || {}, head = document.querySelector(".page-head[data-slug]"), isHome = !!document.getElementById("my-tools");
+    var slug = head ? head.getAttribute("data-slug") : isHome ? "home" : null; if (!slug) return;
+    function post(path, body) { return fetch(path, { method: "POST", keepalive: true, headers: { "content-type": "application/json", "x-etb": "1" }, body: JSON.stringify(body) }).then(function (r) { return r.json(); }); }
+    var seenKey = "etb-v:" + slug;
+    try { if (!sessionStorage.getItem(seenKey)) { sessionStorage.setItem(seenKey, "1"); post("/api/hit", { tool: slug, kind: "visit" }).catch(function () {}); } } catch (e) {}
+    var fmt = function (n) { return Number(n).toLocaleString("en-GB"); };
+    var stats = null;
+    fetch("/api/stats?tool=" + slug).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (!j) return; stats = j;
+      var pill = document.querySelector(".hero .pill");
+      if (isHome && pill && j.total >= (CFG2.showSiteCounterFrom || 1000)) pill.insertAdjacentHTML("beforeend", ' · <span id="site-count">Used ' + fmt(j.total) + " times</span>");
+      if (head && j.toolUses >= (CFG2.showToolCounterFrom || 100)) { var t = head.querySelector(".privacy-tag"); if (t) t.insertAdjacentHTML("afterend", ' <span class="privacy-tag use-count">✓ Used ' + fmt(j.toolUses) + " times</span>"); }
+      renderRating();
+    }).catch(function () {});
+    if (!head) return;
+
+    // ----- feedback box (inline at the end of the tool, plus a one-time prompt after first use) -----
+    var VKEY = "etb-fb:" + slug, voted = null; try { voted = JSON.parse(localStorage.getItem(VKEY) || "null"); } catch (e) {}
+    var box = document.createElement("section"); box.className = "fb-box"; box.id = "feedback";
+    var anchor = document.querySelector("main .wrap > section.prose") || document.querySelector("main .wrap > section");
+    if (anchor) anchor.parentNode.insertBefore(box, anchor); else document.querySelector("main .wrap").appendChild(box);
+    function renderRating() {
+      var r = box.querySelector(".fb-rating"); if (!r || !stats) return; var n = stats.up + stats.down;
+      r.textContent = n >= ((window.ETB_CONFIG || {}).showRatingFrom || 5) ? Math.round(stats.up / n * 100) + "% of " + fmt(n) + " people found this helpful" : "";
+    }
+    function vote(v, where) {
+      voted = { vote: v, ts: Date.now() }; try { localStorage.setItem(VKEY, JSON.stringify(voted)); } catch (e) {}
+      post("/api/feedback", { tool: slug, vote: v }).then(function (j) { if (j && j.ok && stats) { stats.up = j.up; stats.down = j.down; renderRating(); } }).catch(function () {});
+      draw(); closeToast(); box.querySelector("textarea") && box.querySelector("textarea").focus();
+      if (where === "toast") box.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    function draw(sent) {
+      box.innerHTML = '<div class="fb-row"><strong>' + (voted ? (voted.vote > 0 ? "Thanks! Glad it helped 🙌" : "Thanks. Sorry it wasn't great 🙏") : "Was this tool helpful?") + "</strong>" +
+        (voted ? "" : '<button type="button" class="fb-btn" data-v="1" aria-label="Yes, helpful">👍 Yes</button><button type="button" class="fb-btn" data-v="-1" aria-label="No, not helpful">👎 No</button>') +
+        '<span class="fb-rating muted"></span></div>' +
+        (voted && !sent ? '<div class="fb-comment"><label for="fb-text">' + (voted.vote > 0 ? "Anything we could make even better? (optional)" : "What went wrong, or what were you hoping for? (optional)") + '</label><textarea id="fb-text" maxlength="1000" rows="2" placeholder="Your comment helps us improve this tool"></textarea>' +
+          '<div class="btn-row" style="margin-top:6px"><button type="button" class="btn small" id="fb-send">Send comment</button><span class="hint">Please don\'t include personal details.</span></div></div>' : "") +
+        (sent ? '<p class="good" style="margin:6px 0 0">✓ Comment received. Thank you!</p>' : "");
+      renderRating();
+    }
+    box.addEventListener("click", function (e) {
+      var b = e.target.closest(".fb-btn"); if (b) { vote(+b.getAttribute("data-v"), "inline"); return; }
+      if (e.target.id === "fb-send") {
+        var t = box.querySelector("textarea").value.trim(); if (!t) { box.querySelector("textarea").focus(); return; }
+        e.target.disabled = true;
+        post("/api/feedback", { tool: slug, vote: voted ? voted.vote : 1, comment: t }).then(function (j) { if (!j.ok) throw new Error(j.error); draw(true); }).catch(function (err) { e.target.disabled = false; e.target.textContent = "Couldn't send. Try again"; });
+      }
+    });
+    draw();
+
+    var toast = null;
+    function closeToast() { if (toast) { toast.remove(); toast = null; } }
+    function askAfterUse() {
+      var AK = "etb-fb-asked:" + slug; try { if (voted || localStorage.getItem(AK)) return; localStorage.setItem(AK, "1"); } catch (e) { return; }
+      toast = document.createElement("div"); toast.className = "fb-toast"; toast.setAttribute("role", "dialog"); toast.setAttribute("aria-label", "Feedback");
+      toast.innerHTML = '<button type="button" class="modal-x" aria-label="Close">×</button><strong>Did this tool do the job?</strong><div class="btn-row" style="margin-top:8px"><button type="button" class="fb-btn" data-v="1">👍 Yes</button><button type="button" class="fb-btn" data-v="-1">👎 No</button></div>';
+      toast.addEventListener("click", function (e) { var b = e.target.closest(".fb-btn"); if (b) vote(+b.getAttribute("data-v"), "toast"); else if (e.target.closest(".modal-x")) closeToast(); });
+      document.body.appendChild(toast); setTimeout(closeToast, 20000);
+    }
+
+    // ----- count a "use" once per page load: download, print, copy, or a few seconds of working with the tool -----
+    var used = false;
+    function markUse() { if (used) return; used = true; post("/api/hit", { tool: slug, kind: "use" }).catch(function () {}); setTimeout(askAfterUse, 1500); }
+    window.ETBUse = markUse;
+    var oc = HTMLAnchorElement.prototype.click;
+    HTMLAnchorElement.prototype.click = function () { if (this.hasAttribute("download")) markUse(); return oc.apply(this, arguments); };
+    document.addEventListener("click", function (e) { var a = e.target.closest && e.target.closest("a[download]"); if (a) markUse(); }, true);
+    var op = window.print; window.print = function () { markUse(); return op.apply(window, arguments); };
+    if (navigator.clipboard && navigator.clipboard.writeText) { var ow = navigator.clipboard.writeText.bind(navigator.clipboard); try { navigator.clipboard.writeText = function (t) { markUse(); return ow(t); }; } catch (e) {} }
+    var tool = document.querySelector("main .wrap"), t0 = 0;
+    ["input", "change"].forEach(function (ev) { tool.addEventListener(ev, function (e) { if (e.target.closest && e.target.closest(".fb-box, .search")) return; if (!t0) t0 = Date.now(); else if (Date.now() - t0 > 4000) markUse(); }); });
+  }
+
   function initProBox() {
     var box = document.getElementById("pro-box"); if (!box) return;
     var st = document.getElementById("pro-state"), input = document.getElementById("pro-key2"), btn = document.getElementById("pro-go"), msg = document.getElementById("pro-msg2");
@@ -350,6 +426,6 @@
   document.addEventListener("DOMContentLoaded", function () {
     var form = document.getElementById("qr-form");
     if (form) initGenerator(form);
-    initProLinks(); initTheme(); initSearch(); initFavRecent(); initProBox();
+    initProLinks(); initTheme(); initSearch(); initFavRecent(); initProBox(); initUsage();
   });
 })();
