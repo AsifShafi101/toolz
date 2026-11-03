@@ -313,11 +313,43 @@
 
   window.ETBSearch = search;
 
+  /* ---------- Pro licence (keys checked by our server, remembered on this device) ---------- */
+  var ETBPro = (function () {
+    var K = "etb-pro", FMT = /^ETB(-[A-Z0-9]{4}){4}$/;
+    function get() { try { return JSON.parse(localStorage.getItem(K) || "null"); } catch (e) { return null; } }
+    function put(v) { try { if (v) localStorage.setItem(K, JSON.stringify(v)); else localStorage.removeItem(K); } catch (e) {} document.dispatchEvent(new Event("etb-pro-change")); }
+    function isPro() { var d = get(); return !!(d && d.key && (!d.expires || Date.parse(d.expires) > Date.now())); }
+    function norm(k) { return String(k || "").toUpperCase().replace(/[^A-Z0-9]/g, "").replace(/^ETB/, "").replace(/(.{4})(?=.)/g, "$1-").replace(/^/, "ETB-"); }
+    function check(key) {
+      return fetch("/api/pro/activate", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ key: key }) })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || !j.ok) { var e = new Error(j.error || "Couldn't check your key. Please try again."); e.status = r.status; throw e; } return j; }); });
+    }
+    function activate(raw) {
+      var key = norm(raw);
+      if (!FMT.test(key)) return Promise.reject(new Error("Pro keys look like ETB-XXXX-XXXX-XXXX-XXXX."));
+      return check(key).then(function (j) { put({ key: key, plan: j.plan || "pro", expires: j.expires || null, checked: Date.now() }); return j; });
+    }
+    // Re-check once a day so cancelled or expired keys stop working.
+    var d = get();
+    if (d && d.key && (!d.checked || Date.now() - d.checked > 864e5)) check(d.key).then(function (j) { d.checked = Date.now(); d.expires = j.expires || null; put(d); }).catch(function (e) { if (e.status === 404 || e.status === 410) put(null); });
+    return { isPro: isPro, activate: activate, deactivate: function () { put(null); }, info: get, normalise: norm };
+  })();
+  window.ETBPro = ETBPro;
+
+  function initProBox() {
+    var box = document.getElementById("pro-box"); if (!box) return;
+    var st = document.getElementById("pro-state"), input = document.getElementById("pro-key2"), btn = document.getElementById("pro-go"), msg = document.getElementById("pro-msg2");
+    function show() { var on = ETBPro.isPro(), d = ETBPro.info(); st.innerHTML = on ? '<b class="good">✓ Pro is active on this device</b>' + (d.expires ? " until " + new Date(d.expires).toLocaleDateString("en-GB") : "") + ' · <button type="button" class="linkish" id="pro-off">Remove from this device</button>' : "Already bought Pro? Enter your key to unlock it on this device."; var off = document.getElementById("pro-off"); if (off) off.addEventListener("click", function () { ETBPro.deactivate(); show(); }); }
+    btn.addEventListener("click", function () { btn.disabled = true; msg.className = "muted"; msg.textContent = "Checking…"; ETBPro.activate(input.value).then(function () { msg.className = "good"; msg.textContent = "Unlocked. Enjoy Pro!"; input.value = ""; show(); }).catch(function (e) { msg.className = "warn"; msg.textContent = e.message; }).then(function () { btn.disabled = false; }); });
+    show();
+  }
+
+
   window.ETB = { builders: builders, normaliseUrl: normaliseUrl, normalisePhone: normalisePhone, makeQr: makeQr };
 
   document.addEventListener("DOMContentLoaded", function () {
     var form = document.getElementById("qr-form");
     if (form) initGenerator(form);
-    initProLinks(); initTheme(); initSearch(); initFavRecent();
+    initProLinks(); initTheme(); initSearch(); initFavRecent(); initProBox();
   });
 })();

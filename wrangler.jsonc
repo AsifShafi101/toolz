@@ -12,5 +12,8 @@
     "html_handling": "auto-trailing-slash"
   },
   "browser": { "binding": "BROWSER" },
-  "kv_namespaces": [{ "binding": "LOGOS", "id": "5c09f08646244ede849dff8209506cd1" }]
+  "kv_namespaces": [
+    { "binding": "LOGOS", "id": "5c09f08646244ede849dff8209506cd1" },
+    { "binding": "PRO", "id": "adbb0b2ca9d4413b9ad2813d44c4b79b" }
+  ]
 }

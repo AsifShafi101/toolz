@@ -179,12 +179,27 @@ async function serveLogo(env, path) {
     "x-content-type-options": "nosniff", "content-security-policy": "default-src 'none'", "access-control-allow-origin": "*" } });
 }
 
+// ---- Pro licence keys (KV: PRO). Entry: key "key:ETB-XXXX-XXXX-XXXX-XXXX" → {"email":"…","plan":"pro","expires":"2027-11-03"} ----
+async function proActivate(request, env) {
+  if (request.method !== "POST") return json(405, { error: "Method not allowed" });
+  if (!env.PRO) return json(503, { error: "Pro activation isn't switched on yet." });
+  let body = {}; try { body = await request.json(); } catch {}
+  const key = String(body.key || "").trim().toUpperCase();
+  if (!/^ETB(-[A-Z0-9]{4}){4}$/.test(key)) return json(400, { error: "Pro keys look like ETB-XXXX-XXXX-XXXX-XXXX." });
+  const rec = await env.PRO.get("key:" + key, { type: "json" });
+  if (!rec) return json(404, { error: "That key isn't valid. Check for typos, or contact us if you've just paid." });
+  if (rec.revoked) return json(410, { error: "This key has been cancelled." });
+  if (rec.expires && Date.parse(rec.expires) < Date.now()) return json(410, { error: "This key expired on " + rec.expires + ". Renew Pro to keep using it." });
+  return json(200, { ok: true, plan: rec.plan || "pro", expires: rec.expires || null });
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (url.pathname === "/api/screenshot") return screenshot(request, env, ctx, url);
     if (url.pathname === "/api/logo") return uploadLogo(request, env, url);
     if (url.pathname === "/api/dns") return dnsApi(url);
+    if (url.pathname === "/api/pro/activate") return proActivate(request, env);
     if (url.pathname.startsWith("/logo/")) return serveLogo(env, url.pathname);
     if (url.pathname.startsWith("/api/")) return json(404, { error: "Not found" });
     return env.ASSETS.fetch(request);

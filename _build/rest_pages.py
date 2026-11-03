@@ -35,12 +35,18 @@ pricing = head("Pricing – Free & Pro QR Codes | etoolbox",
         <li><strong>Dynamic QR codes:</strong> change the link at any time</li>
         <li>Scan statistics: see what's working</li>
         <li>Up to 25 dynamic codes</li>
-        <li>Your logo in the code</li>
+        <li>Your logo on invoices &amp; quotes</li>
+        <li>Your logo in QR codes</li>
         <li>Table cards without etoolbox branding</li>
       </ul>
       <a class="btn" data-plan="monthly" href="#">Go Pro monthly</a>
       <a class="btn secondary" data-plan="yearly" href="#" style="margin-top:10px">Go Pro yearly</a>
     </div>
+  </div>
+  <div class="panel" id="pro-box" style="max-width:760px;margin:24px auto 0">
+    <h3 style="margin-top:0">🔑 Activate Pro</h3><p id="pro-state" class="muted"></p>
+    <div class="row" style="grid-template-columns:1fr auto"><input type="text" id="pro-key2" placeholder="ETB-XXXX-XXXX-XXXX-XXXX" autocomplete="off" aria-label="Pro key"><button type="button" class="btn" id="pro-go">Activate</button></div>
+    <p id="pro-msg2" class="muted" role="status"></p>
   </div>
   """ + faq_html(pricing_faqs) + """
 </div>

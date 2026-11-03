@@ -387,3 +387,17 @@ input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 3px color-mix(in s
 .row4 { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 12px; }
 @media (max-width: 640px) { .row4 { grid-template-columns: 1fr 1fr; } }
 input[type=search]::-webkit-search-cancel-button { cursor: pointer; }
+
+/* Invoice extras: units, logo, currency, Pro modal */
+.items-table td:nth-child(2) { width: 58px; } .items-table td:nth-child(3) { width: 92px; } .items-table td:nth-child(4) { width: 92px; } .items-table td:nth-child(5) { width: 86px; } .items-table td:nth-child(6) { width: 32px; }
+.doc-logo { margin-bottom: 10px; position: relative; display: inline-block; } .doc-logo img { display: block; max-width: 220px; height: auto; }
+.doc-logo.locked img { opacity: .9; } .pro-tag { position: absolute; top: -6px; right: -34px; background: #14213d; color: #fff; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 999px; letter-spacing: .05em; }
+.doc .per { color: #5b6478; font-size: 10px; }
+.doc-totals .conv td { color: #5b6478; padding-top: 6px; } .doc-totals .conv-note td { color: #8a92a6; font-size: 10px; text-align: right; padding-top: 0; }
+@media print { .pro-tag { display: none !important; } }
+.modal { position: fixed; inset: 0; background: rgba(10, 15, 30, .55); display: grid; place-items: center; z-index: 50; padding: 16px; }
+.modal[hidden] { display: none; }
+.modal-box { background: var(--card); color: var(--ink); border-radius: 16px; padding: 24px; max-width: 480px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,.3); position: relative; }
+.modal-x { position: absolute; top: 10px; right: 12px; border: 0; background: none; font-size: 1.6rem; cursor: pointer; color: var(--ink-soft); }
+.linkish { border: 0; background: none; color: var(--brand-dark); text-decoration: underline; cursor: pointer; font: inherit; padding: 0; }
+@media (max-width: 560px) { .items-table thead { display: none; } .items-table tr { display: grid; grid-template-columns: repeat(4, 1fr) 32px; gap: 4px; padding: 6px 0; border-bottom: 1px solid var(--line); } .items-table td { width: auto !important; padding: 0; } .items-table td:first-child { grid-column: 1 / -1; } }

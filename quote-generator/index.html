@@ -44,6 +44,17 @@
           <div><label for="bizphone">Phone</label><input type="tel" id="bizphone" name="bizphone" autocomplete="tel"></div>
         </div>
         <label for="vatno">VAT number <span class="hint">(only if VAT registered)</span></label><input type="text" id="vatno" name="vatno">
+        <label>Company logo <span class="badge pro">PRO</span></label>
+        <div class="btn-row" style="margin-top:0;align-items:center"><label class="btn secondary small" for="logo-file" style="margin:0">⬆ Upload logo<input type="file" id="logo-file" accept="image/png,image/jpeg,image/webp,image/svg+xml" class="sr-only"></label>
+          <button type="button" class="btn secondary small" id="logo-remove" hidden>Remove</button>
+          <label class="check" style="margin:0">Size <select id="logosize" name="logosize" style="width:auto;padding:6px 8px"><option value="s">Small</option><option value="m" selected>Medium</option><option value="l">Large</option></select></label></div>
+        <p id="logo-msg" class="hint" role="status" style="margin:6px 0 0"></p>
+        <p id="logo-pro-note" class="hint" hidden style="margin:4px 0 0">Try it in the preview for free. <a href="/pricing/">Pro</a> lets you download quotes with your logo.</p>
+      </fieldset>
+      <fieldset><legend>Currency</legend>
+        <div class="row"><div><label for="currency" style="margin-top:0">Quote currency</label><select id="currency" name="currency"></select></div>
+        <div><label for="cur2" style="margin-top:0">Also show total in</label><select id="cur2" name="cur2"></select></div></div>
+        <div id="rate-row" hidden><label for="rate2">Exchange rate <span class="hint" id="rate-note"></span></label><input type="text" id="rate2" name="rate2" inputmode="decimal" placeholder="e.g. 1.1650"></div>
       </fieldset>
       <fieldset><legend>Customer</legend>
         <label for="client">Customer name</label><input type="text" id="client" name="client" autocomplete="off">
@@ -57,7 +68,7 @@
         <label for="due">Valid until</label><input type="date" id="due" name="due">
       </fieldset>
       <fieldset><legend>Items</legend>
-        <table class="items-table"><thead><tr><th>Description</th><th>Qty</th><th>Price £</th><th>VAT</th><th></th></tr></thead><tbody id="items"></tbody></table>
+        <table class="items-table"><thead><tr><th>Description</th><th>Qty</th><th>Unit</th><th>Price</th><th>VAT</th><th></th></tr></thead><tbody id="items"></tbody></table>
         <button type="button" class="btn secondary small" id="add-row" style="margin-top:8px">+ Add line</button>
       </fieldset>
       <fieldset><legend>Terms</legend>
@@ -72,6 +83,14 @@
     </form>
     <div class="doc-wrap"><div class="doc" id="doc" aria-label="quote preview"></div></div>
   </div>
+  <div class="modal" id="pro-modal" hidden role="dialog" aria-modal="true" aria-labelledby="pro-title"><div class="modal-box">
+    <button type="button" class="modal-x" data-close aria-label="Close">×</button>
+    <h3 id="pro-title" style="margin-top:0">Your logo is a Pro feature ⭐</h3>
+    <p>Put your brand on every quote. Pro also includes dynamic QR codes, scan stats and unbranded table cards.</p>
+    <label for="pro-key">Have a Pro key?</label><div class="row" style="grid-template-columns:1fr auto"><input type="text" id="pro-key" placeholder="ETB-XXXX-XXXX-XXXX-XXXX" autocomplete="off"><button type="button" class="btn" id="pro-activate">Unlock</button></div>
+    <p id="pro-msg" class="muted" role="status"></p>
+    <div class="btn-row"><a class="btn secondary" href="/pricing/">See Pro plans</a><button type="button" class="btn secondary" id="pro-nologo">Download without logo</button></div>
+  </div></div>
   <section class="prose"><h2>Quote vs estimate</h2>
 <p>A <strong>quote</strong> is a fixed price for the job. An <strong>estimate</strong> is your best guess and can change. Make clear which one you're giving, and say what's included and excluded.</p>
 <h2>Tips for winning more work</h2>
