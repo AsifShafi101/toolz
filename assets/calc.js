@@ -221,20 +221,50 @@
     }
   };
 
+  function bmiHeight(v) { return v.hunit === "cm" ? num(v.cm) / 100 : ((num(v.ft) || 0) * 12 + (num(v.inch) || 0)) * 0.0254; }
+  function bmiWeight(v) { return v.wunit === "stlb" ? ((num(v.st) || 0) * 14 + (num(v.lb) || 0)) * 0.45359237 : v.wunit === "lb" ? num(v.lbonly) * 0.45359237 : num(v.kg); }
+  function weightText(kg, unit) {
+    if (unit === "stlb") { var lb = Math.round(kg / 0.45359237), st = Math.floor(lb / 14); return st + "st " + (lb - st * 14) + "lb"; }
+    if (unit === "lb") return Math.round(kg / 0.45359237) + " lb";
+    return (Math.round(kg * 10) / 10) + " kg";
+  }
   more.bmi = function (v) {
-    var h, w;
-    if (v.units === "imperial") { h = ((num(v.ft) || 0) * 12 + (num(v.inch) || 0)) * 0.0254; w = ((num(v.st) || 0) * 14 + (num(v.lb) || 0)) * 0.45359237; }
-    else { h = num(v.cm) / 100; w = num(v.kg); }
+    var h = bmiHeight(v), w = bmiWeight(v);
     if (!h || h < 0.5 || h > 2.6) return { error: "Enter your height." };
     if (!w || w < 10 || w > 400) return { error: "Enter your weight." };
     var bmi = w / (h * h), lower = v.ethnic === "yes";
     var over = lower ? 23 : 25, obese = lower ? 27.5 : 30;
     var cat = bmi < 18.5 ? "Underweight range" : bmi < over ? "Healthy weight range" : bmi < obese ? "Overweight range" : bmi < 40 ? "Obese range" : "Severely obese range";
     var lo = 18.5 * h * h, hi = (over - 0.1) * h * h;
-    var range = v.units === "imperial" ? function (kg) { var lb = kg / 0.45359237, st = Math.floor(lb / 14); return st + "st " + Math.round(lb - st * 14) + "lb"; } : function (kg) { return (Math.round(kg * 10) / 10) + " kg"; };
-    return { rows: [["Your BMI", (Math.round(bmi * 10) / 10).toFixed(1), true], ["Result", cat], ["Healthy weight range for your height", range(lo) + " – " + range(hi)]],
+    return { rows: [["Your BMI", (Math.round(bmi * 10) / 10).toFixed(1), true], ["Result", cat], ["Healthy weight range for your height", weightText(lo, v.wunit) + " – " + weightText(hi, v.wunit)]],
              raw: { bmi: Math.round(bmi * 10) / 10, category: cat } };
   };
+  // Convert entered values when a unit switch is flipped, and remember the choice.
+  function bmiUnits(form) {
+    var KEY = "etb-bmi-units", r1 = function (n) { return String(Math.round(n * 10) / 10); };
+    var prev = {};
+    function cur() { var v = {}; Array.prototype.forEach.call(form.elements, function (el) { if (el.name && (el.type !== "radio" || el.checked)) v[el.name] = el.value; }); return v; }
+    try { var saved = JSON.parse(localStorage.getItem(KEY) || "{}"); ["hunit", "wunit"].forEach(function (k) { var el = saved[k] && form.querySelector('input[name="' + k + '"][value="' + saved[k] + '"]'); if (el) el.checked = true; }); } catch (e) {}
+    prev = cur();
+    form.addEventListener("change", function (e) {
+      var t = e.target, now = cur();
+      if (t.name === "hunit" && now.hunit !== prev.hunit) {
+        var h = bmiHeight(prev);
+        if (h) { if (now.hunit === "cm") form.elements.cm.value = Math.round(h * 100); else { var ins = Math.round(h / 0.0254), f = Math.floor(ins / 12); form.elements.ft.value = f; form.elements.inch.value = ins - f * 12; } }
+      }
+      if (t.name === "wunit" && now.wunit !== prev.wunit) {
+        var w = bmiWeight(prev);
+        if (w) {
+          if (now.wunit === "kg") form.elements.kg.value = r1(w);
+          else if (now.wunit === "lb") form.elements.lbonly.value = Math.round(w / 0.45359237);
+          else { var lb = Math.round(w / 0.45359237), st = Math.floor(lb / 14); form.elements.st.value = st; form.elements.lb.value = lb - st * 14; }
+        }
+      }
+      if (t.name === "hunit" || t.name === "wunit") { try { localStorage.setItem(KEY, JSON.stringify({ hunit: now.hunit, wunit: now.wunit })); } catch (er) {} }
+      prev = cur();
+    }, true);
+    form.addEventListener("input", function (e) { if (e.target.type !== "radio") prev = cur(); });
+  }
   Object.keys(more).forEach(function (k) { calcs[k] = more[k]; });
   calcs._tax = TAX;
 
@@ -262,6 +292,7 @@
       out.setAttribute("data-result", JSON.stringify(res.raw));
     }
     Array.prototype.forEach.call(form.querySelectorAll("input[data-today]"), function (el) { if (!el.value) el.value = todayIso(); });
+    if (kind === "bmi") bmiUnits(form);
     form.addEventListener("input", update);
     form.addEventListener("change", update);
     form.addEventListener("submit", function (e) { e.preventDefault(); });

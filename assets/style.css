@@ -278,3 +278,9 @@ input[type=number] { width: 100%; font: inherit; padding: 11px 12px; border: 1.5
 .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--line); border-top-color: var(--brand); border-radius: 50%; animation: spin .8s linear infinite; vertical-align: -3px; margin-right: 6px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 #shot-img { width: 100%; border-radius: 8px; border: 1px solid var(--line); }
+
+/* Unit switches (BMI) */
+.unit-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 16px 0 4px; flex-wrap: wrap; }
+.unit-head > label { margin: 0; font-size: 1rem; font-weight: 800; }
+.unit-head .seg span { padding: 6px 12px; font-size: .85rem; }
+label.sub { font-weight: 500; color: var(--ink-soft); font-size: .85rem; margin: 6px 0 4px; }

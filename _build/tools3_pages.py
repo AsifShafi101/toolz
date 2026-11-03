@@ -254,12 +254,16 @@ tool_page("currency-converter", "Currency Converter – GBP to EUR, USD & More (
     ("currency.js",))
 
 tool_page("bmi-calculator", "BMI Calculator UK – Metric & Imperial (NHS Categories) | etoolbox", "BMI calculator",
-    "Work out your body mass index (BMI) in centimetres and kilograms or feet, inches, stone and pounds, with the NHS weight categories and the healthy range for your height.",
+    "Work out your body mass index (BMI) using feet and inches or centimetres, and kilograms, stone or pounds. Mix and match units however you like. You get the NHS weight category and the healthy range for your height.",
     calc_ui("bmi", f"""
-<label>Units</label>{seg("units", [("metric", "cm & kg"), ("imperial", "ft, in, st & lb")], "metric")}
-<div data-show-when="units=metric"><div class="row"><div><label for="cm">Height (cm)</label><input type="text" id="cm" name="cm" inputmode="decimal"></div><div><label for="kg">Weight (kg)</label><input type="text" id="kg" name="kg" inputmode="decimal"></div></div></div>
-<div data-show-when="units=imperial"><div class="row"><div><label for="ft">Height (ft)</label><input type="text" id="ft" name="ft" inputmode="decimal"></div><div><label for="inch">(in)</label><input type="text" id="inch" name="inch" inputmode="decimal"></div></div>
-<div class="row"><div><label for="st">Weight (st)</label><input type="text" id="st" name="st" inputmode="decimal"></div><div><label for="lb">(lb)</label><input type="text" id="lb" name="lb" inputmode="decimal"></div></div></div>
+<div class="unit-head"><label>Height</label>{seg("hunit", [("ftin", "ft & in"), ("cm", "cm")], "ftin")}</div>
+<div data-show-when="hunit=ftin"><div class="row"><div><label for="ft" class="sub">Feet</label><input type="text" id="ft" name="ft" inputmode="decimal" placeholder="5"></div><div><label for="inch" class="sub">Inches</label><input type="text" id="inch" name="inch" inputmode="decimal" placeholder="10"></div></div></div>
+<div data-show-when="hunit=cm"><label for="cm" class="sub">Centimetres</label><input type="text" id="cm" name="cm" inputmode="decimal" placeholder="178"></div>
+<div class="unit-head"><label>Weight</label>{seg("wunit", [("kg", "kg"), ("stlb", "st & lb"), ("lb", "lb")], "kg")}</div>
+<div data-show-when="wunit=kg"><label for="kg" class="sub">Kilograms</label><input type="text" id="kg" name="kg" inputmode="decimal" placeholder="75"></div>
+<div data-show-when="wunit=stlb"><div class="row"><div><label for="st" class="sub">Stone</label><input type="text" id="st" name="st" inputmode="decimal" placeholder="11"></div><div><label for="lb" class="sub">Pounds</label><input type="text" id="lb" name="lb" inputmode="decimal" placeholder="11"></div></div></div>
+<div data-show-when="wunit=lb"><label for="lbonly" class="sub">Pounds</label><input type="text" id="lbonly" name="lbonly" inputmode="decimal" placeholder="165"></div>
+<p class="hint" style="margin-top:8px">Mix and match: switch height or weight units at any time, and your numbers are converted for you.</p>
 <label for="ethnic">Family background</label>
 <select id="ethnic" name="ethnic"><option value="no">White or other</option><option value="yes">South Asian, Chinese, other Asian, Middle Eastern, Black African or African-Caribbean</option></select>"""),
     """<h2>About BMI</h2><p>BMI is your weight in kilograms divided by your height in metres squared. It's a quick screening measure for adults (18+), but it doesn't tell the whole story. It doesn't account for muscle, age or where weight is carried, and it isn't suitable during pregnancy.</p>

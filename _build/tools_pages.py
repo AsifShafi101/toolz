@@ -1,11 +1,15 @@
 # ---------------- Calculators ----------------
 
+MONEY_CALCS = {"vat", "margin", "hourly", "takehome", "mileage", "loan", "mortgage", "compound", "discount"}
+
+
 def calc_ui(kind, fields):
+    note = "Calculated on your device. Figures are rounded to the nearest penny." if kind in MONEY_CALCS else "Calculated instantly on your device. Nothing is sent anywhere."
     return f"""
   <div class="gen">
     <form class="panel" data-calc="{kind}" autocomplete="off" novalidate>{fields}</form>
     <div class="panel preview"><div id="calc-out" class="calc-out" aria-live="polite"></div>
-      <p class="note">Calculated on your device. Figures are rounded to the nearest penny.</p></div>
+      <p class="note">{note}</p></div>
   </div>"""
 
 

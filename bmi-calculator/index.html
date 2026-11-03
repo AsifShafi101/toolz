@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BMI Calculator UK – Metric &amp; Imperial (NHS Categories) | etoolbox</title>
-<meta name="description" content="Work out your body mass index (BMI) in centimetres and kilograms or feet, inches, stone and pounds, with the NHS weight categories and the healthy range for your height.">
+<meta name="description" content="Work out your body mass index (BMI) using feet and inches or centimetres, and kilograms, stone or pounds. Mix and match units however you like. You get the NHS weight category and the healthy range for your height.">
 <link rel="canonical" href="https://etoolbox.co.uk/bmi-calculator/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="BMI Calculator UK – Metric &amp; Imperial (NHS Categories) | etoolbox">
-<meta property="og:description" content="Work out your body mass index (BMI) in centimetres and kilograms or feet, inches, stone and pounds, with the NHS weight categories and the healthy range for your height.">
+<meta property="og:description" content="Work out your body mass index (BMI) using feet and inches or centimetres, and kilograms, stone or pounds. Mix and match units however you like. You get the NHS weight category and the healthy range for your height.">
 <meta property="og:url" content="https://etoolbox.co.uk/bmi-calculator/">
 <meta name="theme-color" content="#14213d">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -28,18 +28,22 @@
 <main>
 
 <div class="wrap">
-  <div class="page-head"><h1>BMI calculator</h1><p>Work out your body mass index (BMI) in centimetres and kilograms or feet, inches, stone and pounds, with the NHS weight categories and the healthy range for your height.</p></div>
+  <div class="page-head"><h1>BMI calculator</h1><p>Work out your body mass index (BMI) using feet and inches or centimetres, and kilograms, stone or pounds. Mix and match units however you like. You get the NHS weight category and the healthy range for your height.</p></div>
   
   <div class="gen">
     <form class="panel" data-calc="bmi" autocomplete="off" novalidate>
-<label>Units</label><div class="seg" role="radiogroup"><label><input type="radio" name="units" value="metric" checked><span>cm & kg</span></label><label><input type="radio" name="units" value="imperial"><span>ft, in, st & lb</span></label></div>
-<div data-show-when="units=metric"><div class="row"><div><label for="cm">Height (cm)</label><input type="text" id="cm" name="cm" inputmode="decimal"></div><div><label for="kg">Weight (kg)</label><input type="text" id="kg" name="kg" inputmode="decimal"></div></div></div>
-<div data-show-when="units=imperial"><div class="row"><div><label for="ft">Height (ft)</label><input type="text" id="ft" name="ft" inputmode="decimal"></div><div><label for="inch">(in)</label><input type="text" id="inch" name="inch" inputmode="decimal"></div></div>
-<div class="row"><div><label for="st">Weight (st)</label><input type="text" id="st" name="st" inputmode="decimal"></div><div><label for="lb">(lb)</label><input type="text" id="lb" name="lb" inputmode="decimal"></div></div></div>
+<div class="unit-head"><label>Height</label><div class="seg" role="radiogroup"><label><input type="radio" name="hunit" value="ftin" checked><span>ft & in</span></label><label><input type="radio" name="hunit" value="cm"><span>cm</span></label></div></div>
+<div data-show-when="hunit=ftin"><div class="row"><div><label for="ft" class="sub">Feet</label><input type="text" id="ft" name="ft" inputmode="decimal" placeholder="5"></div><div><label for="inch" class="sub">Inches</label><input type="text" id="inch" name="inch" inputmode="decimal" placeholder="10"></div></div></div>
+<div data-show-when="hunit=cm"><label for="cm" class="sub">Centimetres</label><input type="text" id="cm" name="cm" inputmode="decimal" placeholder="178"></div>
+<div class="unit-head"><label>Weight</label><div class="seg" role="radiogroup"><label><input type="radio" name="wunit" value="kg" checked><span>kg</span></label><label><input type="radio" name="wunit" value="stlb"><span>st & lb</span></label><label><input type="radio" name="wunit" value="lb"><span>lb</span></label></div></div>
+<div data-show-when="wunit=kg"><label for="kg" class="sub">Kilograms</label><input type="text" id="kg" name="kg" inputmode="decimal" placeholder="75"></div>
+<div data-show-when="wunit=stlb"><div class="row"><div><label for="st" class="sub">Stone</label><input type="text" id="st" name="st" inputmode="decimal" placeholder="11"></div><div><label for="lb" class="sub">Pounds</label><input type="text" id="lb" name="lb" inputmode="decimal" placeholder="11"></div></div></div>
+<div data-show-when="wunit=lb"><label for="lbonly" class="sub">Pounds</label><input type="text" id="lbonly" name="lbonly" inputmode="decimal" placeholder="165"></div>
+<p class="hint" style="margin-top:8px">Mix and match: switch height or weight units at any time, and your numbers are converted for you.</p>
 <label for="ethnic">Family background</label>
 <select id="ethnic" name="ethnic"><option value="no">White or other</option><option value="yes">South Asian, Chinese, other Asian, Middle Eastern, Black African or African-Caribbean</option></select></form>
     <div class="panel preview"><div id="calc-out" class="calc-out" aria-live="polite"></div>
-      <p class="note">Calculated on your device. Figures are rounded to the nearest penny.</p></div>
+      <p class="note">Calculated instantly on your device. Nothing is sent anywhere.</p></div>
   </div>
   <section class="prose"><h2>About BMI</h2><p>BMI is your weight in kilograms divided by your height in metres squared. It's a quick screening measure for adults (18+), but it doesn't tell the whole story. It doesn't account for muscle, age or where weight is carried, and it isn't suitable during pregnancy.</p>
 <p>UK guidance uses lower thresholds for people from South Asian, Chinese, other Asian, Middle Eastern, Black African and African-Caribbean backgrounds. For them, 23–27.4 is classed as overweight and 27.5 or over as obese, because health risks start at a lower BMI.</p>

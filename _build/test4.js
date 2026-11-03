@@ -166,15 +166,28 @@ const check = (n, ok, info) => { if (ok) { pass++; console.log('PASS', n); } els
   check('screenshot error shown', (await page.textContent('#shot-msg')).includes("couldn't load"));
   await page.close();
 
-  // ---- BMI
+  // ---- BMI (independent units + conversion on switch)
   page = await open('/bmi-calculator/');
-  await page.fill('#cm', '175'); await page.fill('#kg', '75'); let r = await result(page);
-  check('BMI 24.5 healthy', r.bmi === 24.5 && r.category === 'Healthy weight range', r);
-  await page.selectOption('#ethnic', 'yes'); r = await result(page); check('lower thresholds → overweight range', r.category === 'Overweight range', r);
-  await page.selectOption('#ethnic', 'no'); await page.check('input[name=units][value=imperial]', { force: true });
-  await page.fill('#ft', '5'); await page.fill('#inch', '9'); await page.fill('#st', '11'); await page.fill('#lb', '11'); r = await result(page);
-  check('imperial BMI 24.4', r.bmi === 24.4, r);
+  check('BMI defaults: ft & in + kg', await page.isChecked('input[name=hunit][value=ftin]') && await page.isChecked('input[name=wunit][value=kg]'));
+  check('BMI note is not about pennies', !(await page.textContent('.preview .note')).includes('penny'));
+  await page.fill('#ft', '5'); await page.fill('#inch', '9'); await page.fill('#kg', '75'); let r = await result(page);
+  check('5ft 9in + 75kg = 24.4', r.bmi === 24.4 && r.category === 'Healthy weight range', r);
+  await page.check('input[name=hunit][value=cm]', { force: true });
+  check('height converted to cm', (await page.inputValue('#cm')) === '175', await page.inputValue('#cm'));
+  r = await result(page); check('same BMI after height switch', r.bmi === 24.5, r);
+  await page.check('input[name=wunit][value=stlb]', { force: true });
+  check('weight converted to st/lb', (await page.inputValue('#st')) === '11' && (await page.inputValue('#lb')) === '11', [await page.inputValue('#st'), await page.inputValue('#lb')]);
+  await page.check('input[name=wunit][value=lb]', { force: true });
+  check('weight converted to lb', (await page.inputValue('#lbonly')) === '165');
+  r = await result(page); check('healthy range shown in lb', (await page.textContent('#calc-out')).includes(' lb –'), await page.textContent('#calc-out'));
+  await page.selectOption('#ethnic', 'yes'); await page.check('input[name=wunit][value=kg]', { force: true }); await page.fill('#kg', '75'); r = await result(page);
+  check('lower thresholds → overweight range', r.category === 'Overweight range', r);
+  await page.reload(); check('unit choice remembered', await page.isChecked('input[name=hunit][value=cm]') && await page.isChecked('input[name=wunit][value=kg]'));
+  await page.check('input[name=hunit][value=ftin]', { force: true });
+  await page.setViewportSize({ width: 1280, height: 800 }); await page.fill('#ft', '5'); await page.fill('#inch', '10'); await page.fill('#kg', '80'); await page.screenshot({ path: SHOTS + '/bmi.png' });
   await page.close();
+  page = await open('/age-calculator/'); check('age page note not about pennies', !(await page.textContent('.preview .note')).includes('penny')); await page.close();
+  page = await open('/vat-calculator/'); check('VAT page keeps penny note', (await page.textContent('.preview .note')).includes('penny')); await page.close();
 
   // ---- Speech pages load cleanly
   for (const p of ['/text-to-speech/', '/speech-to-text/']) { page = await open(p); await page.waitForTimeout(300); check('loads ' + p, (await page.title()).includes('etoolbox')); await page.close(); }
