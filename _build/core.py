@@ -97,6 +97,12 @@ CATS = [
         ("text-to-speech", "🔊", "Text to speech", "Listen to any text read aloud in natural voices."),
         ("speech-to-text", "🎙️", "Speech to text", "Dictate and get a written transcript."),
     ]),
+    ("maths", "Maths calculators", "Scientific, fraction and statistics calculators, plus number base conversion.", [
+        ("scientific-calculator", "🧮", "Scientific calculator", "Fractions, surds, trig, logs, nCr, memory and a table of values."),
+        ("fraction-calculator", "➗", "Fraction calculator", "Add, subtract, multiply and divide fractions, with working."),
+        ("statistics-calculator", "📊", "Mean, median & mode calculator", "Mean, median, mode, range, quartiles and standard deviation."),
+        ("hex-to-decimal-converter", "🔢", "Hex, binary & decimal converter", "Convert between hex, decimal, binary and octal, plus bitwise maths."),
+    ]),
     ("everyday", "Everyday tools", "Quick answers you need every day.", [
         ("age-calculator", "🎂", "Age calculator", "Exact age in years, months and days."),
         ("days-between-dates", "📅", "Days between dates", "Count days and working days, or add days to a date."),
@@ -120,7 +126,7 @@ ICONS = {
     "batch-file-renamer": "text-cursor-input", "duplicate-file-finder": "copy", "file-checksum": "fingerprint",
     "take-home-pay-calculator": "wallet", "vat-calculator": "percent", "profit-margin-calculator": "trending-up", "hourly-rate-calculator": "timer",
     "mileage-allowance-calculator": "car", "loan-calculator": "landmark", "mortgage-calculator": "house", "compound-interest-calculator": "piggy-bank",
-    "discount-calculator": "tag", "percentage-calculator": "calculator", "currency-converter": "arrow-left-right",
+    "discount-calculator": "tag", "percentage-calculator": "percent", "currency-converter": "arrow-left-right",
     "qr-code-generator": "qr-code", "menu-qr-code-generator": "utensils", "wifi-qr-code-generator": "wifi", "vcard-qr-code-generator": "contact",
     "whatsapp-qr-code-generator": "message-circle", "image-compressor": "minimize-2", "image-resizer": "scaling", "image-converter": "repeat",
     "background-remover": "eraser", "add-watermark-to-image": "copyright", "jpg-to-png": "image-plus", "png-to-jpg": "images", "webp-to-jpg": "image",
@@ -131,12 +137,13 @@ ICONS = {
     "text-to-speech": "volume-2", "speech-to-text": "mic", "age-calculator": "cake", "days-between-dates": "calendar-days", "unit-converter": "ruler",
     "bmi-calculator": "scale", "recipe-scaler": "chef-hat", "webcam-mic-test": "webcam", "word-counter": "type", "case-converter": "case-sensitive",
     "password-generator": "lock-keyhole", "sign-pdf": "signature", "protect-pdf": "file-lock", "unlock-pdf": "lock-keyhole-open",
-    "pdf-to-excel": "sheet", "heic-to-jpg": "image-up",
+    "pdf-to-excel": "sheet", "heic-to-jpg": "image-up", "scientific-calculator": "calculator", "fraction-calculator": "divide",
+    "statistics-calculator": "chart-column", "hex-to-decimal-converter": "binary",
 }
 CAT_ICON = {"docs": "receipt", "pdf": "file-text", "files": "folder-search", "money": "wallet", "qr": "qr-code", "images": "image",
-            "web": "globe", "plan": "calendar-days", "media": "volume-2", "everyday": "calculator"}
+            "web": "globe", "plan": "calendar-days", "media": "volume-2", "everyday": "calculator", "maths": "sigma"}
 CAT_SHORT = {"docs": "Business docs", "pdf": "PDF", "files": "Files", "money": "Money & tax", "qr": "QR codes", "images": "Images",
-             "web": "Website", "plan": "Planners", "media": "Media", "everyday": "Everyday"}
+             "web": "Website", "plan": "Planners", "media": "Media", "maths": "Maths", "everyday": "Everyday"}
 UI_ICONS = ["lock", "shield", "sparkles", "zap", "smartphone", "badge-percent", "search", "arrow-right", "check", "upload", "download", "x"]
 
 

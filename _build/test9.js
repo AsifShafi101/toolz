@@ -83,7 +83,7 @@ async function textPerPage(buf) {
   const vis = await h.$$eval('.cat[data-cat]', cs => cs.filter(c => !c.hidden).map(c => c.dataset.cat));
   ok(vis.length === 1 && vis[0] === 'images', 'tab filter shows only images ' + vis);
   await h.click('.tab[data-filter="all"]');
-  ok((await h.$$eval('.cat[data-cat]', cs => cs.filter(c => !c.hidden).length)) === 10, 'All shows every category');
+  ok((await h.$$eval('.cat[data-cat]', cs => cs.filter(c => !c.hidden).length)) === 11, 'All shows every category');
   const iconOk = await h.evaluate(async () => { const r = await fetch('/assets/icons.svg'); const t = await r.text(); const ids = [...document.querySelectorAll('use')].map(u => u.getAttribute('href').split('#')[1]); return ids.length > 50 && ids.every(id => t.includes('id="' + id + '"')); });
   ok(iconOk, 'every icon used on the homepage exists in the sprite');
   const seo = await h.evaluate(() => ({ og: document.querySelector('meta[property="og:image"]').content, ld: [...document.querySelectorAll('script[type="application/ld+json"]')].map(s => JSON.parse(s.textContent)), dir: document.querySelectorAll('.directory a').length, h1: document.querySelectorAll('h1').length }));
