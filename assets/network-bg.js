@@ -137,7 +137,7 @@
   function init() {
     if (window.ETB_NO_NET) return;
     var hero = document.getElementById("net-bg");
-    if (hero && hero.getContext) Net(hero, { page: false, dark: !!hero.closest(".dark-band"), strength: 1, min: 10, max: 26, density: 52000, sparks: 40, grid: true, frameMs: 16 });
+    if (hero && hero.getContext) Net(hero, { page: false, dark: false, strength: 1, min: 10, max: 26, density: 52000, sparks: 40, grid: true, frameMs: 16 });
     // Page-wide background (skip very small screens to save battery)
     if (window.innerWidth >= 560 && document.createElement("canvas").getContext) {
       var c = document.createElement("canvas"); c.id = "page-net"; c.className = "page-net"; c.setAttribute("aria-hidden", "true");
