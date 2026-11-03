@@ -33,7 +33,8 @@ HOME_FAQ = [
 
 ORG = {"@context": "https://schema.org", "@graph": [
     {"@type": "Organization", "@id": SITE + "/#org", "name": "etoolbox", "url": SITE + "/", "logo": SITE + "/assets/apple-touch-icon.png",
-     "email": "hello@etoolbox.co.uk", "areaServed": "GB"},
+     "email": "hello@etoolbox.co.uk", "areaServed": "GB",
+     "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": "hello@etoolbox.co.uk", "url": SITE + "/contact/", "areaServed": "GB", "availableLanguage": "English"}},
     {"@type": "WebSite", "@id": SITE + "/#website", "name": "etoolbox", "url": SITE + "/", "inLanguage": "en-GB", "publisher": {"@id": SITE + "/#org"},
      "potentialAction": {"@type": "SearchAction", "target": {"@type": "EntryPoint", "urlTemplate": SITE + "/?q={search_term_string}"},
                          "query-input": "required name=search_term_string"}},

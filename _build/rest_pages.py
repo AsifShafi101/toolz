@@ -92,6 +92,34 @@ terms = head("Terms of Use | etoolbox", "Terms for using etoolbox.co.uk.", "/ter
 """ + FOOT
 write("/terms/", terms)
 
+
+# contact
+contact = head("Contact etoolbox – Email hello@etoolbox.co.uk", "Get in touch with etoolbox: questions, feedback, tool ideas, Pro and business enquiries. Email hello@etoolbox.co.uk.", "/contact/",
+    '<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@type": "ContactPage", "url": SITE + "/contact/",
+      "mainEntity": {"@type": "Organization", "name": "etoolbox", "url": SITE + "/", "email": "hello@etoolbox.co.uk",
+        "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": "hello@etoolbox.co.uk", "areaServed": "GB", "availableLanguage": "English"}}}) + "</script>\n") + f"""
+<div class="wrap">
+  <div class="page-head"><h1>Contact us</h1><p>We're a small UK business and read every email. We aim to reply within one working day.</p></div>
+  <div class="contact-card panel">
+    <span class="ti c-docs">{svg("mail")}</span>
+    <div><h2>Email</h2><p class="contact-mail"><a href="mailto:hello@etoolbox.co.uk">hello@etoolbox.co.uk</a></p>
+    <a class="btn" href="mailto:hello@etoolbox.co.uk?subject=etoolbox%20enquiry">Send us an email</a></div>
+  </div>
+  <section class="prose">
+    <h2>What can we help with?</h2>
+    <ul>
+      <li><strong>A tool isn't working:</strong> tell us which tool, your browser (e.g. Chrome on Windows) and what happened. A screenshot helps. Please don't send confidential files.</li>
+      <li><strong>Ideas for new tools:</strong> we build what people ask for.</li>
+      <li><strong>etoolbox Pro:</strong> licence keys, invoices and account questions. See <a href="/pricing/">pricing</a>.</li>
+      <li><strong>Business and partnerships:</strong> custom tools, embedding a calculator on your website, or bulk licences.</li>
+      <li><strong>Privacy requests:</strong> for example, removing a logo you uploaded to the email signature generator. See our <a href="/privacy/">privacy policy</a>.</li>
+    </ul>
+    <p>You can also use the <strong>"Was this tool helpful?"</strong> box at the bottom of every tool to send quick feedback.</p>
+  </section>
+</div>
+""" + FOOT
+write("/contact/", contact)
+
 # 404
 with open(os.path.join(OUT, "404.html"), "w") as f:
     f.write(head("Page not found | etoolbox", "Page not found.", "/404") + """
@@ -102,7 +130,7 @@ with open(os.path.join(OUT, "404.html"), "w") as f:
 # sitemap + robots
 import datetime
 TODAY = datetime.date.today().isoformat()
-paths = ["/", "/pricing/"] + [f"/{t[0]}/" for t in TOOLS] + ["/privacy/", "/terms/"]
+paths = ["/", "/pricing/"] + [f"/{t[0]}/" for t in TOOLS] + ["/contact/", "/privacy/", "/terms/"]
 with open(os.path.join(OUT, "sitemap.xml"), "w") as f:
     f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n')
     for p in paths:

@@ -228,8 +228,9 @@ def foot(scripts=("qrcode.js",)):
 <footer class="site-footer"><div class="wrap">
   {directory()}
   <div class="foot-bottom">
-    <div class="foot-brand"><a class="logo" href="/">{LOGO}<span>e<b>tool</b>box</span></a><p>Free online tools for UK small businesses, freelancers and everyone else. Files are processed in your browser.</p></div>
-    <div class="foot-links"><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a data-contact href="#">Contact</a></div>
+    <div class="foot-brand"><a class="logo" href="/">{LOGO}<span>e<b>tool</b>box</span></a><p>Free online tools for UK small businesses, freelancers and everyone else. Files are processed in your browser.</p>
+      <p class="foot-mail">{svg("mail")} <a href="mailto:hello@etoolbox.co.uk">hello@etoolbox.co.uk</a></p></div>
+    <div class="foot-links"><a href="/pricing/">Pricing</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div>
   </div>
   <p class="foot-copy">© {YEAR} etoolbox.co.uk · Made in the UK</p>
 </div></footer>
