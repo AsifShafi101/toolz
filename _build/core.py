@@ -243,6 +243,26 @@ def directory():
     return '<nav class="directory" aria-label="All tools">' + "".join(cols) + "</nav>"
 
 
+# ---------- Featured local business (free courtesy spot; set AD_ON = False to remove) ----------
+AD_ON = True
+AD_ORDER = "https://smokeandpepper.3s-pos.com/"
+AD_MAP = "https://www.google.com/maps/search/?api=1&query=Smoke+%26+Pepper+2-3+Butter+Market+Reading+RG1+2DP"
+AD_IMG = "https://smokeandpepper.com/wp-content/uploads/Burgers-Flying-Dutchman-2-400x400.jpg"
+AD_HTML = f"""<aside class="fad" id="fad" aria-label="Featured local business" hidden>
+  <button type="button" class="fad-x" aria-label="Hide this">×</button>
+  <span class="fad-tag">Featured local business</span>
+  <img class="fad-logo" src="/assets/partners/smokeandpepper-logo.svg" alt="Smoke &amp; Pepper" width="180" height="18">
+  <div class="fad-photo"><img src="{AD_IMG}" alt="Smoke &amp; Pepper burger" width="400" height="400" loading="lazy" referrerpolicy="no-referrer"></div>
+  <div class="fad-head">We’re Smokin’</div>
+  <div class="fad-new">Now open in Reading!</div>
+  <p class="fad-what">Burgers &amp; flame-grilled chicken</p>
+  <p class="fad-dish"><b>Oklahoma Burger:</b> two beef smash patties, caramelised onions, melted cheese &amp; smoky beef bacon jam</p>
+  <p class="fad-meta">100% grass-fed Aberdeen Angus British beef</p>
+  <p class="fad-addr">2–3 Butter Market, Reading RG1 2DP</p>
+  <div class="fad-btns"><a class="fad-order" href="{AD_ORDER}" target="_blank" rel="nofollow noopener">Order</a><a class="fad-dir" href="{AD_MAP}" target="_blank" rel="nofollow noopener">Directions</a></div>
+</aside>"""
+
+
 def foot(scripts=("qrcode.js",)):
     files = ["config.js", "tools-index.js"] + list(scripts) + ["app.js"] + ([] if "network-bg.js" in scripts else ["network-bg.js"])
     tags = "\n".join(f'<script src="/assets/{x}"></script>' for x in files)
@@ -256,6 +276,7 @@ def foot(scripts=("qrcode.js",)):
   </div>
   <p class="foot-copy">© {YEAR} etoolbox.co.uk · Made in the UK</p>
 </div></footer>
+{AD_HTML if AD_ON else ""}
 {tags}
 </body>
 </html>

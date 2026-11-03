@@ -467,3 +467,18 @@
     });
   });
 })();
+
+/* Featured local business: right rail on wide screens, small card bottom-right elsewhere; hide for 7 days when closed */
+(function () {
+  var ad = document.getElementById("fad"); if (!ad) return;
+  var KEY = "etb-fad-hide", now = Date.now();
+  try { if (+localStorage.getItem(KEY) > now) return; } catch (e) {}
+  var wide = function () { return window.innerWidth >= 1420; };
+  var show = function () { ad.hidden = false; requestAnimationFrame(function () { ad.classList.add("in"); }); };
+  if (wide()) setTimeout(show, 900);
+  else { var on = function () { if (window.scrollY > 500) { show(); window.removeEventListener("scroll", on); } }; window.addEventListener("scroll", on, { passive: true }); }
+  ad.querySelector(".fad-x").addEventListener("click", function () {
+    ad.classList.remove("in"); setTimeout(function () { ad.hidden = true; }, 250);
+    try { localStorage.setItem(KEY, String(now + 7 * 864e5)); } catch (e) {}
+  });
+})();
