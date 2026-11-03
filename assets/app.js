@@ -242,7 +242,7 @@
 
   /* ---------- Platform: theme, search, favourites, recently used ---------- */
   function store(k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem(k) || "null"); localStorage.setItem(k, JSON.stringify(v)); } catch (e) { return null; } }
-  var TOOLS = (window.ETB_TOOLS || []).map(function (t) { return { slug: t[0], icon: t[1], name: t[2], desc: t[3], cat: t[4] }; });
+  var TOOLS = (window.ETB_TOOLS || []).map(function (t) { return { slug: t[0], icon: t[1], name: t[2], desc: t[3], cat: t[4], key: t[5] }; });
   var BY = {}; TOOLS.forEach(function (t) { BY[t.slug] = t; });
 
   function initTheme() {
@@ -253,7 +253,7 @@
     label();
   }
 
-  var SYN = { pdf: "document acrobat", jpg: "jpeg photo picture image", png: "image picture", compress: "reduce shrink smaller size", convert: "change", word: "docx doc", qr: "qrcode barcode", vat: "tax", money: "finance £ pounds", password: "secure", ocr: "text scan read extract", dns: "domain nameserver", email: "mail gmail outlook", photo: "image picture", resize: "scale dimensions", merge: "combine join", split: "separate extract", rename: "files bulk batch", duplicate: "same identical files", speed: "performance pagespeed core web vitals lcp", budget: "money spending", time: "zone clock meeting", recipe: "cooking food ingredients", webcam: "camera microphone mic test", invoice: "bill receipt" };
+  var SYN = { pdf: "document acrobat", jpg: "jpeg photo picture image", png: "image picture", compress: "reduce shrink smaller size", convert: "change", word: "docx doc", qr: "qrcode barcode", vat: "tax", money: "finance £ pounds", password: "secure", ocr: "text scan read extract", dns: "domain nameserver", email: "mail gmail outlook", photo: "image picture", resize: "scale dimensions", merge: "combine join", split: "separate extract", rename: "files bulk batch", duplicate: "same identical files", speed: "performance pagespeed core web vitals lcp", budget: "money spending", time: "zone clock meeting", recipe: "cooking food ingredients", webcam: "camera microphone mic test", invoice: "bill receipt", background: "remove bg cutout transparent erase", watermark: "stamp logo copyright protect confidential draft brand", signature: "sign" };
   function score(t, q) {
     var hay = (t.name + " " + t.desc + " " + t.cat + " " + t.slug.replace(/-/g, " ")).toLowerCase(), words = q.toLowerCase().split(/\s+/).filter(Boolean), sc = 0;
     Object.keys(SYN).forEach(function (k) { if (hay.indexOf(k) >= 0) hay += " " + SYN[k]; });
@@ -265,27 +265,51 @@
   }
   function search(q) { return TOOLS.map(function (t) { return { t: t, s: score(t, q) }; }).filter(function (x) { return x.s > 0; }).sort(function (a, b) { return b.s - a.s; }).slice(0, 8).map(function (x) { return x.t; }); }
 
-  function initSearch() {
-    var input = document.getElementById("tool-search"), list = document.getElementById("search-results"); if (!input) return;
-    var items = [], active = -1;
+  function initSearchBox(input, list, shortcut) {
+    var items = [], active = -1, box = input.closest(".search");
     function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
     function render() {
       var q = input.value.trim(); active = -1;
       if (!q) { list.hidden = true; input.setAttribute("aria-expanded", "false"); return; }
       items = search(q);
-      list.innerHTML = items.length ? items.map(function (t, i) { return '<li role="option" id="sr-' + i + '"><a href="/' + t.slug + '/"><span>' + t.icon + "</span><span><strong>" + esc(t.name) + '</strong><span class="muted">' + esc(t.desc) + "</span></span></a></li>"; }).join("") : '<li class="empty">No tools match "' + esc(q) + '". Try another word.</li>';
+      var pre = list.id + "-";
+      list.innerHTML = items.length ? items.map(function (t, i) { return '<li role="option" id="' + pre + i + '"><a href="/' + t.slug + '/">' + t.icon + "<span><strong>" + esc(t.name) + '</strong><span class="muted">' + esc(t.desc) + "</span></span></a></li>"; }).join("") : '<li class="empty">No tools match "' + esc(q) + '". Try another word.</li>';
       list.hidden = false; input.setAttribute("aria-expanded", "true");
     }
-    function move(d) { var lis = list.querySelectorAll("li[role=option]"); if (!lis.length) return; active = (active + d + lis.length) % lis.length; lis.forEach(function (li, i) { li.classList.toggle("active", i === active); }); input.setAttribute("aria-activedescendant", "sr-" + active); }
+    function move(d) { var lis = list.querySelectorAll("li[role=option]"); if (!lis.length) return; active = (active + d + lis.length) % lis.length; lis.forEach(function (li, i) { li.classList.toggle("active", i === active); }); input.setAttribute("aria-activedescendant", list.id + "-" + active); }
     input.addEventListener("input", render);
     input.addEventListener("keydown", function (e) {
       if (e.key === "ArrowDown") { e.preventDefault(); move(1); } else if (e.key === "ArrowUp") { e.preventDefault(); move(-1); }
       else if (e.key === "Enter") { var t = items[active >= 0 ? active : 0]; if (t) { e.preventDefault(); location.href = "/" + t.slug + "/"; } }
       else if (e.key === "Escape") { input.value = ""; render(); input.blur(); }
     });
-    document.addEventListener("click", function (e) { if (!e.target.closest(".search")) list.hidden = true; });
+    document.addEventListener("click", function (e) { if (!box.contains(e.target)) list.hidden = true; });
     input.addEventListener("focus", render);
-    document.addEventListener("keydown", function (e) { if (e.key === "/" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) && !document.activeElement.isContentEditable) { e.preventDefault(); input.focus(); } });
+    if (shortcut) document.addEventListener("keydown", function (e) { if (e.key === "/" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) && !document.activeElement.isContentEditable) { e.preventDefault(); (document.getElementById("hero-search") || input).focus(); } });
+    return render;
+  }
+  function initSearch() {
+    var input = document.getElementById("tool-search"), list = document.getElementById("search-results");
+    if (input && list) initSearchBox(input, list, true);
+    var hero = document.getElementById("hero-search"), hl = document.getElementById("hero-results");
+    if (hero && hl) {
+      var r = initSearchBox(hero, hl, false), q = null;
+      try { q = new URLSearchParams(location.search).get("q"); } catch (e) { q = null; }
+      if (q) { hero.value = q; r(); hero.focus(); }
+    }
+  }
+
+  function initTabs() {
+    var bar = document.querySelector(".tabs[role=toolbar]"); if (!bar) return;
+    var cats = document.querySelectorAll(".cat[data-cat]");
+    function show(f) {
+      bar.querySelectorAll(".tab").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-filter") === f ? "true" : "false"); });
+      cats.forEach(function (c) { c.hidden = f !== "all" && c.getAttribute("data-cat") !== f; });
+    }
+    bar.addEventListener("click", function (e) { var b = e.target.closest(".tab"); if (b) show(b.getAttribute("data-filter")); });
+    // Category links (#pdf etc.) from the header or footer: show that category and scroll to it
+    function fromHash() { var h = location.hash.slice(1); if (h && document.querySelector('.cat[data-cat="' + h + '"]')) { show(h); } }
+    window.addEventListener("hashchange", fromHash); fromHash();
   }
 
   function initFavRecent() {
@@ -301,12 +325,12 @@
     }
     var mine = document.getElementById("my-tools");
     if (mine) {
-      var card = function (t) { return '<a class="tool-card" href="/' + t.slug + '/"><div class="icon">' + t.icon + "</div><h3>" + t.name + "</h3><p>" + t.desc + "</p></a>"; };
+      var card = function (t) { return '<a class="tool-card" href="/' + t.slug + '/">' + t.icon + "<h3>" + t.name + "</h3><p>" + t.desc + "</p></a>"; };
       var f = (store("etb-favs") || []).filter(function (x) { return BY[x]; }).map(function (x) { return BY[x]; });
       var r = (store("etb-recent") || []).filter(function (x) { return BY[x]; }).map(function (x) { return BY[x]; }).slice(0, 6);
       var html = "";
-      if (f.length) html += '<section id="favourites"><h2>⭐ Your favourites</h2><div class="grid">' + f.map(card).join("") + "</div></section>";
-      if (r.length) html += '<section id="recent"><h2>🕘 Recently used</h2><div class="grid">' + r.map(card).join("") + "</div></section>";
+      if (f.length) html += '<section id="favourites"><h2>Your favourites</h2><div class="grid">' + f.map(card).join("") + "</div></section>";
+      if (r.length) html += '<section id="recent"><h2>Recently used</h2><div class="grid">' + r.map(card).join("") + "</div></section>";
       mine.innerHTML = html;
     }
   }
@@ -426,6 +450,6 @@
   document.addEventListener("DOMContentLoaded", function () {
     var form = document.getElementById("qr-form");
     if (form) initGenerator(form);
-    initProLinks(); initTheme(); initSearch(); initFavRecent(); initProBox(); initUsage();
+    initProLinks(); initTheme(); initSearch(); initTabs(); initFavRecent(); initProBox(); initUsage();
   });
 })();

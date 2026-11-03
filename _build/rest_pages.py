@@ -5,7 +5,7 @@ pricing_faqs = [
     ("What happens to my Pro codes if I cancel?", "We'll give you plenty of notice and a chance to move your links before anything stops. Your free codes are never affected."),
     ("Can I cancel any time?", "Yes. Monthly plans can be cancelled at any time."),
 ]
-pricing = head("Pricing – Free & Pro QR Codes | etoolbox",
+pricing = head("Pricing – Free Tools & etoolbox Pro | etoolbox",
                "Free QR codes for everyone. Pro adds editable dynamic QR codes, scan statistics and unbranded table cards for UK small businesses.",
                "/pricing/", faq_ld(pricing_faqs)) + """
 <div class="wrap">
@@ -100,11 +100,13 @@ with open(os.path.join(OUT, "404.html"), "w") as f:
 """ + FOOT)
 
 # sitemap + robots
+import datetime
+TODAY = datetime.date.today().isoformat()
 paths = ["/", "/pricing/"] + [f"/{t[0]}/" for t in TOOLS] + ["/privacy/", "/terms/"]
 with open(os.path.join(OUT, "sitemap.xml"), "w") as f:
     f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n')
     for p in paths:
-        f.write(f"  <url><loc>{SITE}{p}</loc><lastmod>{YEAR}-11-02</lastmod></url>\n")
+        f.write(f"  <url><loc>{SITE}{p}</loc><lastmod>{TODAY}</lastmod></url>\n")
     f.write("</urlset>\n")
 with open(os.path.join(OUT, "robots.txt"), "w") as f:
     f.write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")

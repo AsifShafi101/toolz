@@ -85,6 +85,8 @@ const check = (n, ok, info) => { if (ok) { pass++; console.log('PASS', n); } els
   // ---- Background remover
   page = await open('/background-remover/');
   const prod = Buffer.from(await page.evaluate(() => { const c = document.createElement('canvas'); c.width = 400; c.height = 300; const x = c.getContext('2d'); x.fillStyle = '#fbfbfb'; x.fillRect(0, 0, 400, 300); x.fillStyle = '#c0392b'; x.beginPath(); x.arc(200, 150, 80, 0, Math.PI * 2); x.fill(); return Array.from(atob(c.toDataURL('image/png').split(',')[1]), ch => ch.charCodeAt(0)); }));
+  check('AI method is the default', await page.isChecked('input[name=method][value=ai]'));
+  await page.check('input[name=method][value=colour]', { force: true });
   await page.setInputFiles('#bg-input', [{ name: 'product.png', mimeType: 'image/png', buffer: prod }]);
   await page.waitForSelector('#bg-view[data-cleared]');
   const px = await page.evaluate(() => { const v = document.getElementById('bg-view'), x = v.getContext('2d'); return { corner: x.getImageData(5, 5, 1, 1).data[3], centre: x.getImageData(200, 150, 1, 1).data[3], cleared: +v.getAttribute('data-cleared'), detected: document.getElementById('bgcolour').value }; });
@@ -93,6 +95,15 @@ const check = (n, ok, info) => { if (ok) { pass++; console.log('PASS', n); } els
   await page.selectOption('#fill', 'colour');
   const [dl] = await Promise.all([page.waitForEvent('download'), page.click('#bg-dl')]);
   check('solid background → JPG', dl.suggestedFilename() === 'product-new-background.jpg');
+  // AI method on the same image (downloads the self-hosted model, runs ONNX Runtime Web)
+  await page.selectOption('#fill', 'none');
+  await page.check('input[name=method][value=ai]', { force: true });
+  await page.waitForFunction(() => document.getElementById('bg-view').dataset.aiMs, null, { timeout: 180000 });
+  await page.waitForTimeout(300);
+  const ai = await page.evaluate(() => { const v = document.getElementById('bg-view'), x = v.getContext('2d'); return { corner: x.getImageData(5, 5, 1, 1).data[3], centre: x.getImageData(200, 150, 1, 1).data[3], ms: +v.dataset.aiMs }; });
+  check('AI removes background, keeps subject', ai.corner < 10 && ai.centre > 245, ai);
+  const cached = await page.evaluate(async () => { const c = await caches.open('etb-models-v1'); return (await c.keys()).length; });
+  check('AI model cached for next time', cached === 2, cached);
   await page.setViewportSize({ width: 1280, height: 900 }); await page.screenshot({ path: SHOTS + '/bg.png' });
   await page.close();
 

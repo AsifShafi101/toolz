@@ -60,31 +60,42 @@ conv_page("webp-to-jpg", "WebP to JPG Converter – Free, No Upload | etoolbox",
     "Downloaded a .webp image that won't open? Convert WebP to JPG (or PNG) in your browser. It's free and nothing is uploaded.", "jpeg",
     [("What is WebP?", "WebP is a modern image format used by many websites. Some older apps and printers don't support it, so JPG is the safer choice for sharing.")])
 
-tool_page("background-remover", "Background Remover – Remove White & Plain Backgrounds Free | etoolbox", "Background remover",
-    "Remove white or plain backgrounds from product photos, logos and signatures. Download a transparent PNG or swap in a new background colour. Your image stays on your device.",
+tool_page("background-remover", "Remove Background from Image Free – AI, No Upload | etoolbox", "Remove image background",
+    "Remove the background from any photo with AI: people, products, pets, cars and logos. Get a transparent PNG, a white or coloured background, or a blurred one. Free, no sign-up, and your photo is processed on your device.",
     """
   <div class="gen">
-    <form class="panel" data-bg novalidate>
-      <label class="drop" id="drop" for="bg-input"><strong>Choose an image or drop it here</strong><span class="muted">JPG, PNG or WebP · nothing is uploaded</span>
+    <form class="panel" data-bgai novalidate>
+      <label class="drop" id="drop" for="bg-input"><strong>Choose a photo or drop it here</strong><span class="muted">JPG, PNG or WebP · or paste with Ctrl+V · never uploaded</span>
         <input type="file" id="bg-input" accept="image/jpeg,image/png,image/webp" class="sr-only"></label>
-      <div class="row" style="margin-top:6px"><div><label for="bgcolour">Background colour <span class="hint">(auto-detected)</span></label><input type="color" id="bgcolour" name="bgcolour" value="#ffffff" style="width:100%;height:46px"></div>
-      <div><label for="mode">Remove</label><select id="mode" name="mode"><option value="connected">Background only (edges inwards)</option><option value="all">Every matching colour</option></select></div></div>
-      <label for="tolerance">Tolerance: <span id="tol-val"></span></label><input type="range" id="tolerance" name="tolerance" min="1" max="60" value="12">
-      <label for="feather">Edge softness: <span id="fea-val"></span></label><input type="range" id="feather" name="feather" min="0" max="40" value="8">
-      <div class="row"><div><label for="fill">New background</label><select id="fill" name="fill"><option value="none">Transparent (PNG)</option><option value="colour">Solid colour (JPG)</option></select></div>
+      <label style="margin-top:14px">Method</label>
+      <div class="seg" role="radiogroup" aria-label="Method"><label><input type="radio" name="method" value="ai" checked><span>AI – any background</span></label><label><input type="radio" name="method" value="colour"><span>Plain colour (logos, signatures)</span></label></div>
+      <div data-show-when="method=ai"><label for="cleanup">Edge cleanup: <span id="cln-val"></span> <span class="hint">(raise to remove faint halos, lower to keep hair and fine detail)</span></label><input type="range" id="cleanup" name="cleanup" min="0" max="100" value="35"></div>
+      <div data-show-when="method=colour">
+        <div class="row" style="margin-top:6px"><div><label for="bgcolour">Background colour <span class="hint">(auto-detected)</span></label><input type="color" id="bgcolour" name="bgcolour" value="#ffffff" style="width:100%;height:46px"></div>
+        <div><label for="mode">Remove</label><select id="mode" name="mode"><option value="connected">Background only (edges inwards)</option><option value="all">Every matching colour</option></select></div></div>
+        <label for="tolerance">Tolerance: <span id="tol-val"></span></label><input type="range" id="tolerance" name="tolerance" min="1" max="60" value="12">
+        <label for="feather">Edge softness: <span id="fea-val"></span></label><input type="range" id="feather" name="feather" min="0" max="40" value="8">
+      </div>
+      <div class="row"><div><label for="fill">New background</label><select id="fill" name="fill"><option value="none">Transparent (PNG)</option><option value="colour">Solid colour (JPG)</option><option value="blur">Blurred original (JPG)</option></select></div>
       <div data-show-when="fill=colour"><label for="fillcolour">Colour</label><input type="color" id="fillcolour" name="fillcolour" value="#ffffff" style="width:100%;height:46px"></div></div>
-      <p id="bg-msg" class="hint" role="status" style="margin-top:10px"></p>
+      <progress id="bg-progress" max="100" value="0" hidden style="width:100%;margin-top:12px"></progress>
+      <p id="bg-msg" class="hint" role="status" aria-live="polite" style="margin-top:10px"></p>
     </form>
-    <div class="panel preview"><div class="checker"><canvas id="bg-view" hidden></canvas></div>
-      <div id="bg-actions" class="actions" hidden><button type="button" class="btn" id="bg-dl">Download</button><button type="button" class="btn secondary" id="bg-reset">Start again</button></div>
-      <p class="note">Tip: click any leftover background area in the preview to remove it too.</p></div>
+    <div class="panel preview"><div class="checker"><canvas id="bg-view" hidden aria-label="Result preview"></canvas></div>
+      <div id="bg-actions" class="actions" hidden><button type="button" class="btn" id="bg-dl">Download</button><button type="button" class="btn secondary" id="bg-orig" title="Hold to compare with the original">Hold to compare</button><button type="button" class="btn secondary" id="bg-reset">Undo clicks</button></div>
+      <p class="note">Tip: click any leftover background in the preview to remove it too.</p></div>
   </div>""",
-    """<h2>Best results</h2><ul><li>Works best on photos with a <strong>plain or white background</strong>: product shots, logos, signatures, scanned stamps and icons.</li>
-<li>Increase <strong>tolerance</strong> if bits of background remain, and lower it if parts of your subject disappear.</li>
-<li>For busy backgrounds (people outdoors, rooms), an AI cut-out tool will do better. That's coming to etoolbox Pro.</li></ul>""",
-    [("Is my image uploaded?", "No. Everything happens in your browser."),
-     ("How do I make a transparent signature?", "Photograph your signature on white paper in good light, then upload it here and download the PNG.")],
-    ("colour.js",))
+    """<h2>How to remove a background</h2><ol><li>Choose or drop a photo. You can also paste a screenshot with Ctrl+V.</li><li>The AI finds the main subject (a person, product, pet, car or logo) and removes everything else.</li><li>Pick a transparent, coloured or blurred background, then click <strong>Download</strong>.</li></ol>
+<h2>Private AI that runs on your device</h2><p>Most background removers upload your photo to their servers. etoolbox runs the AI model <strong>inside your browser</strong>. The first time, your browser downloads the model (about 46&nbsp;MB) from etoolbox and keeps it, so later photos are processed straight away, even offline. Your photo is never uploaded.</p>
+<h2>Which method should I use?</h2><ul><li><strong>AI</strong> works on almost any photo: people, products on a table, pets, cars, food and busy backgrounds.</li><li><strong>Plain colour</strong> is best for logos, signatures, stamps and icons on a white or single-colour background, where you want razor-sharp edges.</li><li>Use <strong>Edge cleanup</strong> to fine-tune: higher removes faint halos, lower keeps fine hair.</li></ul>
+<h2>Popular uses</h2><ul><li>Product photos for eBay, Etsy, Amazon, Vinted and Shopify (white background)</li><li>Profile pictures and LinkedIn headshots</li><li>Transparent logos and signatures for documents</li><li>Passport-style photos on a plain background (check the official rules before you submit)</li></ul>""",
+    [("Is it really free?", "Yes. There's no sign-up, no watermark and no limit on how many photos you process."),
+     ("Is my photo uploaded?", "No. The AI runs in your browser. Only the model file is downloaded from etoolbox; your photo stays on your device."),
+     ("Why is the first photo slower?", "Your browser downloads the AI model once (about 46 MB). After that it's stored on your device, so the next photos take a few seconds."),
+     ("What resolution do I get?", "Images up to 2,500 pixels on the longest side are kept at full size. Larger photos are scaled down to 2,500 pixels."),
+     ("How do I make a transparent signature?", "Photograph your signature on white paper in good light, choose 'Plain colour', and download the PNG."),
+     ("Which AI model is used?", "ISNet (Dichotomous Image Segmentation), an open-source model released under the Apache 2.0 licence, compressed to run in the browser.")],
+    ("colour.js", "bgremove.js"))
 
 tool_page("colour-picker", "Colour Picker – HEX, RGB, HSL, CMYK & Contrast Checker | etoolbox", "Colour picker &amp; converter",
     "Pick a colour and get its HEX, RGB, HSL and CMYK codes, lighter and darker shades, and WCAG contrast scores. You can also pick colours from your screen or a photo.",

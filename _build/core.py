@@ -25,6 +25,7 @@ CATS = [
         ("rotate-pdf", "🔃", "Rotate PDF", "Fix sideways or upside-down pages."),
         ("add-page-numbers-to-pdf", "🔢", "Add page numbers", "Number the pages of any PDF."),
         ("compress-pdf", "🗜️", "Compress PDF", "Make PDFs smaller for email and uploads."),
+        ("add-watermark-to-pdf", "💧", "Add watermark to PDF", "Stamp text or your logo on every page, tiled or centred."),
         ("pdf-to-word", "📄", "PDF to Word", "Turn PDF text into an editable Word document."),
         ("word-to-pdf", "📘", "Word to PDF", "Convert .docx documents to PDF."),
         ("compare-documents", "🆚", "Compare documents", "Spot every change between two PDFs, Word files or texts."),
@@ -60,7 +61,8 @@ CATS = [
         ("image-compressor", "🗜️", "Image compressor", "Make JPG, PNG and WebP files smaller without visible quality loss."),
         ("image-resizer", "📐", "Image resizer", "Resize photos to exact pixels or by percentage."),
         ("image-converter", "🔄", "Image converter", "Convert between JPG, PNG and WebP."),
-        ("background-remover", "✨", "Background remover", "Remove plain backgrounds from product photos and logos."),
+        ("background-remover", "✨", "Background remover (AI)", "Remove the background from any photo with AI, on your device."),
+        ("add-watermark-to-image", "©️", "Watermark photos", "Add a text or logo watermark to up to 50 photos at once."),
         ("jpg-to-png", "🖼️", "JPG to PNG", "Convert JPG photos to PNG."),
         ("png-to-jpg", "📷", "PNG to JPG", "Convert PNG images to smaller JPGs."),
         ("webp-to-jpg", "🌐", "WebP to JPG", "Open-anywhere JPGs from WebP images."),
@@ -105,9 +107,65 @@ CATS = [
 TOOLS = [t for c in CATS for t in c[3]]
 CAT_OF = {t[0]: c for c in CATS for t in c[3]}
 
+ICONS = {
+    "invoice-generator": "receipt", "quote-generator": "file-pen-line", "email-signature-generator": "mail", "barcode-generator": "barcode",
+    "merge-pdf": "files", "split-pdf": "scissors", "jpg-to-pdf": "file-image", "pdf-to-jpg": "image-down", "rotate-pdf": "rotate-cw",
+    "add-page-numbers-to-pdf": "list-ordered", "compress-pdf": "file-down", "add-watermark-to-pdf": "stamp", "pdf-to-word": "file-type",
+    "word-to-pdf": "file-output", "compare-documents": "git-compare", "image-to-text": "scan-text", "invoice-data-extractor": "file-spreadsheet",
+    "batch-file-renamer": "text-cursor-input", "duplicate-file-finder": "copy", "file-checksum": "fingerprint",
+    "take-home-pay-calculator": "wallet", "vat-calculator": "percent", "profit-margin-calculator": "trending-up", "hourly-rate-calculator": "timer",
+    "mileage-allowance-calculator": "car", "loan-calculator": "landmark", "mortgage-calculator": "house", "compound-interest-calculator": "piggy-bank",
+    "discount-calculator": "tag", "percentage-calculator": "calculator", "currency-converter": "arrow-left-right",
+    "qr-code-generator": "qr-code", "menu-qr-code-generator": "utensils", "wifi-qr-code-generator": "wifi", "vcard-qr-code-generator": "contact",
+    "whatsapp-qr-code-generator": "message-circle", "image-compressor": "minimize-2", "image-resizer": "scaling", "image-converter": "repeat",
+    "background-remover": "eraser", "add-watermark-to-image": "copyright", "jpg-to-png": "image-plus", "png-to-jpg": "images", "webp-to-jpg": "image",
+    "colour-picker": "pipette", "photo-metadata-remover": "map-pin-off", "meta-description-generator": "search", "website-screenshot": "monitor",
+    "json-formatter": "braces", "website-speed-test": "gauge", "dns-checker": "globe", "email-dns-checker": "shield-check", "email-header-analyzer": "mail-search",
+    "api-request-builder": "plug", "jwt-decoder": "key-round", "budget-planner": "chart-pie", "subscription-tracker": "refresh-cw",
+    "travel-budget-planner": "luggage", "trip-cost-splitter": "handshake", "meeting-time-finder": "clock", "youtube-thumbnail-downloader": "play",
+    "text-to-speech": "volume-2", "speech-to-text": "mic", "age-calculator": "cake", "days-between-dates": "calendar-days", "unit-converter": "ruler",
+    "bmi-calculator": "scale", "recipe-scaler": "chef-hat", "webcam-mic-test": "webcam", "word-counter": "type", "case-converter": "case-sensitive",
+    "password-generator": "lock-keyhole",
+}
+CAT_ICON = {"docs": "receipt", "pdf": "file-text", "files": "folder-search", "money": "wallet", "qr": "qr-code", "images": "image",
+            "web": "globe", "plan": "calendar-days", "media": "volume-2", "everyday": "calculator"}
+CAT_SHORT = {"docs": "Business docs", "pdf": "PDF", "files": "Files", "money": "Money & tax", "qr": "QR codes", "images": "Images",
+             "web": "Website", "plan": "Planners", "media": "Media", "everyday": "Everyday"}
+UI_ICONS = ["lock", "shield", "sparkles", "zap", "smartphone", "badge-percent", "search", "arrow-right", "check", "upload", "download", "x"]
+
+
+def svg(name, cls="ic"):
+    return f'<svg class="{cls}" aria-hidden="true"><use href="/assets/icons.svg#{name}"/></svg>'
+
+
+def tool_icon(slug):
+    return f'<span class="ti c-{CAT_OF[slug][0]}">{svg(ICONS.get(slug, "sparkles"))}</span>'
+
+
+def card(slug, name, desc, extra=""):
+    return f'<a class="tool-card" href="/{slug}/"{extra}>{tool_icon(slug)}<h3>{name}</h3><p>{desc}</p></a>'
+
+
+def build_sprite(src_dir):
+    import re as _re
+    names = sorted(set(list(ICONS.values()) + list(CAT_ICON.values()) + UI_ICONS))
+    out = ['<svg xmlns="http://www.w3.org/2000/svg"><!-- Lucide icons (ISC licence) https://lucide.dev -->']
+    for n in names:
+        body = open(os.path.join(src_dir, n + ".svg")).read()
+        inner = _re.sub(r"^.*?<svg[^>]*>|</svg>\s*$", "", body, flags=_re.S).strip()
+        inner = _re.sub(r"\s+", " ", inner)
+        out.append(f'<symbol id="{n}" viewBox="0 0 24 24">{inner}</symbol>')
+    out.append("</svg>")
+    with open(os.path.join(OUT, "assets", "icons.svg"), "w") as f:
+        f.write("".join(out))
+
+
+NAV = [("pdf", "PDF tools"), ("images", "Image tools"), ("docs", "Invoices"), ("money", "Calculators")]
+
 
 def head(title, desc, path, extra=""):
     url = SITE + path
+    navlinks = "".join(f'<a class="hide-md" href="/#{k}">{t}</a>' for k, t in NAV)
     return f"""<!doctype html>
 <html lang="en-GB">
 <head>
@@ -117,28 +175,44 @@ def head(title, desc, path, extra=""):
 <meta name="description" content="{html.escape(desc)}">
 <link rel="canonical" href="{url}">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="etoolbox">
+<meta property="og:locale" content="en_GB">
 <meta property="og:title" content="{html.escape(title)}">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:url" content="{url}">
+<meta property="og:image" content="{SITE}/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#14213d">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/style.css">
 <script>try{{var t=localStorage.getItem("etb-theme");if(t)document.documentElement.setAttribute("data-theme",t);}}catch(e){{}}</script>
 {extra}</head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header class="site-header"><div class="wrap">
-  <a class="logo" href="/">{LOGO}<span>e<b>tool</b>box</span></a>
+  <a class="logo" href="/" aria-label="etoolbox home">{LOGO}<span>e<b>tool</b>box</span></a>
   <div class="search" role="search"><label for="tool-search" class="sr-only">Search tools</label>
-    <input type="search" id="tool-search" placeholder="Search {len(TOOLS)} free tools…" title="Tip: press / to search" autocomplete="off" aria-controls="search-results" aria-expanded="false">
+    {svg("search", "ic search-ic")}<input type="search" id="tool-search" placeholder="Search {len(TOOLS)} free tools…" title="Tip: press / to search" autocomplete="off" aria-controls="search-results" aria-expanded="false">
     <ul class="search-results" id="search-results" role="listbox" hidden></ul></div>
-  <nav class="nav">
-    <a class="hide-sm" href="/#tools">All tools</a>
+  <nav class="nav" aria-label="Main">
+    {navlinks}
     <a href="/pricing/"{' aria-current="page"' if path == '/pricing/' else ''}>Pricing</a>
     <button type="button" class="icon-toggle" id="theme-toggle" aria-label="Switch light or dark mode" title="Light / dark mode">◐</button>
   </nav>
 </div></header>
-<main>
+<main id="main">
 """
+
+
+def directory():
+    cols = []
+    for key, title, blurb, tools in CATS:
+        links = "".join(f'<li><a href="/{s}/">{n}</a></li>' for s, i, n, d in tools)
+        cols.append(f'<div><h3><a href="/#{key}">{CAT_SHORT[key]}</a></h3><ul>{links}</ul></div>')
+    return '<nav class="directory" aria-label="All tools">' + "".join(cols) + "</nav>"
 
 
 def foot(scripts=("qrcode.js",)):
@@ -146,8 +220,12 @@ def foot(scripts=("qrcode.js",)):
     tags = "\n".join(f'<script src="/assets/{x}"></script>' for x in files)
     return f"""</main>
 <footer class="site-footer"><div class="wrap">
-  <div>© {YEAR} etoolbox.co.uk · Free tools for small businesses</div>
-  <div><a href="/#tools">All tools</a><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a data-contact href="#">Contact</a></div>
+  {directory()}
+  <div class="foot-bottom">
+    <div class="foot-brand"><a class="logo" href="/">{LOGO}<span>e<b>tool</b>box</span></a><p>Free online tools for UK small businesses, freelancers and everyone else. Files are processed in your browser.</p></div>
+    <div class="foot-links"><a href="/pricing/">Pricing</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a data-contact href="#">Contact</a></div>
+  </div>
+  <p class="foot-copy">© {YEAR} etoolbox.co.uk · Made in the UK</p>
 </div></footer>
 {tags}
 </body>
@@ -179,13 +257,21 @@ def faq_ld(faqs):
 def related(current):
     cat = CAT_OF[current]
     others = [t for t in cat[3] if t[0] != current]
-    extra = [t for t in TOOLS if t[0] != current and t not in others]
-    # Add a couple of popular tools from other categories for internal linking
-    picks = others[:5] + [t for t in extra if t[0] in ("invoice-generator", "merge-pdf", "take-home-pay-calculator", "vat-calculator")]
-    cards = "".join(
-        f'<a class="tool-card" href="/{slug}/"><div class="icon">{icon}</div><h3>{name}</h3><p>{desc}</p></a>'
-        for slug, icon, name, desc in picks[:6])
+    popular = ("merge-pdf", "compress-pdf", "background-remover", "invoice-generator", "pdf-to-word", "take-home-pay-calculator", "vat-calculator")
+    extra = [t for t in TOOLS if t[0] in popular and t[0] != current and t not in others]
+    picks = others[:5] + extra
+    cards = "".join(card(slug, name, desc) for slug, icon, name, desc in picks[:8])
     return f'<section><h2>More free tools</h2><div class="grid">{cards}</div></section>'
+
+
+def crumbs(slug, h1):
+    cat = CAT_OF[slug]
+    d = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE + "/"},
+        {"@type": "ListItem", "position": 2, "name": html.unescape(cat[1]), "item": SITE + "/#" + cat[0]},
+        {"@type": "ListItem", "position": 3, "name": html.unescape(h1), "item": SITE + "/" + slug + "/"}]}
+    nav = f'<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">›</span><a href="/#{cat[0]}">{cat[1]}</a><span aria-hidden="true">›</span><span aria-current="page">{dict((t[0], t[2]) for t in cat[3])[slug]}</span></nav>'
+    return nav, f'<script type="application/ld+json">{json.dumps(d)}</script>\n'
 
 
 def app_ld(h1, path):
@@ -208,15 +294,17 @@ SERVER_NOTE = {
 
 def privacy_tag(slug):
     if slug in SERVER_NOTE:
-        return f'<span class="privacy-tag server">{SERVER_NOTE[slug]}</span>'
-    return '<span class="privacy-tag">🔒 Runs in your browser. Nothing is uploaded.</span>'
+        return f'<span class="privacy-tag server">{svg("globe")} {SERVER_NOTE[slug].replace("🌐 ", "")}</span>'
+    return f'<span class="privacy-tag">{svg("lock")} Runs in your browser. Nothing is uploaded.</span>'
 
 
 def tool_page(slug, title, h1, intro, ui, body, faqs, scripts):
     path = f"/{slug}/"
-    page = head(title, intro, path, faq_ld(faqs) + app_ld(h1, path)) + f"""
+    nav, bld = crumbs(slug, h1)
+    page = head(title, intro, path, faq_ld(faqs) + app_ld(h1, path) + bld) + f"""
 <div class="wrap">
-  <div class="page-head" data-slug="{slug}"><h1>{h1}</h1><p>{intro}</p>{privacy_tag(slug)}</div>
+  {nav}
+  <div class="page-head" data-slug="{slug}"><div class="ph-row">{tool_icon(slug)}<h1>{h1}</h1></div><p>{intro}</p>{privacy_tag(slug)}</div>
   {ui}
   <section class="prose">{body}</section>
   {faq_html(faqs)}
@@ -283,6 +371,6 @@ def gen_page(slug, title, h1, intro, tool, fields, body, faqs, card=False):
 
 
 def write_index():
-    data = [[slug, icon, html.unescape(name), desc, cat[1]] for cat in CATS for slug, icon, name, desc in cat[3]]
+    data = [[slug, tool_icon(slug), html.unescape(name), desc, html.unescape(cat[1]), cat[0]] for cat in CATS for slug, icon, name, desc in cat[3]]
     with open(os.path.join(OUT, "assets", "tools-index.js"), "w") as f:
         f.write("window.ETB_TOOLS=" + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";\n")

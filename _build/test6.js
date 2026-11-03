@@ -29,7 +29,7 @@ const check = (n, ok, info) => { if (ok) { pass++; console.log('PASS', n); } els
   await page.click('.fav-btn'); check('favourite toggled', (await page.getAttribute('.fav-btn', 'aria-pressed')) === 'true');
   await page.goto(BASE + '/');
   check('favourites + recent on homepage', (await page.textContent('#favourites')).includes('VAT calculator') && (await page.textContent('#recent')).includes('VAT calculator'));
-  await page.keyboard.press('/'); check('"/" focuses search', await page.evaluate(() => document.activeElement.id === 'tool-search'));
+  await page.keyboard.press('/'); check('"/" focuses search', await page.evaluate(() => ['tool-search','hero-search'].includes(document.activeElement.id)));
   await page.click('#theme-toggle'); check('dark mode on', (await page.getAttribute('html', 'data-theme')) === 'dark');
   await page.reload(); check('dark mode remembered', (await page.getAttribute('html', 'data-theme')) === 'dark');
   await page.setViewportSize({ width: 1280, height: 900 }); await page.screenshot({ path: SHOTS + '/dark-home.png' });
