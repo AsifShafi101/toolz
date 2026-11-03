@@ -7,9 +7,10 @@
   "assets": {
     "directory": "./",
     "binding": "ASSETS",
-    "run_worker_first": ["/api/*"],
+    "run_worker_first": ["/api/*", "/logo/*"],
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash"
   },
-  "browser": { "binding": "BROWSER" }
+  "browser": { "binding": "BROWSER" },
+  "kv_namespaces": [{ "binding": "LOGOS", "id": "5c09f08646244ede849dff8209506cd1" }]
 }

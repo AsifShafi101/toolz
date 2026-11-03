@@ -262,7 +262,13 @@ tool_page("email-signature-generator", "Free Email Signature Generator – Gmail
       <div class="row"><div><label for="phone">Phone</label><input type="tel" id="phone" name="phone"></div><div><label for="mobile">Mobile</label><input type="tel" id="mobile" name="mobile"></div></div>
       <div class="row"><div><label for="email">Email</label><input type="email" id="email" name="email"></div><div><label for="website">Website</label><input type="text" id="website" name="website" inputmode="url"></div></div>
       <label for="address">Address <span class="hint">(optional)</span></label><input type="text" id="address" name="address">
-      <label for="logo">Logo image URL <span class="hint">(optional; must be online, e.g. on your website)</span></label><input type="text" id="logo" name="logo" inputmode="url" placeholder="https://yourbusiness.co.uk/logo.png">
+      <label>Company logo <span class="hint">(optional)</span></label>
+      <div class="btn-row" style="margin-top:0;align-items:center"><label class="btn secondary small" for="logo-file" style="margin:0">⬆ Upload logo<input type="file" id="logo-file" accept="image/png,image/jpeg,image/webp,image/svg+xml,image/gif" class="sr-only"></label>
+        <button type="button" class="btn secondary small" id="logo-remove" hidden>Remove logo</button>
+        <label class="check" style="margin:0">Size <select id="logosize" name="logosize" style="width:auto;padding:6px 8px"><option value="60">Small</option><option value="90" selected>Medium</option><option value="120">Large</option><option value="160">Extra large</option></select></label></div>
+      <p id="logo-msg" class="hint" role="status" style="margin:6px 0 0"></p>
+      <details style="margin-top:6px"><summary class="hint" style="cursor:pointer">Or use a logo that's already online</summary>
+        <input type="text" id="logo" name="logo" inputmode="url" placeholder="https://yourbusiness.co.uk/logo.png" style="margin-top:6px"></details>
       <details class="style-opts"><summary>Social links</summary>
         <div class="row"><div><label for="linkedin">LinkedIn</label><input type="text" id="linkedin" name="linkedin"></div><div><label for="facebook">Facebook</label><input type="text" id="facebook" name="facebook"></div></div>
         <div class="row"><div><label for="instagram">Instagram</label><input type="text" id="instagram" name="instagram"></div><div><label for="x">X (Twitter)</label><input type="text" id="x" name="x"></div></div>
@@ -281,6 +287,7 @@ tool_page("email-signature-generator", "Free Email Signature Generator – Gmail
 <li><strong>Outlook:</strong> Settings → Mail → Compose and reply → Email signature, then paste.</li>
 <li><strong>Apple Mail:</strong> Mail → Settings → Signatures → +, untick 'Always match my default message font', then paste.</li></ul>
 <p>UK limited companies should include their registered name, number and office address on business emails.</p>""",
-    [("Why doesn't my logo show?", "Email signatures can't contain uploaded images. The logo must be hosted online, for example on your website, and you paste its web address here."),
+    [("How does the logo upload work?", "We resize your logo for email (sharp on retina screens) and host it on etoolbox so Gmail, Outlook and Apple Mail can all display it. The image is public to anyone with its link, like any logo in an email, so only upload a logo you're allowed to use."),
+     ("My logo doesn't show for some recipients. Why?", "Some email apps hide images until the reader clicks 'Show images'. That's normal for every signature logo."),
      ("Are my details saved?", "Only in this browser, so you can come back and edit them. Nothing is sent to us.")],
     ("signature.js",))

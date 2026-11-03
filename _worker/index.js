@@ -71,10 +71,44 @@ async function screenshot(request, env, ctx, reqUrl) {
   }
 }
 
+// ---- Logo hosting for email signatures (KV: LOGOS) ----
+const MAX_LOGO = 200 * 1024;
+function sniff(b) {
+  if (b.length > 8 && b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47) return { ext: "png", type: "image/png" };
+  if (b.length > 3 && b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff) return { ext: "jpg", type: "image/jpeg" };
+  return null;
+}
+async function uploadLogo(request, env, url) {
+  if (request.method !== "POST") return json(405, { error: "Method not allowed" });
+  if (!env.LOGOS) return json(503, { error: "Logo hosting isn't switched on." });
+  const len = +(request.headers.get("content-length") || 0);
+  if (len > MAX_LOGO) return json(413, { error: "That logo is too large. Please use an image under 200 KB." });
+  const bytes = new Uint8Array(await request.arrayBuffer());
+  if (!bytes.length || bytes.length > MAX_LOGO) return json(413, { error: "That logo is too large. Please use an image under 200 KB." });
+  const kind = sniff(bytes);
+  if (!kind) return json(415, { error: "Please upload a PNG or JPG image." });
+  const hash = [...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes))].slice(0, 16).map(x => x.toString(16).padStart(2, "0")).join("");
+  const key = hash + "." + kind.ext;
+  const exists = await env.LOGOS.get(key, { type: "stream" });
+  if (!exists) await env.LOGOS.put(key, bytes, { metadata: { type: kind.type, created: Date.now() } });
+  else await exists.cancel();
+  return json(200, { url: url.origin + "/logo/" + key });
+}
+async function serveLogo(env, path) {
+  const m = /^\/logo\/([0-9a-f]{32}\.(png|jpg))$/.exec(path);
+  if (!m || !env.LOGOS) return new Response("Not found", { status: 404 });
+  const data = await env.LOGOS.get(m[1], { type: "arrayBuffer" });
+  if (!data) return new Response("Not found", { status: 404 });
+  return new Response(data, { headers: { "content-type": m[2] === "png" ? "image/png" : "image/jpeg", "cache-control": "public, max-age=31536000, immutable",
+    "x-content-type-options": "nosniff", "content-security-policy": "default-src 'none'", "access-control-allow-origin": "*" } });
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (url.pathname === "/api/screenshot") return screenshot(request, env, ctx, url);
+    if (url.pathname === "/api/logo") return uploadLogo(request, env, url);
+    if (url.pathname.startsWith("/logo/")) return serveLogo(env, url.pathname);
     if (url.pathname.startsWith("/api/")) return json(404, { error: "Not found" });
     return env.ASSETS.fetch(request);
   },

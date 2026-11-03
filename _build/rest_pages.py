@@ -59,6 +59,7 @@ privacy = head("Privacy Policy | etoolbox", "How etoolbox handles your data.", "
 <ul>
 <li><strong>Emails you send us:</strong> if you contact us or join early access, we keep your email so we can reply. We never sell it.</li>
 <li><strong>Basic visit statistics:</strong> we may use privacy-friendly analytics (such as Cloudflare Web Analytics) that count page views without cookies or tracking you across sites.</li>
+<li><strong>Uploaded logos:</strong> if you upload a logo to the email signature generator, we store that image so it can appear in your emails. Email hello@etoolbox.co.uk to have it removed.</li>
 <li><strong>Payments:</strong> if you buy Pro, payment is handled by our payment provider (Stripe). We don't see or store your card details.</li>
 </ul>
 <h2>Your rights</h2>
@@ -76,6 +77,7 @@ terms = head("Terms of Use | etoolbox", "Terms for using etoolbox.co.uk.", "/ter
 <li>You're responsible for the content your QR codes link to. Don't use etoolbox for anything illegal, misleading or harmful.</li>
 <li>You can use codes and table cards you make here for personal and commercial purposes.</li>
 <li>Paid plans renew automatically until you cancel. You can cancel at any time and keep access until the end of the period you've paid for.</li>
+<li>Logos you upload to the email signature generator are stored by us and publicly viewable by anyone with the link, so they display in emails. Only upload images you have the right to use. We may remove anything unlawful or unrelated to email signatures.</li>
 <li>These terms are governed by the laws of England and Wales.</li>
 </ul>
 <p>Questions? Email <a data-contact href="#"></a>.</p>
