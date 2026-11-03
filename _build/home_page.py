@@ -16,7 +16,7 @@ def tabs():
 
 
 POPULAR = [("merge-pdf", "Merge PDF"), ("compress-pdf", "Compress PDF"), ("background-remover", "Remove background"), ("pdf-to-word", "PDF to Word"),
-           ("jpg-to-pdf", "JPG to PDF"), ("add-watermark-to-pdf", "Watermark PDF"), ("invoice-generator", "Invoice"), ("take-home-pay-calculator", "Take-home pay")]
+           ("jpg-to-pdf", "JPG to PDF"), ("add-watermark-to-pdf", "Watermark PDF"), ("invoice-generator", "Invoice"), ("take-home-pay-calculator", "Take-home pay"), ("bmi-calculator", "BMI calculator")]
 pop_chips = "".join(f'<a class="pop" href="/{s}/">{tool_icon(s)}<span>{n}</span></a>' for s, n in POPULAR)
 
 FEATURED = ["merge-pdf", "compress-pdf", "background-remover", "add-watermark-to-pdf", "pdf-to-word", "invoice-generator", "image-compressor", "take-home-pay-calculator"]
@@ -40,14 +40,14 @@ ORG = {"@context": "https://schema.org", "@graph": [
     {"@type": "ItemList", "name": "Free online tools", "itemListElement": [
         {"@type": "ListItem", "position": i + 1, "url": SITE + "/" + t[0] + "/", "name": html.unescape(t[2])} for i, t in enumerate(TOOLS)]}]}
 
-home = head("Free Online PDF, Image & Business Tools – No Sign-up | etoolbox",
-            f"Merge, compress and convert PDFs, remove image backgrounds with AI, add watermarks, make invoices and work out UK tax. {len(TOOLS)} free tools that run in your browser, so your files stay private.",
+home = head("Free Online Tools – PDF, Image & Calculators, No Sign-up | etoolbox",
+            f"Free tools for personal and business use: merge and compress PDFs, remove image backgrounds with AI, add watermarks, make invoices, and use BMI, VAT and UK tax calculators. {len(TOOLS)} free tools that run in your browser, so your files stay private.",
             "/", faq_ld(HOME_FAQ) + '<script type="application/ld+json">' + json.dumps(ORG) + "</script>\n") + f"""
 <div class="hero-band">
 <div class="wrap hero">
   <span class="pill">{svg("sparkles")} {len(TOOLS)} free tools · No sign-up · Files stay on your device</span>
-  <h1>Free online tools for <em>PDFs, images</em> and your business</h1>
-  <p class="lead">Merge and compress PDFs, remove backgrounds with AI, add watermarks, make invoices and check your UK take-home pay. Everything runs in your browser, so nothing is uploaded.</p>
+  <h1>Free online tools for <em>PDFs, images, calculators</em> and more</h1>
+  <p class="lead">For personal and business use. Merge and compress PDFs, remove photo backgrounds with AI, add watermarks, make invoices, and check your BMI or UK take-home pay. Everything runs in your browser, so nothing is uploaded.</p>
   <div class="search hero-search" role="search"><label for="hero-search" class="sr-only">Search all tools</label>
     {svg("search", "ic search-ic")}<input type="search" id="hero-search" placeholder="What do you need? e.g. compress PDF, remove background" autocomplete="off" aria-controls="hero-results" aria-expanded="false">
     <ul class="search-results" id="hero-results" role="listbox" hidden></ul></div>
