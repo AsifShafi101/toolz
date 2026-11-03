@@ -566,3 +566,8 @@ input[type=search]::-webkit-search-cancel-button { cursor: pointer; }
 @media (max-width: 480px) { .trust-card li::before { display: none; } .trust-card li { padding: 4px 6px; } }
 @media (prefers-reduced-motion: reduce) { .trust-card, .trust-card:hover { transform: none; transition: none; } }
 .search .search-ic { z-index: 2; }
+/* Page-wide 3D dot wave behind content (hidden behind the hero band and footer, which are solid) */
+.page-net { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+main { position: relative; }
+.site-footer { position: relative; z-index: 0; }
+.hero-band { z-index: 0; }

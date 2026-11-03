@@ -223,7 +223,7 @@ def directory():
 
 
 def foot(scripts=("qrcode.js",)):
-    files = ["config.js", "tools-index.js"] + list(scripts) + ["app.js"]
+    files = ["config.js", "tools-index.js"] + list(scripts) + ["app.js"] + ([] if "network-bg.js" in scripts else ["network-bg.js"])
     tags = "\n".join(f'<script src="/assets/{x}"></script>' for x in files)
     return f"""</main>
 <footer class="site-footer"><div class="wrap">
