@@ -106,7 +106,8 @@ CATS = [
         ("trip-cost-splitter", "🤝", "Trip cost splitter", "Split shared costs and see who owes whom."),
         ("meeting-time-finder", "🕒", "Meeting time finder", "Find a time that works across time zones."),
     ]),
-    ("media", "Media & audio", "YouTube, speech and audio helpers.", [
+    ("media", "Media & audio", "Video to MP3, YouTube, speech and audio helpers.", [
+        ("video-to-mp3", "🎵", "Video to MP3 converter", "Extract MP3 audio from any video, even 2-hour files. Nothing uploaded."),
         ("youtube-thumbnail-downloader", "▶️", "YouTube thumbnail downloader", "Get any video's thumbnail in HD."),
         ("text-to-speech", "🔊", "Text to speech", "Listen to any text read aloud in natural voices."),
         ("speech-to-text", "🎙️", "Speech to text", "Dictate and get a written transcript."),
@@ -147,7 +148,7 @@ ICONS = {
     "colour-picker": "pipette", "photo-metadata-remover": "map-pin-off", "meta-description-generator": "search", "website-screenshot": "monitor",
     "json-formatter": "braces", "website-speed-test": "gauge", "dns-checker": "globe", "email-dns-checker": "shield-check", "email-header-analyzer": "mail-search",
     "api-request-builder": "plug", "jwt-decoder": "key-round", "budget-planner": "chart-pie", "subscription-tracker": "refresh-cw",
-    "travel-budget-planner": "luggage", "trip-cost-splitter": "handshake", "meeting-time-finder": "clock", "youtube-thumbnail-downloader": "play",
+    "travel-budget-planner": "luggage", "trip-cost-splitter": "handshake", "meeting-time-finder": "clock", "youtube-thumbnail-downloader": "play", "video-to-mp3": "file-audio",
     "text-to-speech": "volume-2", "speech-to-text": "mic", "age-calculator": "cake", "days-between-dates": "calendar-days", "unit-converter": "ruler",
     "bmi-calculator": "scale", "recipe-scaler": "chef-hat", "webcam-mic-test": "webcam", "word-counter": "type", "case-converter": "case-sensitive",
     "password-generator": "lock-keyhole", "sign-pdf": "signature", "protect-pdf": "file-lock", "unlock-pdf": "lock-keyhole-open",
@@ -362,10 +363,10 @@ def share_bar(path, text):
             f'<button type="button" class="sh sh-copy">{svg("link")}<span>Copy link</span></button></div>')
 
 
-def tool_page(slug, title, h1, intro, ui, body, faqs, scripts):
+def tool_page(slug, title, h1, intro, ui, body, faqs, scripts, extra=""):
     path = f"/{slug}/"
     nav, bld = crumbs(slug, h1)
-    page = head(title, intro, path, faq_ld(faqs) + app_ld(h1, path) + bld) + f"""
+    page = head(title, intro, path, faq_ld(faqs) + app_ld(h1, path) + bld + extra) + f"""
 <div class="wrap">
   {nav}
   <div class="page-head" data-slug="{slug}"><div class="ph-row">{tool_icon(slug)}<h1>{h1}</h1></div><p>{intro}</p>{privacy_tag(slug)}</div>

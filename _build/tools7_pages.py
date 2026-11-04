@@ -146,3 +146,43 @@ tool_page("statistics-calculator", "Statistics Calculator – Mean, Median, Mode
      ("What's the difference between sample and population standard deviation?", "Population divides by n and is used when you have every value. Sample divides by n − 1 and is used when your numbers are a sample of a larger group."),
      ("Is my data uploaded?", "No. Everything is calculated in your browser.")],
     ("scicalc.js",))
+
+# ---------------- Video to MP3 ----------------
+tool_page("video-to-mp3",
+    "Video to MP3 Converter – Extract Audio from MP4, MOV, MKV Free, No Upload | etoolbox",
+    "Video to MP3 converter",
+    "Extract the audio from any video as an MP3, even 1–2 hour recordings. Works with MP4, MOV, MKV, WebM and more. It's free, there's no file size limit, and your video never leaves your device.",
+    """
+  <div class="gen">
+    <form class="panel" data-v2m novalidate>
+      <label class="drop" id="v2m-drop" for="v2m-input"><strong>Choose a video or drop it here</strong><span class="muted">MP4, MOV, MKV, WebM, AVI* or audio files · any length · never uploaded</span>
+        <input type="file" id="v2m-input" accept="video/*,audio/*,.mkv,.mov,.m4a,.webm" class="sr-only"></label>
+      <p id="v2m-info" class="v2m-info"></p>
+      <div class="row"><div><label for="bitrate">MP3 quality</label><select id="bitrate" name="bitrate">
+        <option value="96">96 kbps · speech, smallest</option><option value="128" selected>128 kbps · recommended</option>
+        <option value="192">192 kbps · high</option><option value="320">320 kbps · best for music</option></select></div>
+      <div><label for="channels">Channels</label><select id="channels" name="channels"><option value="2">Stereo</option><option value="1">Mono · talks, half size</option></select></div></div>
+      <details class="style-opts"><summary>Cut a section (optional)</summary>
+        <div class="row" style="margin-top:10px"><div><label for="start">Start at</label><input type="text" id="start" name="start" placeholder="e.g. 0:30" inputmode="numeric"></div>
+        <div><label for="end">End at</label><input type="text" id="end" name="end" placeholder="e.g. 1:02:45" inputmode="numeric"></div></div></details>
+      <p id="v2m-est" class="hint"></p>
+      <div class="v2m-actions"><button type="button" class="btn" id="v2m-go" disabled>Convert to MP3</button><button type="button" class="btn ghost" id="v2m-cancel" hidden>Cancel</button></div>
+      <div class="v2m-bar" id="v2m-bar" hidden><i></i></div>
+      <p id="v2m-msg" class="hint" role="status" aria-live="polite" style="margin-top:10px"></p>
+    </form>
+    <div class="panel"><h3 style="margin:0">Your MP3</h3>
+      <p class="muted" style="margin:8px 0 0">Your audio will appear here, ready to play and download.</p>
+      <div id="v2m-out" hidden><audio id="v2m-audio" controls preload="metadata" style="width:100%;margin-top:12px"></audio>
+        <p id="v2m-res" class="hint"></p><a class="btn" id="v2m-dl" href="#">Download MP3</a></div></div>
+  </div>""",
+    """<h2>How to convert a video to MP3</h2><ol><li>Choose your video file, or drag it onto the box.</li><li>Pick a quality. 128 kbps is fine for most things; use 320 kbps for music.</li><li>Press <strong>Convert to MP3</strong>. When it's done, the MP3 downloads automatically.</li></ol>
+<h2>Long videos are fine</h2><p>The video is read a piece at a time, so 60-minute or even 2-hour recordings work without filling up your computer's memory. On a typical laptop, an hour of video converts in a minute or two. Keep the tab open until it finishes.</p>
+<h2>Good uses</h2><ul><li>Turn a recorded meeting, lecture or webinar into audio to listen to on the go.</li><li>Get the soundtrack from your own phone videos.</li><li>Make a podcast file from a video recording.</li><li>YouTube creators: download your own video from <em>YouTube Studio → Content → Download</em>, then convert it here.</li></ul>
+<p class="note">Only convert videos you own or have permission to use. This tool doesn't download from YouTube or other websites: downloading other people's videos breaks YouTube's terms and can break copyright law.</p>
+<p class="note">*AVI and some older formats depend on your browser. MP3 encoding uses <a href="https://lame.sourceforge.io/" rel="noopener">LAME</a> (LGPL) via <a href="https://mediabunny.dev/" rel="noopener">Mediabunny</a> (MPL-2.0).</p>""",
+    [("Is my video uploaded?", "No. The conversion happens entirely in your browser, so your video never leaves your device."),
+     ("Is there a size or length limit?", "No set limit. Because the file is read in pieces, multi-gigabyte, 1–2 hour videos work. Very long files just take a little longer."),
+     ("Can I convert a YouTube link?", "No. Downloading other people's YouTube videos breaks YouTube's terms. If it's your own video, download it from YouTube Studio and convert the file here."),
+     ("Which browsers work?", "The latest Chrome, Edge and Firefox on computers and Android. On iPhone and Mac, Safari 26 or newer."),
+     ("How big will the MP3 be?", "At 128 kbps it's about 1 MB per minute, so a 60-minute video gives roughly a 58 MB MP3. Choose mono or 96 kbps for a smaller file.")],
+    (), extra='<script type="importmap">{"imports":{"mediabunny":"/assets/vendor/mediabunny/mediabunny.min.mjs"}}</script>\n<script type="module" src="/assets/video2mp3.js"></script>\n')
