@@ -273,7 +273,7 @@ def foot(scripts=("qrcode.js",)):
   <div class="foot-bottom">
     <div class="foot-brand"><a class="logo" href="/">{LOGO}<span>e<b>tool</b>box</span></a><p>Free online tools for UK small businesses, freelancers and everyone else. Files are processed in your browser.</p>
       <p class="foot-mail">{svg("mail")} <a href="mailto:hello@etoolbox.co.uk">hello@etoolbox.co.uk</a></p></div>
-    <div class="foot-links"><a href="/pricing/">Pricing</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div>
+    <div class="foot-links"><a href="/pricing/">Pricing</a><a href="/embed/">Free calculators for your site</a><a href="/salary-after-tax/">Salary after tax</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div>
   </div>
   <p class="foot-copy">© {YEAR} etoolbox.co.uk · Made in the UK</p>
 </div></footer>
@@ -363,7 +363,20 @@ def share_bar(path, text):
             f'<button type="button" class="sh sh-copy">{svg("link")}<span>Copy link</span></button></div>')
 
 
+TOOL_SRC = {}
+VARIANT_LINKS = {}  # base slug -> [(slug, label)], filled from _build/variants.py data
+
+
+def variant_links(slug):
+    v = VARIANT_LINKS.get(slug)
+    if not v:
+        return ""
+    return ('<section class="var-links"><h2>Popular conversions</h2><div class="pops">'
+            + "".join(f'<a class="pop" href="/{s}/">{l}</a>' for s, l in v) + "</div></section>")
+
+
 def tool_page(slug, title, h1, intro, ui, body, faqs, scripts, extra=""):
+    TOOL_SRC[slug] = {"ui": ui, "scripts": scripts, "extra": extra}
     path = f"/{slug}/"
     nav, bld = crumbs(slug, h1)
     page = head(title, intro, path, faq_ld(faqs) + app_ld(h1, path) + bld + extra) + f"""
@@ -372,7 +385,9 @@ def tool_page(slug, title, h1, intro, ui, body, faqs, scripts, extra=""):
   <div class="page-head" data-slug="{slug}"><div class="ph-row">{tool_icon(slug)}<h1>{h1}</h1></div><p>{intro}</p>{privacy_tag(slug)}</div>
   {ui}
   {share_bar(path, html.unescape(h1) + " – free, no sign-up, nothing uploaded")}
+  {'<p class="embed-cta">Run a website or blog? <a href="/embed/">Add this calculator to your site for free →</a></p>' if slug in ("take-home-pay-calculator", "vat-calculator", "mileage-allowance-calculator", "hourly-rate-calculator") else ""}
   <section class="prose">{body}</section>
+  {variant_links(slug)}
   {faq_html(faqs)}
   {related(slug)}
 </div>

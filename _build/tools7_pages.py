@@ -156,7 +156,7 @@ tool_page("video-to-mp3",
   <div class="gen">
     <form class="panel" data-v2m novalidate>
       <label class="drop" id="v2m-drop" for="v2m-input"><strong>Choose a video or drop it here</strong><span class="muted">MP4, MOV, MKV, WebM, AVI* or audio files · any length · never uploaded</span>
-        <input type="file" id="v2m-input" accept="video/*,audio/*,.mkv,.mov,.m4a,.webm" class="sr-only"></label>
+        <input type="file" id="v2m-input" accept="video/*,audio/*,.mkv,.mov,.m4a,.webm,.opus,.ogg,.wav" class="sr-only"></label>
       <p id="v2m-info" class="v2m-info"></p>
       <div class="row"><div><label for="bitrate">MP3 quality</label><select id="bitrate" name="bitrate">
         <option value="96">96 kbps · speech, smallest</option><option value="128" selected>128 kbps · recommended</option>

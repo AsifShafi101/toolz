@@ -1,0 +1,22 @@
+<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HMRC mileage allowance calculator – etoolbox</title><meta name="robots" content="noindex, follow"><link rel="canonical" href="https://etoolbox.co.uk/mileage-allowance-calculator/">
+<link rel="stylesheet" href="/assets/style.css"><style>html,body{background:transparent!important}body{margin:0;padding:8px}#page-net,.fad{display:none!important}
+.gen{grid-template-columns:1fr!important}.emb-by{margin:10px 2px 0;font:600 13px/1.4 Inter,system-ui,sans-serif;color:#46557a}.emb-by a{color:#ff6b35;text-decoration:none}</style></head>
+<body class="embed">
+  <div class="gen">
+    <form class="panel" data-calc="mileage" autocomplete="off" novalidate>
+<label>Vehicle</label>
+<div class="seg" role="radiogroup"><label><input type="radio" name="vehicle" value="car" checked><span>Car or van</span></label><label><input type="radio" name="vehicle" value="motorcycle"><span>Motorcycle</span></label><label><input type="radio" name="vehicle" value="bicycle"><span>Bicycle</span></label></div>
+<label for="miles">Business miles</label>
+<input type="text" id="miles" name="miles" inputmode="decimal" placeholder="e.g. 4200">
+<div data-show-when="vehicle=car"><div class="row">
+  <div><label for="prior">Business miles already done this tax year</label><input type="text" id="prior" name="prior" inputmode="decimal" value="0"></div>
+  <div><label for="passengers">Work passengers</label><input type="number" id="passengers" name="passengers" value="0" min="0"></div>
+</div></div>
+<label for="paid">What your employer pays (pence per mile) <span class="hint">(optional)</span></label>
+<input type="text" id="paid" name="paid" inputmode="decimal" placeholder="e.g. 30"></form>
+    <div class="panel preview"><div id="calc-out" class="calc-out" aria-live="polite"></div>
+      <p class="note">Calculated on your device. Figures are rounded to the nearest penny.</p></div>
+  </div>
+<p class="emb-by">Free HMRC mileage allowance calculator by <a href="https://etoolbox.co.uk/mileage-allowance-calculator/" target="_blank" rel="noopener">etoolbox.co.uk</a></p>
+<script src="/assets/calc.js"></script></body></html>

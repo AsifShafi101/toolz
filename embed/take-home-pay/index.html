@@ -1,0 +1,26 @@
+<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UK take-home pay calculator – etoolbox</title><meta name="robots" content="noindex, follow"><link rel="canonical" href="https://etoolbox.co.uk/take-home-pay-calculator/">
+<link rel="stylesheet" href="/assets/style.css"><style>html,body{background:transparent!important}body{margin:0;padding:8px}#page-net,.fad{display:none!important}
+.gen{grid-template-columns:1fr!important}.emb-by{margin:10px 2px 0;font:600 13px/1.4 Inter,system-ui,sans-serif;color:#46557a}.emb-by a{color:#ff6b35;text-decoration:none}</style></head>
+<body class="embed">
+  <div class="gen">
+    <form class="panel" data-calc="takehome" autocomplete="off" novalidate>
+<label for="salary">Your pay (£)</label>
+<input type="text" id="salary" name="salary" inputmode="decimal" placeholder="e.g. 35000">
+<div class="seg" role="radiogroup"><label><input type="radio" name="period" value="year" checked><span>Per year</span></label><label><input type="radio" name="period" value="month"><span>Per month</span></label><label><input type="radio" name="period" value="week"><span>Per week</span></label><label><input type="radio" name="period" value="hour"><span>Per hour</span></label></div>
+<div data-show-when="period=hour"><label for="hoursweek">Hours per week</label><input type="number" id="hoursweek" name="hoursweek" value="37.5" step="0.5"></div>
+<label>Where do you live?</label>
+<div class="seg" role="radiogroup"><label><input type="radio" name="region" value="ruk" checked><span>England, Wales or NI</span></label><label><input type="radio" name="region" value="scotland"><span>Scotland</span></label></div>
+<div class="row">
+  <div><label for="pension">Pension contribution (%)</label><input type="text" id="pension" name="pension" inputmode="decimal" value="5"></div>
+  <div><label for="sacrifice">Pension type</label><select id="sacrifice" name="sacrifice"><option value="no">Workplace (net pay)</option><option value="yes">Salary sacrifice</option></select></div>
+</div>
+<div class="row">
+  <div><label for="loan">Student loan</label><select id="loan" name="loan"><option value="none">None</option><option value="plan1">Plan 1</option><option value="plan2">Plan 2</option><option value="plan4">Plan 4 (Scotland)</option><option value="plan5">Plan 5</option></select></div>
+  <div><label for="postgrad">Postgraduate loan</label><select id="postgrad" name="postgrad"><option value="no">No</option><option value="yes">Yes</option></select></div>
+</div></form>
+    <div class="panel preview"><div id="calc-out" class="calc-out" aria-live="polite"></div>
+      <p class="note">Calculated on your device. Figures are rounded to the nearest penny.</p></div>
+  </div>
+<p class="emb-by">Free UK take-home pay calculator by <a href="https://etoolbox.co.uk/take-home-pay-calculator/" target="_blank" rel="noopener">etoolbox.co.uk</a></p>
+<script src="/assets/calc.js"></script></body></html>

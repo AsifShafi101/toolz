@@ -23,7 +23,7 @@ def sal_calc(gross, pension_pct=0.0, plan2=False):
 
 
 def money(x, pence=False):
-    return f"£{x:,.2f}" if pence else f"£{round(x):,}"
+    return f"£{x:,.2f}" if pence else f"£{int(x + 0.5) if x >= 0 else round(x):,}"
 
 
 def short(n):
@@ -111,7 +111,7 @@ def salary_page(n):
     <p class="note">Rates checked against GOV.UK in November 2026. This is an estimate. Your payslip can differ because of your tax code, benefits or pay timing.</p>
   </section>
   <section><h2>Compare nearby salaries</h2><div class="pops sal-near">{near_links}</div>
-  <p><a href="/salary-after-tax/">See every salary from £15,000 to £200,000 →</a></p></section>
+  <p><a href="/salary-after-tax/">See every salary from £15,000 to £200,000 →</a> · <a href="/monthly-salary-after-tax/">Monthly pay after tax →</a> · <a href="/hourly-wage/">Hourly wage to salary →</a></p></section>
   {faq_html(faqs)}
 </div>
 """ + foot(("calc.js",))
@@ -142,4 +142,4 @@ write("/salary-after-tax/", head(f"Salary After Tax UK {SAL_YEAR} – Take-Home 
 </div>
 """ + foot(()))
 
-EXTRA_PATHS = ["/salary-after-tax/"] + [sal_slug(n) for n in SAL_AMOUNTS]
+EXTRA_PATHS = globals().get("EXTRA_PATHS", []) + ["/salary-after-tax/"] + [sal_slug(n) for n in SAL_AMOUNTS]

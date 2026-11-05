@@ -1,0 +1,20 @@
+<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Freelance hourly rate calculator – etoolbox</title><meta name="robots" content="noindex, follow"><link rel="canonical" href="https://etoolbox.co.uk/hourly-rate-calculator/">
+<link rel="stylesheet" href="/assets/style.css"><style>html,body{background:transparent!important}body{margin:0;padding:8px}#page-net,.fad{display:none!important}
+.gen{grid-template-columns:1fr!important}.emb-by{margin:10px 2px 0;font:600 13px/1.4 Inter,system-ui,sans-serif;color:#46557a}.emb-by a{color:#ff6b35;text-decoration:none}</style></head>
+<body class="embed">
+  <div class="gen">
+    <form class="panel" data-calc="hourly" autocomplete="off" novalidate>
+<label for="income">Yearly income you want (£, before tax)</label>
+<input type="text" id="income" name="income" inputmode="decimal" placeholder="e.g. 40000">
+<label for="expenses">Yearly business costs (£)</label>
+<input type="text" id="expenses" name="expenses" inputmode="decimal" placeholder="Software, equipment, insurance, travel…" value="">
+<div class="row">
+  <div><label for="weeksoff">Weeks off per year</label><input type="number" id="weeksoff" name="weeksoff" min="0" max="51" value="7"><p class="hint">Holidays, bank holidays and sick days</p></div>
+  <div><label for="hours">Billable hours per week</label><input type="number" id="hours" name="hours" min="1" max="80" value="25"><p class="hint">Hours you can charge for</p></div>
+</div></form>
+    <div class="panel preview"><div id="calc-out" class="calc-out" aria-live="polite"></div>
+      <p class="note">Calculated on your device. Figures are rounded to the nearest penny.</p></div>
+  </div>
+<p class="emb-by">Free Freelance hourly rate calculator by <a href="https://etoolbox.co.uk/hourly-rate-calculator/" target="_blank" rel="noopener">etoolbox.co.uk</a></p>
+<script src="/assets/calc.js"></script></body></html>
