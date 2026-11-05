@@ -221,7 +221,7 @@ def head(title, desc, path, extra="", body_class=""):
 <body{(' class="' + body_class + '"') if body_class else ""}>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header"><div class="wrap">
-  <a class="logo" href="/" aria-label="etoolbox home">{LOGO}<span>e<b>tool</b>box</span></a>
+  <a class="logo" href="/" aria-label="etoolbox home">{LOGO}<span>e<b>tool</b>box</span><span class="pro-badge" title="Pro is active on this device">PRO</span></a>
   <div class="search" role="search"><label for="tool-search" class="sr-only">Search tools</label>
     {svg("search", "ic search-ic")}<input type="search" id="tool-search" placeholder="Search {len(TOOLS)} free tools…" title="Tip: press / to search" autocomplete="off" aria-controls="search-results" aria-expanded="false">
     <ul class="search-results" id="search-results" role="listbox" hidden></ul></div>

@@ -58,7 +58,7 @@
   function init(form) {
     var kind = form.getAttribute("data-doc"), isQuote = kind === "quote", label = isQuote ? "Quote" : "Invoice";
     var tbody = document.getElementById("items"), preview = document.getElementById("doc");
-    var saved = load(), remember = ["bizname", "bizaddress", "bizemail", "bizphone", "vatno", "payment", "currency", "cur2", "logosize"];
+    var saved = load(), remember = ["bizname", "bizaddress", "bizemail", "bizphone", "vatno", "payment", "currency", "cur2", "logosize", "docstyle"];
     var logo = getLogo(), rates = null, rateFor = "";
     var pro = function () { return !!(window.ETBPro && ETBPro.isPro()); };
     var TKEY = "title_" + kind, forceDefault = false;
@@ -123,20 +123,40 @@
       var due = f.due.value ? '<div><span>' + (isQuote ? "Valid until" : "Due date") + "</span><strong>" + fmtDate(f.due.value) + "</strong></div>" : "";
       var size = { s: 44, m: 64, l: 90 }[f.logosize.value || "m"];
       var logoHtml = logo ? '<div class="doc-logo' + (pro() ? "" : " locked") + '"><img src="' + logo + '" alt="" style="max-height:' + size + 'px">' + (pro() ? "" : '<span class="pro-tag">PRO</span>') + "</div>" : "";
-      preview.innerHTML =
-        '<div class="doc-top"><div>' + logoHtml + '<div class="doc-biz">' + (esc(f.bizname.value) || "Your business name") + '</div><div class="muted">' + nl(f.bizaddress.value) + "</div>" +
-        '<div class="muted">' + [esc(f.bizemail.value), esc(f.bizphone.value)].filter(Boolean).join(" · ") + "</div>" +
-        (f.vatno.value ? '<div class="muted">VAT reg. no. ' + esc(f.vatno.value) + "</div>" : "") + "</div>" +
-        '<div class="doc-title">' + esc(title().toUpperCase()) + "</div></div>" +
-        '<div class="doc-meta"><div class="doc-to"><span>' + (isQuote ? "Quote for" : "Bill to") + "</span><strong>" + (esc(f.client.value) || "Client name") + "</strong><div>" + nl(f.clientaddress.value) + "</div></div>" +
-        '<div class="doc-facts"><div><span>' + esc(title()) + " no.</span><strong>" + esc(f.number.value) + "</strong></div><div><span>Date</span><strong>" + fmtDate(f.date.value) + "</strong></div>" + due +
-        (cur !== "GBP" ? "<div><span>Currency</span><strong>" + cur + "</strong></div>" : "") + "</div></div>" +
-        '<table class="doc-items"><thead><tr><th>Description</th><th class="n">Qty</th><th class="n">Unit price</th>' + (anyVat ? '<th class="n">VAT</th>' : "") + '<th class="n">Amount</th></tr></thead><tbody>' + rows + "</tbody></table>" +
-        '<table class="doc-totals"><tr><td>Subtotal</td><td class="n">' + m(c.subtotal) + "</td></tr>" + vatRows +
+      var T = esc(title()), bizLines = [nl(f.bizaddress.value), esc(f.bizemail.value), esc(f.bizphone.value), f.vatno.value ? "VAT reg. no. " + esc(f.vatno.value) : ""].filter(Boolean);
+      var itemsHead = '<table class="doc-items"><thead><tr><th>Description</th><th class="n">Qty</th><th class="n">Unit price</th>' + (anyVat ? '<th class="n">VAT</th>' : "") + '<th class="n">Amount</th></tr></thead><tbody>' + rows + "</tbody></table>";
+      var totals = '<table class="doc-totals"><tr><td>Subtotal</td><td class="n">' + m(c.subtotal) + "</td></tr>" + vatRows +
         '<tr class="grand"><td>Total' + (isQuote ? "" : " due") + '</td><td class="n" id="doc-total">' + m(c.total) + "</td></tr>" +
-        (conv ? '<tr class="conv"><td>Approx. in ' + cur2 + '</td><td class="n" id="doc-total2">' + money(c.total * rate, cur2) + '</td></tr><tr class="conv-note"><td colspan="2">1 ' + cur + " = " + rate + " " + cur2 + "</td></tr>" : "") + "</table>" +
-        (f.payment.value ? '<div class="doc-notes"><span>' + (isQuote ? "Terms" : "Payment details") + "</span><div>" + nl(f.payment.value) + "</div></div>" : "") +
-        (f.notes.value ? '<div class="doc-notes"><span>Notes</span><div>' + nl(f.notes.value) + "</div></div>" : "");
+        (conv ? '<tr class="conv"><td>Approx. in ' + cur2 + '</td><td class="n" id="doc-total2">' + money(c.total * rate, cur2) + '</td></tr><tr class="conv-note"><td colspan="2">1 ' + cur + " = " + rate + " " + cur2 + "</td></tr>" : "") + "</table>";
+      var powered = pro() ? "" : '<div class="doc-powered">Powered by <img src="/assets/logo-face.svg" alt="" width="11" height="11"> <b>etoolbox</b></div>';
+      var style = f.docstyle.value || "bold";
+      preview.className = "doc " + style;
+      if (style === "bold") {
+        preview.innerHTML =
+          '<div class="b-head"><div class="doc-title">' + esc(title().toUpperCase()) + "</div>" + logoHtml + "</div>" +
+          '<div class="doc-biz">' + (esc(f.bizname.value) || "Your business name") + '</div><div class="b-bizlines">' + bizLines.join("<br>") + "</div>" +
+          '<div class="b-meta"><div class="doc-to"><h4>' + (isQuote ? "Quote for" : "Bill to") + "</h4><strong>" + (esc(f.client.value) || "Client name") + "</strong><div>" + nl(f.clientaddress.value) + "</div></div>" +
+          '<dl class="doc-facts"><dt>' + T + " #</dt><dd>" + esc(f.number.value) + "</dd><dt>" + T + " date</dt><dd>" + fmtDate(f.date.value) + "</dd>" +
+          (f.due.value ? "<dt>" + (isQuote ? "Valid until" : "Due date") + "</dt><dd>" + fmtDate(f.due.value) + "</dd>" : "") +
+          (cur !== "GBP" ? "<dt>Currency</dt><dd>" + cur + "</dd>" : "") + "</dl></div>" +
+          itemsHead + totals +
+          (f.notes.value ? '<div class="doc-notes"><h4>Notes</h4><div>' + nl(f.notes.value) + "</div></div>" : "") +
+          '<div class="b-foot"><div class="b-thanks">Thank you</div>' +
+          (f.payment.value ? '<div class="b-terms"><h4>' + (isQuote ? "Terms & conditions" : "Payment details") + "</h4><div>" + nl(f.payment.value) + "</div></div>" : "") + "</div>" + powered;
+      } else {
+        preview.innerHTML =
+          '<div class="doc-top"><div>' + logoHtml + '<div class="doc-biz">' + (esc(f.bizname.value) || "Your business name") + '</div><div class="muted">' + nl(f.bizaddress.value) + "</div>" +
+          '<div class="muted">' + [esc(f.bizemail.value), esc(f.bizphone.value)].filter(Boolean).join(" · ") + "</div>" +
+          (f.vatno.value ? '<div class="muted">VAT reg. no. ' + esc(f.vatno.value) + "</div>" : "") + "</div>" +
+          '<div class="doc-title">' + esc(title().toUpperCase()) + "</div></div>" +
+          '<div class="doc-meta"><div class="doc-to"><span>' + (isQuote ? "Quote for" : "Bill to") + "</span><strong>" + (esc(f.client.value) || "Client name") + "</strong><div>" + nl(f.clientaddress.value) + "</div></div>" +
+          '<div class="doc-facts"><div><span>' + T + " no.</span><strong>" + esc(f.number.value) + "</strong></div><div><span>Date</span><strong>" + fmtDate(f.date.value) + "</strong></div>" + due +
+          (cur !== "GBP" ? "<div><span>Currency</span><strong>" + cur + "</strong></div>" : "") + "</div></div>" +
+          itemsHead + totals +
+          (f.payment.value ? '<div class="doc-notes"><span>' + (isQuote ? "Terms" : "Payment details") + "</span><div>" + nl(f.payment.value) + "</div></div>" : "") +
+          (f.notes.value ? '<div class="doc-notes"><span>Notes</span><div>' + nl(f.notes.value) + "</div></div>" : "") + powered;
+      }
+      document.getElementById("pro-active").hidden = !pro();
       preview.setAttribute("data-total", c.total);
       preview.setAttribute("data-currency", cur);
       var keep = load(); keep.defaultVat = (items()[0] || {}).vat; keep.nextNumber = keep.nextNumber || saved.nextNumber || {};

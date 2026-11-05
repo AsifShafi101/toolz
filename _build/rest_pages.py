@@ -38,6 +38,7 @@ pricing = head("Pricing – Free Tools & etoolbox Pro | etoolbox",
         <li>Your logo on invoices &amp; quotes</li>
         <li>Your logo in QR codes</li>
         <li>Table cards without etoolbox branding</li>
+        <li>Invoices and quotes without “Powered by etoolbox”, with your own heading (Tax invoice, Receipt…)</li>
       </ul>
       <a class="btn" data-plan="monthly" href="#">Go Pro monthly</a>
       <a class="btn secondary" data-plan="yearly" href="#" style="margin-top:10px">Go Pro yearly</a>

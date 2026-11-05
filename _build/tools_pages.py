@@ -123,6 +123,9 @@ def doc_ui(kind):
           <label class="check" style="margin:0">Size <select id="logosize" name="logosize" style="width:auto;padding:6px 8px"><option value="s">Small</option><option value="m" selected>Medium</option><option value="l">Large</option></select></label></div>
         <p id="logo-msg" class="hint" role="status" style="margin:6px 0 0"></p>
         <p id="logo-pro-note" class="hint" hidden style="margin:4px 0 0">Try it in the preview for free. <a href="/pricing/">Pro</a> lets you download {kind}s with your logo.</p>
+        <label for="docstyle">Design</label>
+        <select id="docstyle" name="docstyle"><option value="bold">Bold – big heading, thank-you footer</option><option value="simple">Simple – minimal</option></select>
+        <p id="pro-active" class="good" hidden style="margin:8px 0 0">⭐ Pro is active: your logo and heading are included, and there's no “Powered by etoolbox”.</p>
       </fieldset>
       <fieldset><legend>Currency</legend>
         <div class="row"><div><label for="currency" style="margin-top:0">{"Quote" if is_q else "Invoice"} currency</label><select id="currency" name="currency"></select></div>

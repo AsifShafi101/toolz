@@ -359,6 +359,8 @@
     return { isPro: isPro, activate: activate, deactivate: function () { put(null); }, info: get, normalise: norm };
   })();
   window.ETBPro = ETBPro;
+  function markPro() { document.documentElement.classList.toggle("is-pro", ETBPro.isPro()); }
+  markPro(); document.addEventListener("etb-pro-change", markPro);
 
 
   /* ---------- Usage counter & feedback ---------- */

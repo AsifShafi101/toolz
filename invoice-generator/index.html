@@ -28,7 +28,7 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header"><div class="wrap">
-  <a class="logo" href="/" aria-label="etoolbox home"><span class="logo-mark cube3d" aria-hidden="true"><span class="cube3d-in"><i class="cf cf1"></i><i class="cf cf2"></i><i class="cf cf3"></i><i class="cf cf4"></i><i class="cf cf5"></i><i class="cf cf6"></i></span></span><span>e<b>tool</b>box</span></a>
+  <a class="logo" href="/" aria-label="etoolbox home"><span class="logo-mark cube3d" aria-hidden="true"><span class="cube3d-in"><i class="cf cf1"></i><i class="cf cf2"></i><i class="cf cf3"></i><i class="cf cf4"></i><i class="cf cf5"></i><i class="cf cf6"></i></span></span><span>e<b>tool</b>box</span><span class="pro-badge" title="Pro is active on this device">PRO</span></a>
   <div class="search" role="search"><label for="tool-search" class="sr-only">Search tools</label>
     <svg class="ic search-ic" aria-hidden="true"><use href="/assets/icons.svg#search"/></svg><input type="search" id="tool-search" placeholder="Search 82 free tools…" title="Tip: press / to search" autocomplete="off" aria-controls="search-results" aria-expanded="false">
     <ul class="search-results" id="search-results" role="listbox" hidden></ul></div>
@@ -61,6 +61,9 @@
           <label class="check" style="margin:0">Size <select id="logosize" name="logosize" style="width:auto;padding:6px 8px"><option value="s">Small</option><option value="m" selected>Medium</option><option value="l">Large</option></select></label></div>
         <p id="logo-msg" class="hint" role="status" style="margin:6px 0 0"></p>
         <p id="logo-pro-note" class="hint" hidden style="margin:4px 0 0">Try it in the preview for free. <a href="/pricing/">Pro</a> lets you download invoices with your logo.</p>
+        <label for="docstyle">Design</label>
+        <select id="docstyle" name="docstyle"><option value="bold">Bold – big heading, thank-you footer</option><option value="simple">Simple – minimal</option></select>
+        <p id="pro-active" class="good" hidden style="margin:8px 0 0">⭐ Pro is active: your logo and heading are included, and there's no “Powered by etoolbox”.</p>
       </fieldset>
       <fieldset><legend>Currency</legend>
         <div class="row"><div><label for="currency" style="margin-top:0">Invoice currency</label><select id="currency" name="currency"></select></div>
