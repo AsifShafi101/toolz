@@ -128,7 +128,7 @@
       var totals = '<table class="doc-totals"><tr><td>Subtotal</td><td class="n">' + m(c.subtotal) + "</td></tr>" + vatRows +
         '<tr class="grand"><td>Total' + (isQuote ? "" : " due") + '</td><td class="n" id="doc-total">' + m(c.total) + "</td></tr>" +
         (conv ? '<tr class="conv"><td>Approx. in ' + cur2 + '</td><td class="n" id="doc-total2">' + money(c.total * rate, cur2) + '</td></tr><tr class="conv-note"><td colspan="2">1 ' + cur + " = " + rate + " " + cur2 + "</td></tr>" : "") + "</table>";
-      var powered = pro() ? "" : '<div class="doc-powered">Powered by <img src="/assets/logo-face.svg" alt="" width="11" height="11"> <b>etoolbox</b></div>';
+      var powered = pro() ? "" : '<div class="doc-powered">Powered by <img src="/assets/logo-face.svg" alt="" width="11" height="11"> <b>etoolbox.co.uk</b></div>';
       var style = f.docstyle.value || "bold";
       preview.className = "doc " + style;
       if (style === "bold") {
