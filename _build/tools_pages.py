@@ -139,6 +139,10 @@ def doc_ui(kind):
           <div><label for="date">Date</label><input type="date" id="date" name="date"></div>
         </div>
         <label for="due">{"Valid until" if is_q else "Payment due"}</label><input type="date" id="due" name="due">
+        <label for="doctitle">Document heading <span class="badge pro">PRO</span></label>
+        <input type="text" id="doctitle" name="doctitle" list="doctitle-list" maxlength="40" placeholder="{"QUOTE" if is_q else "INVOICE"}" autocomplete="off">
+        <datalist id="doctitle-list">{"".join(f'<option value="{t}">' for t in (["Quote", "Quotation", "Estimate", "Proposal"] if is_q else ["Invoice", "Tax invoice", "Pro forma invoice", "Receipt", "Bill", "Credit note", "Statement"]))}</datalist>
+        <p id="title-pro-note" class="hint" hidden style="margin:4px 0 0">Try it in the preview for free. <a href="/pricing/">Pro</a> lets you download with your own heading.</p>
       </fieldset>
       <fieldset><legend>Items</legend>
         <table class="items-table"><thead><tr><th>Description</th><th>Qty</th><th>Unit</th><th>Price</th><th>VAT</th><th></th></tr></thead><tbody id="items"></tbody></table>
@@ -158,11 +162,11 @@ def doc_ui(kind):
   </div>
   <div class="modal" id="pro-modal" hidden role="dialog" aria-modal="true" aria-labelledby="pro-title"><div class="modal-box">
     <button type="button" class="modal-x" data-close aria-label="Close">×</button>
-    <h3 id="pro-title" style="margin-top:0">Your logo is a Pro feature ⭐</h3>
-    <p>Put your brand on every {kind}. Pro also includes dynamic QR codes, scan stats and unbranded table cards.</p>
+    <h3 id="pro-title" style="margin-top:0">That's a Pro feature ⭐</h3>
+    <p>Put your logo and your own heading (like “Tax invoice” or “Receipt”) on every {kind}. Pro also includes dynamic QR codes, scan stats and unbranded table cards.</p>
     <label for="pro-key">Have a Pro key?</label><div class="row" style="grid-template-columns:1fr auto"><input type="text" id="pro-key" placeholder="ETB-XXXX-XXXX-XXXX-XXXX" autocomplete="off"><button type="button" class="btn" id="pro-activate">Unlock</button></div>
     <p id="pro-msg" class="muted" role="status"></p>
-    <div class="btn-row"><a class="btn secondary" href="/pricing/">See Pro plans</a><button type="button" class="btn secondary" id="pro-nologo">Download without logo</button></div>
+    <div class="btn-row"><a class="btn secondary" href="/pricing/">See Pro plans</a><button type="button" class="btn secondary" id="pro-nologo">Download the free version</button></div>
   </div></div>"""
 
 

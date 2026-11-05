@@ -61,6 +61,10 @@
     var saved = load(), remember = ["bizname", "bizaddress", "bizemail", "bizphone", "vatno", "payment", "currency", "cur2", "logosize"];
     var logo = getLogo(), rates = null, rateFor = "";
     var pro = function () { return !!(window.ETBPro && ETBPro.isPro()); };
+    var TKEY = "title_" + kind, forceDefault = false;
+    var title = function () { var t = forceDefault ? "" : (form.elements.doctitle.value || "").trim(); return t || label; };
+    var customTitle = function () { return title() !== label; };
+    if (saved[TKEY]) form.elements.doctitle.value = saved[TKEY];
 
     // Currency dropdowns
     var curOpts = CURRENCIES.map(function (c) { return '<option value="' + c + '">' + c + " – " + esc(curName(c)) + "</option>"; }).join("");
@@ -123,9 +127,9 @@
         '<div class="doc-top"><div>' + logoHtml + '<div class="doc-biz">' + (esc(f.bizname.value) || "Your business name") + '</div><div class="muted">' + nl(f.bizaddress.value) + "</div>" +
         '<div class="muted">' + [esc(f.bizemail.value), esc(f.bizphone.value)].filter(Boolean).join(" · ") + "</div>" +
         (f.vatno.value ? '<div class="muted">VAT reg. no. ' + esc(f.vatno.value) + "</div>" : "") + "</div>" +
-        '<div class="doc-title">' + label.toUpperCase() + "</div></div>" +
+        '<div class="doc-title">' + esc(title().toUpperCase()) + "</div></div>" +
         '<div class="doc-meta"><div class="doc-to"><span>' + (isQuote ? "Quote for" : "Bill to") + "</span><strong>" + (esc(f.client.value) || "Client name") + "</strong><div>" + nl(f.clientaddress.value) + "</div></div>" +
-        '<div class="doc-facts"><div><span>' + label + " no.</span><strong>" + esc(f.number.value) + "</strong></div><div><span>Date</span><strong>" + fmtDate(f.date.value) + "</strong></div>" + due +
+        '<div class="doc-facts"><div><span>' + esc(title()) + " no.</span><strong>" + esc(f.number.value) + "</strong></div><div><span>Date</span><strong>" + fmtDate(f.date.value) + "</strong></div>" + due +
         (cur !== "GBP" ? "<div><span>Currency</span><strong>" + cur + "</strong></div>" : "") + "</div></div>" +
         '<table class="doc-items"><thead><tr><th>Description</th><th class="n">Qty</th><th class="n">Unit price</th>' + (anyVat ? '<th class="n">VAT</th>' : "") + '<th class="n">Amount</th></tr></thead><tbody>' + rows + "</tbody></table>" +
         '<table class="doc-totals"><tr><td>Subtotal</td><td class="n">' + m(c.subtotal) + "</td></tr>" + vatRows +
@@ -137,6 +141,8 @@
       preview.setAttribute("data-currency", cur);
       var keep = load(); keep.defaultVat = (items()[0] || {}).vat; keep.nextNumber = keep.nextNumber || saved.nextNumber || {};
       remember.forEach(function (k) { keep[k] = f[k].value; });
+      keep[TKEY] = f.doctitle.value;
+      document.getElementById("title-pro-note").hidden = !customTitle() || pro();
       save(keep);
       document.getElementById("logo-remove").hidden = !logo;
       document.getElementById("logo-pro-note").hidden = !logo || pro();
@@ -180,22 +186,22 @@
 
     function doPrint(withoutLogo) {
       var keepLogo = logo;
-      if (withoutLogo) { logo = ""; }
+      if (withoutLogo) { logo = ""; forceDefault = true; }
       render();
       var s = load(); s.nextNumber = s.nextNumber || {};
       var mm = /(\d+)\s*$/.exec(form.elements.number.value); if (mm) s.nextNumber[kind] = parseInt(mm[1], 10) + 1;
       save(s); saved = s;
-      var t = document.title; document.title = label + " " + form.elements.number.value;
+      var t = document.title; document.title = title() + " " + form.elements.number.value;
       window.print();
       document.title = t;
-      if (withoutLogo) { logo = keepLogo; render(); }
+      if (withoutLogo) { logo = keepLogo; forceDefault = false; render(); }
     }
 
     document.getElementById("add-row").addEventListener("click", function () { addRow(); render(); tbody.lastChild.querySelector(".i-desc").focus(); });
     form.addEventListener("input", function (e) { if (e.target.name === "rate2") rateFor = form.elements.currency.value + ">" + form.elements.cur2.value; render(); });
     form.addEventListener("change", function (e) { if (e.target.name === "currency" || e.target.name === "cur2") { rateFor = ""; fetchRate(); } render(); });
     form.addEventListener("submit", function (e) { e.preventDefault(); });
-    document.getElementById("print-doc").addEventListener("click", function () { if (logo && !pro()) { openModal(); return; } doPrint(); });
+    document.getElementById("print-doc").addEventListener("click", function () { if ((logo || customTitle()) && !pro()) { openModal(); return; } doPrint(); });
     document.getElementById("clear-doc").addEventListener("click", function () {
       ["client", "clientaddress", "notes"].forEach(function (k) { form.elements[k].value = ""; });
       tbody.innerHTML = ""; addRow(); render();

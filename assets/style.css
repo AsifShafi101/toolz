@@ -176,14 +176,15 @@ details.style-opts summary { cursor: pointer; font-weight: 700; }
 .doc-totals .grand td { border-top: 2px solid #1d2433; font-weight: 800; font-size: 15px; padding-top: 8px; }
 .doc-notes { margin-top: 18px; }
 @media print {
-  @page { size: A4; margin: 14mm; }
-  :root:has(#doc), body:has(#doc) { background: #fff; }
-  body:has(#doc) .site-header, body:has(#doc) .site-footer, body:has(#doc) .page-head,
-  body:has(#doc) .inv > form, body:has(#doc) main section { display: none !important; }
-  body:has(#doc) .wrap { max-width: none; padding: 0; }
-  body:has(#doc) .inv { display: block; padding: 0; }
+  /* margin 0 stops the browser adding its own date, title and web address to the page */
+  @page { size: A4; margin: 0; }
+  :root:has(#doc), body:has(#doc) { background: #fff !important; }
+  body:has(#doc) .site-header, body:has(#doc) .site-footer, body:has(#doc) #page-net, body:has(#doc) .fad,
+  body:has(#doc) .wrap > *:not(.inv), body:has(#doc) .inv > form, body:has(#doc) main section { display: none !important; }
+  body:has(#doc) .wrap { max-width: none; padding: 0; margin: 0; }
+  body:has(#doc) .inv { display: block; padding: 0; margin: 0; }
   body:has(#doc) .doc-wrap { position: static; }
-  #doc { width: auto; aspect-ratio: auto; overflow: visible; border: 0; box-shadow: none; padding: 0; font-size: 10.5pt; }
+  #doc { width: auto; aspect-ratio: auto; overflow: visible; border: 0; box-shadow: none; padding: 14mm 15mm; font-size: 10.5pt; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
   #doc .doc-title { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
 
