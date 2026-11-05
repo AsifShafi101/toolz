@@ -10,7 +10,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); 
   await p.fill('#doctitle', 'Tax invoice');
   ok((await p.textContent('#doc .doc-title')) === 'TAX INVOICE', 'custom heading shows in preview');
   ok(await p.isVisible('#title-pro-note'), 'free users see the Pro note');
-  ok((await p.textContent('#doc .doc-powered')).includes('Powered by etoolbox.co.uk'), 'free: Powered by etoolbox.co.uk shown');
+  ok((await p.textContent('#doc .doc-powered')).replace(/\s+/g, ' ').includes('Powered by etoolbox.co.uk'), 'free: Powered by etoolbox.co.uk shown');
   await p.evaluate(() => { window.print = () => { window.__printed = (window.__printed || 0) + 1; }; });
   await p.click('#print-doc');
   ok(await p.isVisible('#pro-modal') && !(await p.evaluate(() => window.__printed)), 'free user: custom heading opens the Pro box instead of printing');
