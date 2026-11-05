@@ -63,6 +63,22 @@
         <p id="logo-pro-note" class="hint" hidden style="margin:4px 0 0">Try it in the preview for free. <a href="/pricing/">Pro</a> lets you download quotes with your logo.</p>
         <label for="docstyle">Design</label>
         <select id="docstyle" name="docstyle"><option value="bold">Bold – big heading, thank-you footer</option><option value="simple">Simple – minimal</option></select>
+        <label>Colours <span class="badge pro">PRO</span></label>
+        <div class="swatches" id="swatches" role="group" aria-label="Colour sets">
+          <button type="button" class="sw" data-c="#12355b,#d9483b,#12355b" title="Navy &amp; red"><i style="--a:#12355b;--b:#d9483b"></i></button>
+          <button type="button" class="sw" data-c="#14213d,#ff6b35,#2a9d8f" title="Ink, orange &amp; teal"><i style="--a:#14213d;--b:#ff6b35"></i></button>
+          <button type="button" class="sw" data-c="#0f5e56,#e9a23b,#0f5e56" title="Teal &amp; gold"><i style="--a:#0f5e56;--b:#e9a23b"></i></button>
+          <button type="button" class="sw" data-c="#1f1f1f,#c8a24a,#1f1f1f" title="Black &amp; gold"><i style="--a:#1f1f1f;--b:#c8a24a"></i></button>
+          <button type="button" class="sw" data-c="#4b2a7b,#e0457b,#4b2a7b" title="Purple &amp; pink"><i style="--a:#4b2a7b;--b:#e0457b"></i></button>
+          <button type="button" class="sw" data-c="#1d4d2b,#7cb342,#1d4d2b" title="Forest &amp; lime"><i style="--a:#1d4d2b;--b:#7cb342"></i></button>
+          <button type="button" class="sw" data-c="#334155,#f97362,#0ea5e9" title="Slate, coral &amp; sky"><i style="--a:#334155;--b:#f97362"></i></button>
+        </div>
+        <div class="row three colour-row">
+          <label class="cpick">Main<input type="color" id="c1" name="c1" value="#12355b"></label>
+          <label class="cpick">Accent<input type="color" id="c2" name="c2" value="#d9483b"></label>
+          <label class="cpick">Total box<input type="color" id="c3" name="c3" value="#12355b"></label>
+        </div>
+        <p id="colour-pro-note" class="hint" hidden style="margin:4px 0 0">Try colours in the preview for free. <a href="/pricing/">Pro</a> lets you download in your brand colours.</p>
         <p id="pro-active" class="good" hidden style="margin:8px 0 0">⭐ Pro is active: your logo and heading are included, and there's no “Powered by etoolbox”.</p>
       </fieldset>
       <fieldset><legend>Currency</legend>
@@ -104,7 +120,7 @@
   <div class="modal" id="pro-modal" hidden role="dialog" aria-modal="true" aria-labelledby="pro-title"><div class="modal-box">
     <button type="button" class="modal-x" data-close aria-label="Close">×</button>
     <h3 id="pro-title" style="margin-top:0">That's a Pro feature ⭐</h3>
-    <p>Put your logo and your own heading (like “Tax invoice” or “Receipt”) on every quote. Pro also includes dynamic QR codes, scan stats and unbranded table cards.</p>
+    <p>Put your logo, your brand colours and your own heading (like “Tax invoice” or “Receipt”) on every quote, with no “Powered by etoolbox”. Pro also includes dynamic QR codes, scan stats and unbranded table cards.</p>
     <label for="pro-key">Have a Pro key?</label><div class="row" style="grid-template-columns:1fr auto"><input type="text" id="pro-key" placeholder="ETB-XXXX-XXXX-XXXX-XXXX" autocomplete="off"><button type="button" class="btn" id="pro-activate">Unlock</button></div>
     <p id="pro-msg" class="muted" role="status"></p>
     <div class="btn-row"><a class="btn secondary" href="/pricing/">See Pro plans</a><button type="button" class="btn secondary" id="pro-nologo">Download the free version</button></div>

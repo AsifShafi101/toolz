@@ -137,6 +137,20 @@
     return lines;
   }
 
+  var MONO = new Image(); MONO.src = "/assets/logo-face.svg";
+  // "Powered by [logo] etoolbox.co.uk" – same footer as invoices and quotes
+  function drawPowered(ctx, cx, y, size, font) {
+    var a = "Powered by", b = "etoolbox.co.uk", g = size * 0.45, logo = size * 1.5;
+    ctx.font = "400 " + size + "px Arial, Helvetica, sans-serif"; var wa = ctx.measureText(a).width;
+    ctx.font = "700 " + size + "px Arial, Helvetica, sans-serif"; var wb = ctx.measureText(b).width;
+    var hasLogo = MONO.complete && MONO.naturalWidth > 0, total = wa + g + (hasLogo ? logo + g : 0) + wb, x = cx - total / 2;
+    ctx.textAlign = "left"; ctx.textBaseline = "middle";
+    ctx.fillStyle = "#6b7280"; ctx.font = "400 " + size + "px Arial, Helvetica, sans-serif"; ctx.fillText(a, x, y); x += wa + g;
+    if (hasLogo) { ctx.drawImage(MONO, x, y - logo / 2, logo, logo); x += logo + g; }
+    ctx.fillStyle = "#1d2433"; ctx.font = "700 " + size + "px Arial, Helvetica, sans-serif"; ctx.fillText(b, x, y);
+    ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+  }
+
   function drawCard(qr, opts) {
     var W = 1240, H = 1748, c = document.createElement("canvas"); // A6 at 300dpi
     c.width = W; c.height = H;
@@ -155,7 +169,7 @@
     ctx.drawImage(q, (W - 860) / 2, 490);
     ctx.fillStyle = "#4a5672"; ctx.font = "500 46px " + font;
     wrapText(ctx, opts.caption || "", W - 200).slice(0, 2).forEach(function (l, i) { ctx.fillText(l, W / 2, 1450 + i * 60); });
-    if (opts.watermark) { ctx.fillStyle = "#9aa3b8"; ctx.font = "500 30px " + font; ctx.fillText("Free QR codes at etoolbox.co.uk", W / 2, H - 50); }
+    if (opts.watermark) drawPowered(ctx, W / 2, H - 62, 32, font);
     return c;
   }
 

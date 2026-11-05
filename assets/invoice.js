@@ -58,12 +58,18 @@
   function init(form) {
     var kind = form.getAttribute("data-doc"), isQuote = kind === "quote", label = isQuote ? "Quote" : "Invoice";
     var tbody = document.getElementById("items"), preview = document.getElementById("doc");
-    var saved = load(), remember = ["bizname", "bizaddress", "bizemail", "bizphone", "vatno", "payment", "currency", "cur2", "logosize", "docstyle"];
+    var saved = load(), remember = ["bizname", "bizaddress", "bizemail", "bizphone", "vatno", "payment", "currency", "cur2", "logosize", "docstyle", "c1", "c2", "c3"];
     var logo = getLogo(), rates = null, rateFor = "";
     var pro = function () { return !!(window.ETBPro && ETBPro.isPro()); };
     var TKEY = "title_" + kind, forceDefault = false;
     var title = function () { var t = forceDefault ? "" : (form.elements.doctitle.value || "").trim(); return t || label; };
     var customTitle = function () { return title() !== label; };
+    var DEF = ["#12355b", "#d9483b", "#12355b"];
+    var colours = function () { return forceDefault ? DEF : ["c1", "c2", "c3"].map(function (k, i) { return /^#[0-9a-f]{6}$/i.test(form.elements[k].value) ? form.elements[k].value : DEF[i]; }); };
+    var customColours = function () { return colours().join() !== DEF.join(); };
+    Array.prototype.forEach.call(document.querySelectorAll("#swatches .sw"), function (b) {
+      b.addEventListener("click", function () { b.getAttribute("data-c").split(",").forEach(function (c, i) { form.elements["c" + (i + 1)].value = c; }); render(); });
+    });
     if (saved[TKEY]) form.elements.doctitle.value = saved[TKEY];
 
     // Currency dropdowns
@@ -128,12 +134,15 @@
       var totals = '<table class="doc-totals"><tr><td>Subtotal</td><td class="n">' + m(c.subtotal) + "</td></tr>" + vatRows +
         '<tr class="grand"><td>Total' + (isQuote ? "" : " due") + '</td><td class="n" id="doc-total">' + m(c.total) + "</td></tr>" +
         (conv ? '<tr class="conv"><td>Approx. in ' + cur2 + '</td><td class="n" id="doc-total2">' + money(c.total * rate, cur2) + '</td></tr><tr class="conv-note"><td colspan="2">1 ' + cur + " = " + rate + " " + cur2 + "</td></tr>" : "") + "</table>";
-      var powered = pro() ? "" : '<div class="doc-powered">Powered by <img src="/assets/logo-face.svg" alt="" width="11" height="11"> <b>etoolbox.co.uk</b></div>';
+      var powered = pro() ? "" : '<div class="doc-powered"><span>Powered by</span><img src="/assets/logo-face.svg" alt=""><b>etoolbox.co.uk</b></div>';
+      var C = colours(); preview.style.setProperty("--c1", C[0]); preview.style.setProperty("--c2", C[1]); preview.style.setProperty("--c3", C[2]);
+      var biz = esc(f.bizname.value);
+      var thanks = biz ? '<div class="b-thanks"><em>Thank you for doing business with</em><strong>' + biz + "</strong></div>" : '<div class="b-thanks"><em>Thank you for your business</em></div>';
       var style = f.docstyle.value || "bold";
       preview.className = "doc " + style;
       if (style === "bold") {
         preview.innerHTML =
-          '<div class="b-head"><div class="doc-title">' + esc(title().toUpperCase()) + "</div>" + logoHtml + "</div>" +
+          '<div class="b-band"></div><div class="b-head"><div><div class="doc-title">' + esc(title().toUpperCase()) + '</div><div class="b-rule"></div></div>' + logoHtml + "</div>" +
           '<div class="doc-biz">' + (esc(f.bizname.value) || "Your business name") + '</div><div class="b-bizlines">' + bizLines.join("<br>") + "</div>" +
           '<div class="b-meta"><div class="doc-to"><h4>' + (isQuote ? "Quote for" : "Bill to") + "</h4><strong>" + (esc(f.client.value) || "Client name") + "</strong><div>" + nl(f.clientaddress.value) + "</div></div>" +
           '<dl class="doc-facts"><dt>' + T + " #</dt><dd>" + esc(f.number.value) + "</dd><dt>" + T + " date</dt><dd>" + fmtDate(f.date.value) + "</dd>" +
@@ -141,7 +150,7 @@
           (cur !== "GBP" ? "<dt>Currency</dt><dd>" + cur + "</dd>" : "") + "</dl></div>" +
           itemsHead + totals +
           (f.notes.value ? '<div class="doc-notes"><h4>Notes</h4><div>' + nl(f.notes.value) + "</div></div>" : "") +
-          '<div class="b-foot"><div class="b-thanks">Thank you</div>' +
+          '<div class="b-foot">' + thanks +
           (f.payment.value ? '<div class="b-terms"><h4>' + (isQuote ? "Terms & conditions" : "Payment details") + "</h4><div>" + nl(f.payment.value) + "</div></div>" : "") + "</div>" + powered;
       } else {
         preview.innerHTML =
@@ -163,6 +172,7 @@
       remember.forEach(function (k) { keep[k] = f[k].value; });
       keep[TKEY] = f.doctitle.value;
       document.getElementById("title-pro-note").hidden = !customTitle() || pro();
+      document.getElementById("colour-pro-note").hidden = !customColours() || pro();
       save(keep);
       document.getElementById("logo-remove").hidden = !logo;
       document.getElementById("logo-pro-note").hidden = !logo || pro();
@@ -221,7 +231,7 @@
     form.addEventListener("input", function (e) { if (e.target.name === "rate2") rateFor = form.elements.currency.value + ">" + form.elements.cur2.value; render(); });
     form.addEventListener("change", function (e) { if (e.target.name === "currency" || e.target.name === "cur2") { rateFor = ""; fetchRate(); } render(); });
     form.addEventListener("submit", function (e) { e.preventDefault(); });
-    document.getElementById("print-doc").addEventListener("click", function () { if ((logo || customTitle()) && !pro()) { openModal(); return; } doPrint(); });
+    document.getElementById("print-doc").addEventListener("click", function () { if ((logo || customTitle() || customColours()) && !pro()) { openModal(); return; } doPrint(); });
     document.getElementById("clear-doc").addEventListener("click", function () {
       ["client", "clientaddress", "notes"].forEach(function (k) { form.elements[k].value = ""; });
       tbody.innerHTML = ""; addRow(); render();
