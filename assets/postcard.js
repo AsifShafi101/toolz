@@ -89,6 +89,19 @@
     });
   }
 
+  var MONO = new Image(); MONO.src = "/assets/logo-face.svg";
+  // Standard "Powered by [logo] etoolbox.co.uk" footer, the same as on invoices, quotes and table cards
+  function powered(ctx, right, y, size) {
+    var a = "Powered by", b = "etoolbox.co.uk", g = size * 0.45, logo = size * 1.5;
+    ctx.font = "400 " + size + "px Arial, Helvetica, sans-serif"; var wa = ctx.measureText(a).width;
+    ctx.font = "700 " + size + "px Arial, Helvetica, sans-serif"; var wb = ctx.measureText(b).width;
+    var has = MONO.complete && MONO.naturalWidth > 0, x = right - (wa + g + (has ? logo + g : 0) + wb);
+    ctx.textAlign = "left"; ctx.textBaseline = "middle";
+    ctx.fillStyle = "#6b7280"; ctx.font = "400 " + size + "px Arial, Helvetica, sans-serif"; ctx.fillText(a, x, y); x += wa + g;
+    if (has) { ctx.drawImage(MONO, x, y - logo / 2, logo, logo); x += logo + g; }
+    ctx.fillStyle = "#1d2433"; ctx.font = "700 " + size + "px Arial, Helvetica, sans-serif"; ctx.fillText(b, x, y);
+    ctx.textBaseline = "alphabetic";
+  }
   var THEMES = { sunset: ["#ff6b35", "#ff3d7f"], ocean: ["#1fb6ff", "#2a9d8f"], gold: ["#f7c948", "#e07a1f"], white: ["#ffffff", "#f1f1f1"], royal: ["#7c5cff", "#2563eb"] };
   var W = 1500, H = 1000;
   var cache = {};
@@ -98,8 +111,9 @@
     return cache[src];
   }
   function fontsReady() {
-    if (!document.fonts || !document.fonts.load) return Promise.resolve();
-    return Promise.all(['400 80px "Bebas Neue"', '700 40px "Dancing Script"', 'italic 400 40px "Instrument Serif"', '400 40px "Instrument Serif"'].map(function (f) { return document.fonts.load(f).catch(function () {}); }));
+    var mono = MONO.complete ? Promise.resolve() : new Promise(function (r) { MONO.onload = MONO.onerror = r; });
+    if (!document.fonts || !document.fonts.load) return mono;
+    return Promise.all(['400 80px "Bebas Neue"', '700 40px "Dancing Script"', 'italic 400 40px "Instrument Serif"', '400 40px "Instrument Serif"'].map(function (f) { return document.fonts.load(f).catch(function () {}); }).concat([mono]));
   }
   function cover(ctx, img, x, y, w, h, focus) {
     var s = Math.max(w / img.width, h / img.height), sw = w / s, sh = h / s;
@@ -236,7 +250,7 @@
     ctx.fillStyle = "#8b7d68"; ctx.textAlign = "left"; ctx.font = '400 17px Inter, Arial, sans-serif';
     var credit = c ? "Photo: " + c.author + " · " + c.lic + " · via Wikimedia Commons" : (s.own ? "Photo: sender's own" : "");
     ctx.fillText(credit.slice(0, 95), 60, H - 44);
-    ctx.textAlign = "right"; ctx.fillText(s.pro ? "" : "Made free at etoolbox.co.uk", W - 60, H - 44);
+    if (!s.pro) powered(ctx, W - 60, H - 50, 20);
   }
 
   /* ---------- Share links (#data after the address; never sent to the server) ---------- */
@@ -244,6 +258,7 @@
   function b64d(s) { s = s.replace(/-/g, "+").replace(/_/g, "/"); while (s.length % 4) s += "="; return JSON.parse(decodeURIComponent(escape(atob(s)))); }
   function shareUrl(s) {
     var o = { c: s.city, g: s.greet, p: s.place, y: s.style, t: s.theme, m: s.msg, to: s.to, f: s.from, i: s.ink }, c = BY[s.city];
+    if (s.pro) o.n = 1;
     if (c && c.custom) o.x = { h: c.h, f: c.file, w: c.ow, pt: c.portrait ? 1 : 0, a: c.author, l: c.lic, u: c.licUrl, lm: c.landmark };
     return location.origin + "/postcard/#" + b64e(o);
   }
@@ -353,7 +368,7 @@
     var cardEl = card(document.getElementById("pc-card"));
     if (data && !BY[data.c] && /^wm:\d+$/.test(data.c || "")) fromShare(data.c, data.x);
     if (!data || !BY[data.c]) { box.classList.add("empty"); return; }
-    var c = BY[data.c], s = { greet: data.g || "", place: data.p || c.place, style: data.y || "auto", theme: data.t || "sunset", msg: data.m || "", to: data.to || "", addr: "", from: data.f || "", ink: data.i || "hand" };
+    var c = BY[data.c], s = { greet: data.g || "", place: data.p || c.place, style: data.y || "auto", theme: data.t || "sunset", msg: data.m || "", to: data.to || "", addr: "", from: data.f || "", ink: data.i || "hand", pro: data.n === 1 };
     document.getElementById("pc-from-line").textContent = s.from ? s.from + " sent you a postcard from " + (s.place || c.place) + " 💌" : "You've got a postcard from " + (s.place || c.place) + " 💌";
     Promise.all([fontsReady(), loadImg(imgUrl(c, 1280))]).then(function (r) {
       drawFront(cardEl.f.getContext("2d"), r[1], s, c); drawBack(cardEl.b.getContext("2d"), r[1], s, c);

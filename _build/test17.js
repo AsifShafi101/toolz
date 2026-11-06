@@ -22,6 +22,8 @@ const FAKE = fs.readFileSync('/tmp/fake-landmark.jpg');
   const painted = await p.evaluate(() => { const c = document.querySelector('.pc-back canvas'), d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; let ink = 0; for (let i = 0; i < d.length; i += 4 * 97) if (d[i] < 80 && d[i + 2] > 60) ink++; return ink; });
   ok(painted > 50, 'back of card has handwriting drawn (' + painted + ')');
   ok((await p.textContent('#pc-credit')).includes('Benh LIEU SONG'), 'photo credit shown');
+  const foot = await p.evaluate(() => { const c = document.querySelector('.pc-back canvas'), d = c.getContext('2d').getImageData(1100, 930, 380, 40).data; let n = 0; for (let i = 0; i < d.length; i += 4) if (d[i] < 60 && d[i + 1] < 60) n++; return n; });
+  ok(foot > 200, 'free card has the Powered by etoolbox.co.uk footer (' + foot + ')');
   const dl = p.waitForEvent('download'); await p.click('#pc-dl-both'); const d = await dl; await d.saveAs('/tmp/pc-both.jpg');
   ok(d.suggestedFilename() === 'postcard-paris.jpg' && fs.statSync('/tmp/pc-both.jpg').size > 50000, 'downloads both sides: ' + d.suggestedFilename());
   await ctx.grantPermissions(['clipboard-read', 'clipboard-write']);
