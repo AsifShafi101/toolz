@@ -80,7 +80,7 @@
         var i = (p.imageinfo || [])[0]; if (!i || i.mime !== "image/jpeg" || i.width < 900 || i.height < 600) return;
         var m = i.extmetadata || {}, lic = clean((m.LicenseShortName || {}).value), title = p.title.replace(/^File:/, "");
         if (!FREE.test(lic) || BLOCK.test(title) || NOTPHOTO.test(title.replace(/[_.-]/g, " "))) return;
-        var parts = i.url.split("/commons/")[1].split("/"); // a/ab/File.jpg
+        var parts = i.url.split("?")[0].split("/commons/")[1].split("/"); // a/ab/File.jpg
         var name = decodeURIComponent(parts[2]), landmark = title.replace(/\.[a-z]+$/i, "").replace(/[_]+/g, " ").replace(/\s*\(\d+\)\s*$/, "").slice(0, 46);
         out.push({ id: "wm:" + p.pageid, custom: true, place: "", country: "", landmark: landmark, h: parts[0] + "/" + parts[1], file: name, ow: i.width,
           portrait: i.height > i.width * 1.05, author: (clean((m.Artist || {}).value) || "Unknown").slice(0, 60), lic: lic.slice(0, 30), licUrl: (m.LicenseUrl || {}).value || "", focus: .5, thumb: i.thumburl });
@@ -274,7 +274,7 @@
     var grid = document.getElementById("pc-grid"), cardEl = card(document.getElementById("pc-card")), own = null, ownUrl = null, current = "london-bridge", token = 0;
     var credit = document.getElementById("pc-credit"), status = document.getElementById("pc-status");
     grid.innerHTML = CITIES.map(function (c) {
-      return '<button type="button" class="pc-tile" data-id="' + c.id + '" title="' + c.landmark + ", " + c.place + '"><img src="' + imgUrl(c, 330) + '" alt="" loading="lazy" crossorigin="anonymous"><span>' + c.place + "<small>" + c.landmark + "</small></span></button>";
+      return '<button type="button" class="pc-tile" data-id="' + c.id + '" title="' + c.landmark + ", " + c.place + '"><img src="' + imgUrl(c, 330) + '" alt="" loading="lazy" decoding="async"><span>' + c.place + "<small>" + c.landmark + "</small></span></button>";
     }).join("") + '<label class="pc-tile pc-own" title="Use your own photo"><input type="file" accept="image/*" id="pc-file" class="sr-only"><span class="pc-plus">+</span><span>Your own photo<small>Never uploaded</small></span></label>';
     function state() {
       var e = form.elements;
@@ -310,7 +310,7 @@
         if (!list.length) { rmsg.textContent = "No free photos found for “" + term + "”. Try another spelling, a nearby city or a landmark."; return; }
         rmsg.textContent = list.length + " free photos of “" + term + "”. Pick one:";
         list.forEach(function (c) { c.place = titleCase(term); BY[c.id] = c; });
-        rgrid.innerHTML = list.map(function (c) { return '<button type="button" class="pc-tile" data-id="' + c.id + '"><img alt="" loading="lazy" crossorigin="anonymous"><span><small></small></span></button>'; }).join("");
+        rgrid.innerHTML = list.map(function (c) { return '<button type="button" class="pc-tile" data-id="' + c.id + '"><img alt="" loading="lazy" decoding="async"><span><small></small></span></button>'; }).join("");
         Array.prototype.forEach.call(rgrid.querySelectorAll(".pc-tile"), function (b, i) { b.querySelector("img").src = list[i].thumb; b.title = list[i].landmark; b.querySelector("small").textContent = list[i].landmark; });
       }).catch(function () { if (term === lastQ) rmsg.textContent = "Search isn't available right now. Check your connection and try again."; });
     }
