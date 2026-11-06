@@ -13,10 +13,10 @@ def embed_code(key, height):
 
 for key, base, name, height in EMBEDS:
     src = TOOL_SRC[base]
-    scripts = "\n".join(f'<script src="/assets/{x}"></script>' for x in src["scripts"])
+    scripts = "\n".join(f'<script src="{ver(x)}"></script>' for x in src["scripts"])
     write(f"/embed/{key}/", f"""<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{name} – etoolbox</title><meta name="robots" content="noindex, follow"><link rel="canonical" href="{SITE}/{base}/">
-<link rel="stylesheet" href="/assets/style.css"><style>html,body{{background:transparent!important}}body{{margin:0;padding:8px}}#page-net,.fad{{display:none!important}}
+<link rel="stylesheet" href="{ver("style.css")}"><style>html,body{{background:transparent!important}}body{{margin:0;padding:8px}}#page-net,.fad{{display:none!important}}
 .gen{{grid-template-columns:1fr!important}}.emb-by{{margin:10px 2px 0;font:600 13px/1.4 Inter,system-ui,sans-serif;color:#46557a}}.emb-by a{{color:#ff6b35;text-decoration:none}}</style></head>
 <body class="embed">{src["ui"]}
 <p class="emb-by">Free {name} by <a href="{SITE}/{base}/" target="_blank" rel="noopener">etoolbox.co.uk</a></p>

@@ -144,14 +144,14 @@
         preview.innerHTML =
           '<div class="b-band"></div><div class="b-head"><div><div class="doc-title">' + esc(title().toUpperCase()) + '</div><div class="b-rule"></div></div>' + logoHtml + "</div>" +
           '<div class="doc-biz">' + (esc(f.bizname.value) || "Your business name") + '</div><div class="b-bizlines">' + bizLines.join("<br>") + "</div>" +
-          '<div class="b-meta"><div class="doc-to"><h4>' + (isQuote ? "Quote for" : "Bill to") + "</h4><strong>" + (esc(f.client.value) || "Client name") + "</strong><div>" + nl(f.clientaddress.value) + "</div></div>" +
+          '<div class="b-meta"><div class="doc-to"><div class="dh">' + (isQuote ? "Quote for" : "Bill to") + "</div><strong>" + (esc(f.client.value) || "Client name") + "</strong><div>" + nl(f.clientaddress.value) + "</div></div>" +
           '<dl class="doc-facts"><dt>' + T + " #</dt><dd>" + esc(f.number.value) + "</dd><dt>" + T + " date</dt><dd>" + fmtDate(f.date.value) + "</dd>" +
           (f.due.value ? "<dt>" + (isQuote ? "Valid until" : "Due date") + "</dt><dd>" + fmtDate(f.due.value) + "</dd>" : "") +
           (cur !== "GBP" ? "<dt>Currency</dt><dd>" + cur + "</dd>" : "") + "</dl></div>" +
           itemsHead + totals +
-          (f.notes.value ? '<div class="doc-notes"><h4>Notes</h4><div>' + nl(f.notes.value) + "</div></div>" : "") +
+          (f.notes.value ? '<div class="doc-notes"><div class="dh">Notes</div><div>' + nl(f.notes.value) + "</div></div>" : "") +
           '<div class="b-foot">' + thanks +
-          (f.payment.value ? '<div class="b-terms"><h4>' + (isQuote ? "Terms & conditions" : "Payment details") + "</h4><div>" + nl(f.payment.value) + "</div></div>" : "") + "</div>" + powered;
+          (f.payment.value ? '<div class="b-terms"><div class="dh">' + (isQuote ? "Terms & conditions" : "Payment details") + "</div><div>" + nl(f.payment.value) + "</div></div>" : "") + "</div>" + powered;
       } else {
         preview.innerHTML =
           '<div class="doc-top"><div>' + logoHtml + '<div class="doc-biz">' + (esc(f.bizname.value) || "Your business name") + '</div><div class="muted">' + nl(f.bizaddress.value) + "</div>" +
@@ -225,6 +225,7 @@
       window.print();
       document.title = t;
       if (withoutLogo) { logo = keepLogo; forceDefault = false; render(); }
+      if (window.ETBNudge) ETBNudge(kind, "Nice " + kind + "! Pro adds your logo, brand colours and your own heading, with no “Powered by etoolbox”.");
     }
 
     document.getElementById("add-row").addEventListener("click", function () { addRow(); render(); tbody.lastChild.querySelector(".i-desc").focus(); });

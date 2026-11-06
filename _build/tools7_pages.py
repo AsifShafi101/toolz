@@ -185,4 +185,4 @@ tool_page("video-to-mp3",
      ("Can I convert a YouTube link?", "No. Downloading other people's YouTube videos breaks YouTube's terms. If it's your own video, download it from YouTube Studio and convert the file here."),
      ("Which browsers work?", "The latest Chrome, Edge and Firefox on computers and Android. On iPhone and Mac, Safari 26 or newer."),
      ("How big will the MP3 be?", "At 128 kbps it's about 1 MB per minute, so a 60-minute video gives roughly a 58 MB MP3. Choose mono or 96 kbps for a smaller file.")],
-    (), extra='<script type="importmap">{"imports":{"mediabunny":"/assets/vendor/mediabunny/mediabunny.min.mjs"}}</script>\n<script type="module" src="/assets/video2mp3.js"></script>\n')
+    (), extra='<script type="importmap">{"imports":{"mediabunny":"/assets/vendor/mediabunny/mediabunny.min.mjs"}}</script>\n<script type="module" src="' + ver("video2mp3.js") + '"></script>\n')

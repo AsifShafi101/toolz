@@ -22,7 +22,7 @@ def variant_page(v):
     page = head(title, intro, path, faq_ld(faqs) + app_ld(h1, path) + f'<script type="application/ld+json">{json.dumps(ld)}</script>\n' + src["extra"]) + f"""
 <div class="wrap">
   {nav}
-  <div class="page-head" data-slug="{base}"><div class="ph-row">{tool_icon(base)}<h1>{h1}</h1></div><p>{intro}</p>{privacy_tag(base)}</div>
+  <div class="page-head" data-slug="{base}"><div class="ph-row">{tool_icon(base)}<h1>{h1}<button type="button" class="fav-btn" aria-pressed="false">☆ Add to favourites</button></h1></div><p>{intro}</p>{privacy_tag(base)}</div>
   {ui}
   {share_bar(path, html.unescape(h1) + " – free, no sign-up, nothing uploaded")}
   <section class="prose">{body}</section>

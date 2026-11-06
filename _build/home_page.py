@@ -52,7 +52,7 @@ home = head("Free Online Tools – PDF, Image & Calculators, No Sign-up | etoolb
   <h1 class="brand-h1"><span class="h1-main"><span class="h1-logo">{LOGO}<span class="h1-word">e<b>tool</b>box</span></span> has everything for you and your business</span><span class="h1-sub">Free online tools for PDFs, images, calculators and more</span></h1>
   <p class="lead">Merge and compress PDFs, remove photo backgrounds with AI, add watermarks, make invoices, and check your BMI or UK take-home pay. Everything runs in your browser, so nothing is uploaded.</p>
   <div class="search hero-search" role="search"><label for="hero-search" class="sr-only">Search all tools</label>
-    {svg("search", "ic search-ic")}<input type="search" id="hero-search" placeholder="What do you need? e.g. compress PDF, remove background" autocomplete="off" aria-controls="hero-results" aria-expanded="false">
+    {svg("search", "ic search-ic")}<input type="search" id="hero-search" placeholder="What do you need? e.g. compress PDF, remove background" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="hero-results" aria-expanded="false">
     <ul class="search-results" id="hero-results" role="listbox" hidden></ul></div>
   <div class="pops" aria-label="Popular tools">{pop_chips}</div>
  </div>

@@ -231,6 +231,7 @@
       if (!current) return;
       var v = current.v;
       download(drawCard(current.qr, { name: v.business, heading: v.heading, caption: v.caption, accent: v.accent || "#ff6b35", watermark: true }).toDataURL("image/png"), "table-card.png");
+      if (window.ETBNudge) ETBNudge("card", "Table card downloaded. Want it without “Powered by etoolbox”?");
     });
 
     update();
@@ -331,11 +332,12 @@
     if (head && BY[head.getAttribute("data-slug")]) {
       var slug = head.getAttribute("data-slug"), favs = store("etb-favs") || [], rec = (store("etb-recent") || []).filter(function (x) { return x !== slug; });
       rec.unshift(slug); store("etb-recent", rec.slice(0, 8));
-      var b = document.createElement("button"); b.type = "button"; b.className = "fav-btn";
+      var b = head.querySelector(".fav-btn"), fresh = !b;
+      if (fresh) { b = document.createElement("button"); b.type = "button"; b.className = "fav-btn"; }
       var set = function (on) { b.setAttribute("aria-pressed", on ? "true" : "false"); b.textContent = on ? "★ Saved to favourites" : "☆ Add to favourites"; };
       set(favs.indexOf(slug) >= 0);
       b.addEventListener("click", function () { var f = store("etb-favs") || [], i = f.indexOf(slug); if (i >= 0) f.splice(i, 1); else f.unshift(slug); store("etb-favs", f); set(i < 0); });
-      head.querySelector("h1").appendChild(b);
+      if (fresh) head.querySelector("h1").appendChild(b);
     }
     var mine = document.getElementById("my-tools");
     if (mine) {
@@ -497,4 +499,25 @@
     ad.classList.remove("in"); setTimeout(function () { ad.hidden = true; }, 250);
     try { localStorage.setItem(KEY, String(now + 7 * 864e5)); } catch (e) {}
   });
+})();
+
+/* Polite Pro suggestion after a download: free users only, at most once every 3 days per tool, easy to close. */
+(function () {
+  window.ETBNudge = function (key, text) {
+    try {
+      if (window.ETBPro && ETBPro.isPro()) return;
+      var k = "etb-nudge-" + key, last = +localStorage.getItem(k) || 0;
+      if (Date.now() - last < 3 * 864e5) return;
+      localStorage.setItem(k, String(Date.now()));
+    } catch (e) { return; }
+    var old = document.getElementById("pro-nudge"); if (old) old.remove();
+    var d = document.createElement("div"); d.id = "pro-nudge"; d.setAttribute("role", "status");
+    d.innerHTML = '<span class="pn-star">⭐</span><span class="pn-text"></span><a class="pn-go" href="/pricing/">See Pro</a><button type="button" class="pn-x" aria-label="Close">×</button>';
+    d.querySelector(".pn-text").textContent = text;
+    document.body.appendChild(d);
+    requestAnimationFrame(function () { d.classList.add("in"); });
+    var close = function () { d.classList.remove("in"); setTimeout(function () { d.remove(); }, 300); };
+    d.querySelector(".pn-x").addEventListener("click", close);
+    setTimeout(close, 12000);
+  };
 })();

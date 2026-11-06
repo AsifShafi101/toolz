@@ -39,7 +39,7 @@ img, svg, canvas { max-width: 100%; }
 @media (max-width: 640px) { .nav .hide-sm { display: none; } }
 
 /* Buttons */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 10px; padding: 12px 18px; font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; background: var(--brand); color: #fff; transition: background .15s; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 10px; padding: 12px 18px; font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; background: var(--btn, #cf4512); color: #fff; transition: background .15s; }
 .btn:hover { background: var(--brand-dark); }
 .btn.secondary { background: var(--card); color: var(--ink); border: 1.5px solid var(--line); }
 .btn.secondary:hover { border-color: var(--ink-soft); }
@@ -630,7 +630,7 @@ main { position: relative; }
 .steps { margin-top: 12px; border-top: 1px dashed var(--line); padding-top: 10px; } .steps h3 { margin: 0 0 6px; font-size: 1rem; } .steps ol { margin: 0; padding-left: 20px; color: var(--ink-soft); }
 
 /* ================= 2026-11 v3: serif display type, 3D logo cube, dark hero ================= */
-@font-face { font-family: "Instrument Serif"; src: url(/assets/fonts/instrument-serif.woff2) format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Instrument Serif"; src: url(/assets/fonts/instrument-serif.woff2) format("woff2"); font-weight: 400; font-style: normal; font-display: optional; }
 @font-face { font-family: "Instrument Serif"; src: url(/assets/fonts/instrument-serif-italic.woff2) format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
 :root { --serif: "Instrument Serif", "Iowan Old Style", "Times New Roman", Georgia, serif; }
 .page-head h1, .sec-head h2, .how > h2, .prose > h2:first-child, .cat-title h2 { font-family: var(--serif); font-weight: 400; letter-spacing: -.01em; }
@@ -855,7 +855,7 @@ main { position: relative; }
 .doc.simple .doc-title { color: var(--c1); }
 .doc.bold { font-size: 11.5px; line-height: 1.45; position: relative; }
 .doc.bold, .doc.bold * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-.doc.bold h4, .doc.bold .doc-title, .doc.bold .doc-facts dt, .doc.bold .doc-items th, .doc.bold .doc-totals .grand td { font-family: "Bebas Neue", Impact, "Arial Narrow", sans-serif; font-weight: 400; letter-spacing: .03em; color: var(--c1); }
+.doc.bold .dh, .doc.bold .doc-title, .doc.bold .doc-facts dt, .doc.bold .doc-items th, .doc.bold .doc-totals .grand td { font-family: "Bebas Neue", Impact, "Arial Narrow", sans-serif; font-weight: 400; letter-spacing: .03em; color: var(--c1); }
 .doc.bold .b-band { position: absolute; left: 0; right: 0; top: 0; height: 9px; background: linear-gradient(90deg, var(--c1) 0 62%, var(--c2) 62% 100%); }
 .doc.bold .b-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin: 6px 0 16px; }
 .doc.bold .doc-title { font-size: 60px; line-height: .86; letter-spacing: .05em; }
@@ -864,7 +864,7 @@ main { position: relative; }
 .doc.bold .doc-biz { font-size: 13px; font-weight: 800; margin: 0 0 2px; color: #1d2433; }
 .doc.bold .b-bizlines { color: #3b4458; }
 .doc.bold .b-meta { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; margin: 22px 0 18px; }
-.doc.bold h4 { margin: 0 0 4px; font-size: 18px; line-height: 1; }
+.doc.bold .dh { margin: 0 0 4px; font-size: 18px; line-height: 1; }
 .doc.bold .doc-to strong { display: block; }
 .doc.bold .doc-facts { display: grid; grid-template-columns: auto 1fr; gap: 3px 14px; margin: 0; text-align: left; align-content: start; }
 .doc.bold .doc-facts dt { font-size: 17px; line-height: 1.1; white-space: nowrap; }
@@ -882,7 +882,7 @@ main { position: relative; }
 .doc.bold .b-thanks em { display: block; font-family: "Instrument Serif", Georgia, serif; font-style: italic; font-size: 21px; line-height: 1.1; }
 .doc.bold .b-thanks strong { display: block; font-family: "Bebas Neue", Impact, sans-serif; font-weight: 400; font-size: 26px; letter-spacing: .03em; line-height: 1.05; margin-top: 2px; color: var(--c2); }
 .doc.bold .b-terms { border-left: 1.5px solid var(--c1); padding-left: 10px; max-width: 50%; }
-.doc.bold .b-terms h4 { color: var(--c2); font-size: 17px; }
+.doc.bold .b-terms .dh { color: var(--c2); font-size: 17px; }
 .doc-powered { margin-top: 16px; display: flex; align-items: center; justify-content: flex-end; gap: 5px; font: 400 10px/1 Arial, Helvetica, sans-serif; color: #6b7280; }
 .doc.simple .doc-powered { margin-top: auto; padding-top: 20px; }
 .doc-powered img { width: 15px; height: 15px; display: block; }
@@ -903,3 +903,37 @@ main { position: relative; }
 .is-pro .pro-badge { display: inline-block; }
 .is-pro .badge.pro { background: #16a34a; color: #fff; }
 .is-pro .badge.pro::after { content: " ✓"; }
+
+/* Guides */
+.guide-body { max-width: 760px; }
+.guide-body h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1.08; margin: 8px 0 6px; }
+.guide-meta { color: var(--ink-soft); font-size: .9rem; margin-top: 0; }
+.guide-body ol li, .guide-body ul li { margin-bottom: 6px; }
+.guide-cta { display: flex; align-items: center; gap: 14px; margin: 22px 0; padding: 16px 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); box-shadow: 0 8px 24px rgba(20,33,61,.06); }
+.guide-cta > div { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.guide-cta span { color: var(--ink-soft); font-size: .92rem; }
+.guide-cta .btn { white-space: nowrap; }
+@media (max-width: 560px) { .guide-cta { flex-wrap: wrap; } .guide-cta .btn { width: 100%; text-align: center; } }
+.guide-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-bottom: 30px; }
+.guide-card { display: flex; flex-direction: column; gap: 8px; padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); text-decoration: none; color: var(--ink); transition: transform .15s, box-shadow .15s; }
+.guide-card:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(20,33,61,.1); }
+.guide-card strong { font-size: 1.08rem; }
+.guide-card span { color: var(--ink-soft); font-size: .92rem; }
+.guide-link { margin: 6px 0 0; font-size: .95rem; }
+
+/* Accessibility: readable contrast and comfortable tap targets */
+.btn:hover { filter: brightness(1.08); }
+.privacy-tag:not(.server):not(.use-count) { color: #1f7a6f; background: #e3f3f0; }
+:root[data-theme="dark"] .privacy-tag:not(.server):not(.use-count) { color: #5eead4; background: rgba(94,234,212,.12); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .privacy-tag:not(.server):not(.use-count) { color: #5eead4; background: rgba(94,234,212,.12); } }
+.directory li a { display: inline-block; padding: 3px 0; }
+.foot-links a { display: inline-block; padding: 6px 0; }
+
+/* Pro suggestion toast */
+#pro-nudge { position: fixed; z-index: 70; left: 50%; top: 76px; transform: translate(-50%, -20px); opacity: 0; transition: transform .3s, opacity .3s; display: flex; align-items: center; gap: 10px; max-width: min(560px, calc(100vw - 24px)); padding: 10px 10px 10px 14px; border-radius: 14px; background: var(--card); color: var(--ink); border: 1px solid var(--line); box-shadow: 0 14px 34px rgba(20,33,61,.18); font-size: .92rem; }
+#pro-nudge.in { transform: translate(-50%, 0); opacity: 1; }
+#pro-nudge .pn-text { flex: 1; }
+#pro-nudge .pn-go { white-space: nowrap; font-weight: 800; color: #fff; background: #cf4512; padding: 7px 12px; border-radius: 9px; text-decoration: none; }
+#pro-nudge .pn-x { border: 0; background: transparent; color: var(--ink-soft); font-size: 20px; line-height: 1; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; }
+#pro-nudge .pn-x:hover { background: var(--line); }
+@media print { #pro-nudge { display: none !important; } }

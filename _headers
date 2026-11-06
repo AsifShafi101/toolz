@@ -11,3 +11,70 @@
 /assets/vendor/ort/*
   Cross-Origin-Embedder-Policy: credentialless
   Cross-Origin-Resource-Policy: same-origin
+
+# BEGIN versioned assets (generated)
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/app.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/barcode.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/bgremove.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/calc.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/colour.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/config.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/currency.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/devtools.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/docs.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/exif.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/files.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/heic.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/image.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/invoice.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/media.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/network-bg.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/pdfplus.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/pdftools.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/planners.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/qrcode.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/scicalc.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/screenshot.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/signature.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/style.css
+  Cache-Control: public, max-age=31536000, immutable
+/assets/text.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/tools-index.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/units.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/video2mp3.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/watermark.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/web.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/word2pdf.js
+  Cache-Control: public, max-age=31536000, immutable
+# END versioned assets

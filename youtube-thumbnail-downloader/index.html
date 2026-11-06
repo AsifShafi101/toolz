@@ -19,7 +19,8 @@
 <meta name="theme-color" content="#14213d">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="preload" href="/assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/style.css?v=cd0a74bc">
 <script>try{var t=localStorage.getItem("etb-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why is there no Full HD version?", "acceptedAnswer": {"@type": "Answer", "text": "Older or low-resolution videos don't have one. Use the largest size shown."}}, {"@type": "Question", "name": "Does it work for Shorts?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Paste the youtube.com/shorts/\u2026 link."}}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "YouTube thumbnail downloader", "url": "https://etoolbox.co.uk/youtube-thumbnail-downloader/", "applicationCategory": "BusinessApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}}</script>
@@ -30,7 +31,7 @@
 <header class="site-header"><div class="wrap">
   <a class="logo" href="/" aria-label="etoolbox home"><span class="logo-mark cube3d" aria-hidden="true"><span class="cube3d-in"><i class="cf cf1"></i><i class="cf cf2"></i><i class="cf cf3"></i><i class="cf cf4"></i><i class="cf cf5"></i><i class="cf cf6"></i></span></span><span>e<b>tool</b>box</span><span class="pro-badge" title="Pro is active on this device">PRO</span></a>
   <div class="search" role="search"><label for="tool-search" class="sr-only">Search tools</label>
-    <svg class="ic search-ic" aria-hidden="true"><use href="/assets/icons.svg#search"/></svg><input type="search" id="tool-search" placeholder="Search 82 free tools…" title="Tip: press / to search" autocomplete="off" aria-controls="search-results" aria-expanded="false">
+    <svg class="ic search-ic" aria-hidden="true"><use href="/assets/icons.svg#search"/></svg><input type="search" id="tool-search" placeholder="Search 82 free tools…" title="Tip: press / to search" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false">
     <ul class="search-results" id="search-results" role="listbox" hidden></ul></div>
   <nav class="nav" aria-label="Main">
     <a class="hide-md" href="/#pdf">PDF tools</a><a class="hide-md" href="/#images">Image tools</a><a class="hide-md" href="/#docs">Invoices</a><a class="hide-md" href="/#money">Calculators</a>
@@ -43,7 +44,7 @@
 
 <div class="wrap">
   <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">›</span><a href="/#media">Media & audio</a><span aria-hidden="true">›</span><span aria-current="page">YouTube thumbnail downloader</span></nav>
-  <div class="page-head" data-slug="youtube-thumbnail-downloader"><div class="ph-row"><span class="ti c-media"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#play"/></svg></span><h1>YouTube thumbnail downloader</h1></div><p>Paste a YouTube link to get the video's thumbnail in every size, up to full HD 1280×720. It works with videos, Shorts and live streams.</p><span class="privacy-tag"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#lock"/></svg> Runs in your browser. Nothing is uploaded.</span></div>
+  <div class="page-head" data-slug="youtube-thumbnail-downloader"><div class="ph-row"><span class="ti c-media"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#play"/></svg></span><h1>YouTube thumbnail downloader<button type="button" class="fav-btn" aria-pressed="false">☆ Add to favourites</button></h1></div><p>Paste a YouTube link to get the video's thumbnail in every size, up to full HD 1280×720. It works with videos, Shorts and live streams.</p><span class="privacy-tag"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#lock"/></svg> Runs in your browser. Nothing is uploaded.</span></div>
   
   <form class="panel" data-yt novalidate>
     <label for="url">YouTube video link</label><input type="text" id="url" name="url" inputmode="url" placeholder="https://www.youtube.com/watch?v=… or https://youtu.be/…">
@@ -51,6 +52,7 @@
   </form>
   <div class="yt-grid" id="yt-out"></div>
   <div class="share-bar" data-url="https://etoolbox.co.uk/youtube-thumbnail-downloader/" data-text="YouTube thumbnail downloader – free, no sign-up, nothing uploaded"><span class="sh-lead"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#share-2"/></svg> Useful? Share it free:</span><button type="button" class="sh sh-native" hidden><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#share-2"/></svg>Share</button><a class="sh" href="https://wa.me/?text=YouTube%20thumbnail%20downloader%20%E2%80%93%20free%2C%20no%20sign-up%2C%20nothing%20uploaded%20https%3A%2F%2Fetoolbox.co.uk%2Fyoutube-thumbnail-downloader%2F" target="_blank" rel="noopener nofollow" data-net="WhatsApp"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#message-circle"/></svg>WhatsApp</a><a class="sh" href="https://x.com/intent/post?text=YouTube%20thumbnail%20downloader%20%E2%80%93%20free%2C%20no%20sign-up%2C%20nothing%20uploaded&url=https%3A%2F%2Fetoolbox.co.uk%2Fyoutube-thumbnail-downloader%2F" target="_blank" rel="noopener nofollow" data-net="X">X</a><a class="sh" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fetoolbox.co.uk%2Fyoutube-thumbnail-downloader%2F" target="_blank" rel="noopener nofollow" data-net="LinkedIn">LinkedIn</a><a class="sh" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fetoolbox.co.uk%2Fyoutube-thumbnail-downloader%2F" target="_blank" rel="noopener nofollow" data-net="Facebook">Facebook</a><a class="sh" href="mailto:?subject=YouTube%20thumbnail%20downloader%20%E2%80%93%20free%2C%20no%20sign-up%2C%20nothing%20uploaded&body=https%3A%2F%2Fetoolbox.co.uk%2Fyoutube-thumbnail-downloader%2F" target="_blank" rel="noopener nofollow" data-net="Email"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#mail"/></svg>Email</a><button type="button" class="sh sh-copy"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#link"/></svg><span>Copy link</span></button></div>
+  
   
   <section class="prose"><h2>Please respect copyright</h2><p>Thumbnails belong to the video's creator. Use them for things like reviews, reference or your own videos. Don't reuse someone else's artwork as your own without permission.</p>
 <h2>Sizes</h2><ul><li><strong>Full HD:</strong> 1280×720 (not available on every video)</li><li><strong>Standard:</strong> 640×480</li><li><strong>High:</strong> 480×360</li><li><strong>Medium:</strong> 320×180</li></ul></section>
@@ -64,7 +66,7 @@
   <div class="foot-bottom">
     <div class="foot-brand"><a class="logo" href="/"><span class="logo-mark cube3d" aria-hidden="true"><span class="cube3d-in"><i class="cf cf1"></i><i class="cf cf2"></i><i class="cf cf3"></i><i class="cf cf4"></i><i class="cf cf5"></i><i class="cf cf6"></i></span></span><span>e<b>tool</b>box</span></a><p>Free online tools for UK small businesses, freelancers and everyone else. Files are processed in your browser.</p>
       <p class="foot-mail"><svg class="ic" aria-hidden="true"><use href="/assets/icons.svg#mail"/></svg> <a href="mailto:hello@etoolbox.co.uk">hello@etoolbox.co.uk</a></p></div>
-    <div class="foot-links"><a href="/pricing/">Pricing</a><a href="/embed/">Free calculators for your site</a><a href="/salary-after-tax/">Salary after tax</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div>
+    <div class="foot-links"><a href="/pricing/">Pricing</a><a href="/guides/">Guides</a><a href="/embed/">Free calculators for your site</a><a href="/salary-after-tax/">Salary after tax</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div>
   </div>
   <p class="foot-copy">© 2026 etoolbox.co.uk · Made in the UK</p>
 </div></footer>
@@ -81,10 +83,10 @@
   <p class="fad-addr">2–3 Butter Market, Reading RG1 2DP</p>
   <div class="fad-btns"><a class="fad-order" href="https://smokeandpepper.3s-pos.com/" target="_blank" rel="nofollow noopener">Order</a><a class="fad-dir" href="https://www.google.com/maps/search/?api=1&query=Smoke+%26+Pepper+2-3+Butter+Market+Reading+RG1+2DP" target="_blank" rel="nofollow noopener">Directions</a></div>
 </aside>
-<script src="/assets/config.js"></script>
-<script src="/assets/tools-index.js"></script>
-<script src="/assets/media.js"></script>
-<script src="/assets/app.js"></script>
-<script src="/assets/network-bg.js"></script>
+<script src="/assets/config.js?v=297a865d"></script>
+<script src="/assets/tools-index.js?v=e2672709"></script>
+<script src="/assets/media.js?v=d707e85c"></script>
+<script src="/assets/app.js?v=a45bd857"></script>
+<script src="/assets/network-bg.js?v=67cbee93"></script>
 </body>
 </html>

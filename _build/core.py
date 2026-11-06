@@ -191,6 +191,31 @@ def build_sprite(src_dir):
 NAV = [("pdf", "PDF tools"), ("images", "Image tools"), ("docs", "Invoices"), ("money", "Calculators")]
 
 
+import hashlib as _hl
+_VER = {}
+def ver(name):
+    """Content hash for /assets/<name>, so files can be cached for a year and still update instantly."""
+    if name not in _VER and name == "tools-index.js":  # written at the end of the build, so hash its source data
+        _VER[name] = _hl.md5(json.dumps(TOOLS, sort_keys=True, default=str).encode()).hexdigest()[:8]
+    if name not in _VER:
+        try:
+            _VER[name] = _hl.md5(open(os.path.join(OUT, "assets", name), "rb").read()).hexdigest()[:8]
+        except OSError:
+            _VER[name] = "0"
+    return f"/assets/{name}?v={_VER[name]}"
+
+
+def write_cache_headers():
+    """Versioned assets (?v=hash) can be cached for a year; keep the list in _headers in step."""
+    fp = os.path.join(OUT, "_headers"); txt = open(fp).read()
+    a, b = "# BEGIN versioned assets (generated)", "# END versioned assets"
+    if a in txt:
+        txt = txt[:txt.index(a)] + txt[txt.index(b) + len(b):].lstrip("\n")
+    block = (a + "\n/assets/fonts/*\n  Cache-Control: public, max-age=31536000, immutable\n"
+             + "".join(f"/assets/{n}\n  Cache-Control: public, max-age=31536000, immutable\n" for n in sorted(_VER) if "/" not in n) + b + "\n")
+    open(fp, "w").write(txt.rstrip("\n") + "\n\n" + block)
+
+
 def head(title, desc, path, extra="", body_class=""):
     url = SITE + path
     navlinks = "".join(f'<a class="hide-md" href="/#{k}">{t}</a>' for k, t in NAV)
@@ -215,7 +240,8 @@ def head(title, desc, path, extra="", body_class=""):
 <meta name="theme-color" content="#14213d">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="preload" href="/assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{ver("style.css")}">
 <script>try{{var t=localStorage.getItem("etb-theme");if(t)document.documentElement.setAttribute("data-theme",t);}}catch(e){{}}</script>
 {extra}</head>
 <body{(' class="' + body_class + '"') if body_class else ""}>
@@ -223,7 +249,7 @@ def head(title, desc, path, extra="", body_class=""):
 <header class="site-header"><div class="wrap">
   <a class="logo" href="/" aria-label="etoolbox home">{LOGO}<span>e<b>tool</b>box</span><span class="pro-badge" title="Pro is active on this device">PRO</span></a>
   <div class="search" role="search"><label for="tool-search" class="sr-only">Search tools</label>
-    {svg("search", "ic search-ic")}<input type="search" id="tool-search" placeholder="Search {len(TOOLS)} free tools…" title="Tip: press / to search" autocomplete="off" aria-controls="search-results" aria-expanded="false">
+    {svg("search", "ic search-ic")}<input type="search" id="tool-search" placeholder="Search {len(TOOLS)} free tools…" title="Tip: press / to search" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false">
     <ul class="search-results" id="search-results" role="listbox" hidden></ul></div>
   <nav class="nav" aria-label="Main">
     {navlinks}
@@ -266,14 +292,14 @@ AD_HTML = f"""<aside class="fad" id="fad" aria-label="Featured local business" h
 
 def foot(scripts=("qrcode.js",)):
     files = ["config.js", "tools-index.js"] + list(scripts) + ["app.js"] + ([] if "network-bg.js" in scripts else ["network-bg.js"])
-    tags = "\n".join(f'<script src="/assets/{x}"></script>' for x in files)
+    tags = "\n".join(f'<script src="{ver(x)}"></script>' for x in files)
     return f"""</main>
 <footer class="site-footer"><div class="wrap">
   {directory()}
   <div class="foot-bottom">
     <div class="foot-brand"><a class="logo" href="/">{LOGO}<span>e<b>tool</b>box</span></a><p>Free online tools for UK small businesses, freelancers and everyone else. Files are processed in your browser.</p>
       <p class="foot-mail">{svg("mail")} <a href="mailto:hello@etoolbox.co.uk">hello@etoolbox.co.uk</a></p></div>
-    <div class="foot-links"><a href="/pricing/">Pricing</a><a href="/embed/">Free calculators for your site</a><a href="/salary-after-tax/">Salary after tax</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div>
+    <div class="foot-links"><a href="/pricing/">Pricing</a><a href="/guides/">Guides</a><a href="/embed/">Free calculators for your site</a><a href="/salary-after-tax/">Salary after tax</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div>
   </div>
   <p class="foot-copy">© {YEAR} etoolbox.co.uk · Made in the UK</p>
 </div></footer>
@@ -364,6 +390,14 @@ def share_bar(path, text):
 
 
 TOOL_SRC = {}
+GUIDE_LINKS = {  # tool slug -> (guide slug, title); guides live in guides_pages.py
+    "invoice-generator": ("how-to-create-a-vat-invoice", "How to create a VAT invoice in the UK"),
+    "vat-calculator": ("how-to-calculate-vat", "How to calculate VAT at 20%"),
+    "hourly-rate-calculator": ("how-to-calculate-freelance-hourly-rate", "How to work out your freelance hourly rate"),
+    "compress-pdf": ("how-to-reduce-pdf-size-for-email", "How to reduce a PDF's size for email"),
+    "qr-code-generator": ("how-to-make-a-qr-code-for-your-business", "How to make a QR code for your business"),
+    "menu-qr-code-generator": ("how-to-make-a-qr-code-for-your-business", "How to make a QR code for your business"),
+}
 VARIANT_LINKS = {}  # base slug -> [(slug, label)], filled from _build/variants.py data
 
 
@@ -382,10 +416,11 @@ def tool_page(slug, title, h1, intro, ui, body, faqs, scripts, extra=""):
     page = head(title, intro, path, faq_ld(faqs) + app_ld(h1, path) + bld + extra) + f"""
 <div class="wrap">
   {nav}
-  <div class="page-head" data-slug="{slug}"><div class="ph-row">{tool_icon(slug)}<h1>{h1}</h1></div><p>{intro}</p>{privacy_tag(slug)}</div>
+  <div class="page-head" data-slug="{slug}"><div class="ph-row">{tool_icon(slug)}<h1>{h1}<button type="button" class="fav-btn" aria-pressed="false">☆ Add to favourites</button></h1></div><p>{intro}</p>{privacy_tag(slug)}</div>
   {ui}
   {share_bar(path, html.unescape(h1) + " – free, no sign-up, nothing uploaded")}
   {'<p class="embed-cta">Run a website or blog? <a href="/embed/">Add this calculator to your site for free →</a></p>' if slug in ("take-home-pay-calculator", "vat-calculator", "mileage-allowance-calculator", "hourly-rate-calculator") else ""}
+  {('<p class="guide-link">📘 Guide: <a href="/guides/' + GUIDE_LINKS[slug][0] + '/">' + GUIDE_LINKS[slug][1] + '</a></p>') if slug in GUIDE_LINKS else ""}
   <section class="prose">{body}</section>
   {variant_links(slug)}
   {faq_html(faqs)}

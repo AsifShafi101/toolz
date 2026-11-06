@@ -15,7 +15,11 @@
   var TEAL = [42, 157, 143], ORANGE = [255, 107, 53], NAVY = [20, 33, 61], CYAN = [94, 234, 212];
 
   function Net(canvas, opts) {
-    var ctx = canvas.getContext("2d"), W = 0, H = 0, DPR = Math.min(2, window.devicePixelRatio || 1);
+    // Phones and low-power devices get a lighter version: 25 fps, fewer dots and sparks, no grid.
+    var LITE = window.innerWidth < 760 || (navigator.hardwareConcurrency || 8) <= 4;
+    if (LITE) { opts.frameMs = 40; opts.sparks = Math.min(opts.sparks, 10); opts.grid = false; opts.max = Math.min(opts.max, 16); }
+    var DOT = LITE ? 15 : 9;
+    var ctx = canvas.getContext("2d"), W = 0, H = 0, DPR = Math.min(LITE ? 1.5 : 2, window.devicePixelRatio || 1);
     var nodes = [], links = [], sparks = [], raf = 0, last = 0, acc = 0, visible = true;
     function pal() {
       var d = opts.dark || isDark(), k = opts.strength;
@@ -63,7 +67,7 @@
         if (n.x < 0 || n.x > W) n.vx *= -1; if (n.y < 0 || n.y > H) n.vy *= -1;
       });
       links.forEach(function (lk) {
-        var a = nodes[lk[0]], b = nodes[lk[1]], d = Math.hypot(b.x - a.x, b.y - a.y), steps = Math.max(4, Math.floor(d / 9)), fade = Math.max(0, 1 - d / (Math.max(W, H) * 0.5));
+        var a = nodes[lk[0]], b = nodes[lk[1]], d = Math.hypot(b.x - a.x, b.y - a.y), steps = Math.max(4, Math.floor(d / DOT)), fade = Math.max(0, 1 - d / (Math.max(W, H) * 0.5));
         for (var i = 1; i < steps; i++) {
           var t = i / steps; ctx.fillStyle = rgba(P.link, P.linkA * fade * (0.55 + 0.45 * Math.sin(i * 1.7 + a.ph)));
           ctx.beginPath(); ctx.arc(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t, 0.9 + 0.5 * Math.abs(Math.sin(i * 0.9)), 0, 6.283); ctx.fill();
@@ -145,5 +149,7 @@
       Wave(c);
     }
   }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
+  // Decorative only: start after the page has loaded and the browser is idle, so it never delays the tools.
+  function later() { (window.requestIdleCallback || function (f) { setTimeout(f, 300); })(init, { timeout: 2000 }); }
+  if (document.readyState === "complete") later(); else window.addEventListener("load", later);
 })();
