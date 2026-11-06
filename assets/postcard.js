@@ -56,10 +56,19 @@
 
   /* ---------- Search any place on Wikimedia Commons (freely licensed photos only) ---------- */
   var FREE = /^(cc0|public domain|pd\b|cc[ -]by(-sa)?\b|free art licen[cs]e|fal\b|attribution)/i;
-  var BLOCK = /\b(nude|naked|nsfw|sex|porn|erotic|topless|genital|penis|vagina|breast|corpse|dead body|gore|execution|lynch)/i;
+  var BLOCK = /\b(nude|naked|nsfw|sex|porn|erotic|topless|genital|penis|vagina|breast|corpse|dead body|gore|execution|lynch|war|military|army|bomb|bomber|missile|rocket|attack|explosion|soldier|tank|weapon|gun|protest|riot|funeral|crash|ruins of|refugee|prison)/i;
   var NOTPHOTO = /\b(map|flag|logo|coat of arms|emblem|seal|diagram|chart|plan|scan|stamp|banknote|coin|document|letter|signature|svg)\b/i;
   function clean(s) { var d = document.createElement("div"); d.innerHTML = s || ""; return (d.textContent || "").replace(/\s+/g, " ").trim(); }
+  // Quality-assessed photos first (Commons "Quality images"), then everything else, so results look like postcards.
   function searchPlaces(q) {
+    return search1(q + ' incategory:"Quality images"').then(function (best) {
+      if (best.length >= 12) return best.slice(0, 24);
+      return search1(q).then(function (more) {
+        var seen = {}; return best.concat(more).filter(function (c) { if (seen[c.id]) return false; seen[c.id] = 1; return true; }).slice(0, 24);
+      });
+    });
+  }
+  function search1(q) {
     var u = "https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit=40" +
       "&gsrsearch=" + encodeURIComponent(q + " filetype:bitmap") + "&prop=imageinfo&iiprop=url|size|mime|extmetadata&iiurlwidth=330" +
       "&iiextmetadatafilter=LicenseShortName|Artist|LicenseUrl";
@@ -76,7 +85,7 @@
         out.push({ id: "wm:" + p.pageid, custom: true, place: "", country: "", landmark: landmark, h: parts[0] + "/" + parts[1], file: name, ow: i.width,
           portrait: i.height > i.width * 1.05, author: (clean((m.Artist || {}).value) || "Unknown").slice(0, 60), lic: lic.slice(0, 30), licUrl: (m.LicenseUrl || {}).value || "", focus: .5, thumb: i.thumburl });
       });
-      return out.slice(0, 24);
+      return out;
     });
   }
 
