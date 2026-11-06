@@ -981,3 +981,21 @@ main { position: relative; }
 .pc-search .btn { padding: 10px 16px; }
 #pc-rgrid { max-height: 300px; }
 #pc-rgrid .pc-tile span { padding-top: 18px; }
+
+/* Remove watermark from PDF */
+.wm-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+.wm-compare figure { margin: 0; }
+.wm-compare figcaption { font-size: .85rem; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px; }
+.wm-compare canvas { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; background: #fff; display: block; }
+label.check { display: flex; align-items: flex-start; gap: 8px; font-weight: 500; margin: 10px 0 0; }
+label.check input { margin-top: 3px; }
+
+/* Photo object eraser */
+.er-wrap { display: grid; grid-template-columns: minmax(260px, 340px) 1fr; gap: 20px; align-items: start; }
+.er-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.er-btns .btn { padding: 9px 13px; font-size: .9rem; }
+.er-canvas { min-height: 320px; border: 1px dashed var(--line); border-radius: 16px; background: var(--card); display: grid; place-items: center; padding: 12px; }
+.er-stage { position: relative; display: inline-block; max-width: 100%; line-height: 0; }
+.er-stage canvas { max-width: 100%; max-height: 72vh; height: auto; border-radius: 8px; }
+#er-mask { position: absolute; left: 0; top: 0; width: 100%; height: 100%; cursor: crosshair; touch-action: none; }
+@media (max-width: 860px) { .er-wrap { grid-template-columns: 1fr; } .er-canvas { order: -1; } }

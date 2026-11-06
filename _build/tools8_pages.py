@@ -66,3 +66,74 @@ write("/postcard/", head("You've got a postcard 💌 | etoolbox", "Someone sent 
 </div>
 """ + foot(("postcard.js",)))
 EXTRA_PATHS = globals().get("EXTRA_PATHS", [])
+
+# ---------------- Remove watermark from PDF ----------------
+tool_page("remove-watermark-from-pdf",
+    "Remove Watermark from PDF – Delete DRAFT / CONFIDENTIAL Layers Free | etoolbox",
+    "Remove watermark from PDF",
+    "Remove DRAFT, CONFIDENTIAL, SAMPLE and other watermark layers from your own PDFs. You'll see a before-and-after preview, and your file is never uploaded.",
+    """
+  <div class="gen">
+    <form class="panel" data-pdfwm novalidate>
+      <label class="drop" id="wm-drop" for="wm-input"><strong>Choose a PDF or drop it here</strong><span class="muted">Processed on your device · never uploaded</span>
+        <input type="file" id="wm-input" accept="application/pdf,.pdf" class="sr-only"></label>
+      <p id="wm-name" class="v2m-info"></p>
+      <label class="check"><input type="checkbox" name="overlay" checked> Also remove see-through overlay layers <span class="muted">(added on top by most online watermark tools)</span></label>
+      <label class="check"><input type="checkbox" name="stamps"> Also remove stamp annotations <span class="muted">(e.g. “Approved” stamps)</span></label>
+      <p id="wm-msg" class="hint" role="status" aria-live="polite"></p>
+      <p class="note">Only use this on documents you own or have permission to edit. Removing a watermark doesn't change who owns the document.</p>
+    </form>
+    <div class="panel" id="wm-out" hidden>
+      <div class="wm-compare"><figure><figcaption>Before · <span id="wm-page"></span></figcaption><canvas id="wm-before"></canvas></figure><figure><figcaption>After</figcaption><canvas id="wm-after"></canvas></figure></div>
+      <button type="button" class="btn" id="wm-dl">Download PDF without watermark</button>
+    </div>
+  </div>""",
+    """<h2>How to remove a watermark from a PDF</h2><ol><li>Choose your PDF. It's checked on your device straight away.</li><li>See what was found, with a before-and-after preview of the first changed page.</li><li>Download the clean PDF. Your text, images and links stay exactly as they were.</li></ol>
+<h2>What it can remove</h2><ul><li>Watermarks added in Adobe Acrobat, Word and most PDF editors, which are saved as a separate watermark layer.</li><li>Layers named Watermark, Draft, Confidential, Sample or Copy.</li><li>Watermarks added by etoolbox's <a href="/add-watermark-to-pdf/">Add watermark to PDF</a> tool and most other online watermark tools.</li><li>Optionally, “Approved” or “Paid”-style stamp annotations.</li></ul>
+<h2>What it can't remove</h2><p>If a watermark is part of a scanned page, or the PDF was “flattened” so each page is a single picture, the watermark is part of the image itself and can't be separated without damaging the page.</p>
+<p class="note">Please only remove watermarks from documents you own or have permission to change. Removing a copyright notice from someone else's work so you can use it without permission is against UK law.</p>""",
+    [("Is my PDF uploaded?", "No. It's processed entirely in your browser and never leaves your device."),
+     ("Will it change the rest of my document?", "No. Only the watermark layer is removed. Text, images, links and form fields stay as they were. Check the preview before you download."),
+     ("Why wasn't the watermark found?", "It's probably part of the page image (a scan or a flattened PDF). Try ticking “Also remove see-through overlay layers” if it isn't already ticked."),
+     ("Does it work on password-protected PDFs?", "Unlock it first with our Unlock PDF tool. You'll need the password.")],
+    ("vendor/pdf-lib.min.js", "pdftools.js", "pdfwm.js"))
+
+# ---------------- Photo object eraser ----------------
+tool_page("photo-object-eraser",
+    "Photo Object Eraser – Remove Date Stamps, Spots & Unwanted Objects Free | etoolbox",
+    "Photo object eraser",
+    "Brush over a date stamp, a spot, a stray wire or a small unwanted object, and it's filled in from the surrounding picture. It's free, and your photo never leaves your device.",
+    """
+  <div class="er-wrap">
+    <form class="panel er-panel" data-eraser novalidate>
+      <label class="drop" id="er-drop" for="er-input"><strong>Choose a photo or drop it here</strong><span class="muted">JPG, PNG or WebP · or paste with Ctrl+V · never uploaded</span>
+        <input type="file" id="er-input" accept="image/jpeg,image/png,image/webp" class="sr-only"></label>
+      <div id="er-tools" hidden>
+        <label for="brush">Brush size <span id="er-size" class="muted">28 px</span></label>
+        <input type="range" id="brush" name="brush" min="6" max="90" value="28">
+        <div class="er-btns">
+          <button type="button" class="btn" id="er-go" disabled>🪄 Erase</button>
+          <button type="button" class="btn secondary" id="er-clear" disabled>Clear brush</button>
+          <button type="button" class="btn secondary" id="er-undo" disabled>↶ Undo</button>
+          <button type="button" class="btn secondary" id="er-compare">Hold to compare</button>
+        </div>
+        <div class="v2m-bar" id="er-bar" hidden><i></i></div>
+        <button type="button" class="btn" id="er-dl" disabled style="width:100%;margin-top:12px">Download photo</button>
+        <button type="button" class="btn ghost" id="er-new" style="width:100%;margin-top:8px">Open another photo</button>
+      </div>
+      <p id="er-msg" class="hint" role="status" aria-live="polite"></p>
+    </form>
+    <div class="er-canvas">
+      <p id="er-empty" class="muted">Your photo will appear here. Paint over anything you want to remove.</p>
+      <div class="er-stage" id="er-stage" hidden><canvas id="er-view"></canvas><canvas id="er-mask" aria-label="Paint over the area to remove"></canvas></div>
+    </div>
+  </div>""",
+    """<h2>How to remove something from a photo</h2><ol><li>Open your photo.</li><li>Paint over the thing you want gone. Cover it completely, with a little extra round the edges.</li><li>Press <strong>Erase</strong>. It's filled in from the area around it in a second or two.</li><li>Not perfect? Press Undo, or paint over the leftovers and erase again. Then download.</li></ol>
+<h2>What it's good at</h2><ul><li>Orange date stamps on old scanned photos</li><li>Dust spots, blemishes and small marks</li><li>Power lines, stray hairs and small signs</li><li>Small objects or people in the background against grass, sky, sand, water or walls</li></ul>
+<p>It works by copying matching texture from nearby, so it's best on small areas surrounded by fairly even background. Big objects against busy backgrounds may need a few passes.</p>
+<p class="note">Please use it on your own photos. Removing another photographer's or stock library's watermark to use their picture without paying is against copyright law.</p>""",
+    [("Is my photo uploaded?", "No. Everything happens in your browser, so your photo never leaves your device."),
+     ("Will it reduce the quality?", "Only the painted area changes. Very large photos are worked on at up to 2,400 pixels on the longest side."),
+     ("It left a smudge. What can I do?", "Undo, then paint a slightly bigger area, or erase in two smaller steps. Smaller areas give cleaner results."),
+     ("Does it work on phones?", "Yes. Paint with your finger. A stylus or zooming the page in helps with small details.")],
+    ("eraser.js",))

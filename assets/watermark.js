@@ -78,6 +78,8 @@
       if (img) { w = VW * o.size / 100; h = w * img.height / img.width; }
       else { var tw = font.widthOfTextAtSize(o.text, 100) || 1; fs = 100 * (VW * o.size / 100) / tw; w = VW * o.size / 100; h = font.heightAtSize(fs, { descender: false }) * 0.72; }
       var ua = o.angle + rot, a = ua * RAD, cos = Math.cos(a), sin = Math.sin(a);
+      // Mark the watermark as a PDF "Artifact / Watermark" (the standard way), so readers and editors know it isn't page content.
+      page.pushOperators(PL.PDFOperator.of("BDC", [PL.PDFName.of("Artifact"), doc.context.obj({ Type: "Pagination", Subtype: "Watermark" })]));
       placements(VW, VH, w, h, o).forEach(function (pt) {
         var vx = pt[0], vy = VH - pt[1], x, y; // visual coords, y up
         if (rot === 90) { x = uw - vy; y = vx; } else if (rot === 180) { x = uw - vx; y = uh - vy; } else if (rot === 270) { x = vy; y = uh - vx; } else { x = vx; y = vy; }
@@ -86,6 +88,7 @@
         if (img) page.drawImage(img, { x: ox, y: oy, width: w, height: h, rotate: PL.degrees(ua), opacity: o.opacity });
         else page.drawText(o.text, { x: ox, y: oy, size: fs, font: font, color: PL.rgb(col[0], col[1], col[2]), rotate: PL.degrees(ua), opacity: o.opacity });
       });
+      page.pushOperators(PL.PDFOperator.of("EMC", []));
     });
   }
 
