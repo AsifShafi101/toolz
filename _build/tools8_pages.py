@@ -5,7 +5,7 @@ _pc_card = """<div class="pc-stage"><div class="pc-card" id="pc-card" tabindex="
 tool_page("digital-postcard-maker",
     "Free Digital Postcard Maker – Send an Online Postcard from Famous Cities | etoolbox",
     "Digital postcard maker",
-    "Send a free online postcard from London, Paris, New York, Rome, Sydney and more, or use your own photo. Write your message, add who it's to and from, then share a link or download it. No sign-up, no ads in the card.",
+    "Send a free online postcard from London, Paris, New York, Lahore, Karachi, Islamabad and 21 more famous places, or use your own photo. Write your message, add who it's to and from, then share a link or download it. No sign-up, no ads in the card.",
     f"""
   <div class="pc-wrap">
     <form class="panel pc-form" data-postcard novalidate>

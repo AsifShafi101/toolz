@@ -119,7 +119,7 @@ CATS = [
         ("hex-to-decimal-converter", "🔢", "Hex, binary & decimal converter", "Convert between hex, decimal, binary and octal, plus bitwise maths."),
     ]),
     ("everyday", "Everyday tools", "Quick answers you need every day.", [
-        ("digital-postcard-maker", "💌", "Digital postcard maker", "Send a free postcard from Paris, London, New York and 18 more famous places, with your message."),
+        ("digital-postcard-maker", "💌", "Digital postcard maker", "Send a free postcard from Paris, London, New York, Lahore and 23 more famous places, with your message."),
         ("age-calculator", "🎂", "Age calculator", "Exact age in years, months and days."),
         ("days-between-dates", "📅", "Days between dates", "Count days and working days, or add days to a date."),
         ("unit-converter", "📏", "Unit converter", "Length, weight, volume, temperature and more."),

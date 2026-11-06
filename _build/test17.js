@@ -9,7 +9,7 @@ const FAKE = fs.readFileSync('/tmp/fake-landmark.jpg');
   await ctx.route('https://upload.wikimedia.org/**', r => r.fulfill({ status: 200, contentType: 'image/jpeg', body: FAKE, headers: { 'Access-Control-Allow-Origin': '*' } }));
   const p = await ctx.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
   await p.goto(`${BASE}/digital-postcard-maker/`);
-  ok((await p.$$('.pc-tile[data-id]')).length === 21, '21 famous places offered');
+  ok((await p.$$('.pc-tile[data-id]')).length === 27, '27 famous places offered');
   await p.click('.pc-tile[data-id="paris"]');
   ok(await p.inputValue('#place') === 'Paris', 'picking Paris fills the place name');
   await p.fill('#msg', 'Hello from the Eiffel Tower!'); await p.fill('#to', 'Grandma'); await p.fill('#from', 'Asif');
