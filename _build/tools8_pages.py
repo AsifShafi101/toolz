@@ -10,6 +10,9 @@ tool_page("digital-postcard-maker",
   <div class="pc-wrap">
     <form class="panel pc-form" data-postcard novalidate>
       <h3 class="pc-step"><b>1</b> Pick a place</h3>
+      <div class="pc-search" role="search"><input type="search" id="pc-q" placeholder="Search any place in the world, e.g. Moscow, Petra, Antarctica" aria-label="Search any place in the world" autocomplete="off"><button type="button" class="btn" id="pc-go">Search</button></div>
+      <div id="pc-results" hidden><p class="hint" id="pc-rmsg" role="status"></p><div class="pc-grid" id="pc-rgrid"></div></div>
+      <p class="hint" style="margin:10px 0 6px">Popular places</p>
       <div class="pc-grid" id="pc-grid"></div>
       <h3 class="pc-step"><b>2</b> Front of the card</h3>
       <div class="row"><div><label for="greet">Greeting</label><input type="text" id="greet" name="greet" value="Greetings from" maxlength="30"></div>
@@ -40,8 +43,9 @@ tool_page("digital-postcard-maker",
       <p class="hint pc-credit" id="pc-credit"></p>
     </div>
   </div>""",
-    """<h2>How to send a digital postcard</h2><ol><li>Pick a famous place, or upload your own holiday photo.</li><li>Choose a design and colours. “Greetings from” and the place name appear on the front.</li><li>Write your message and who it's to and from. You'll see it on the back of the card.</li><li>Press <strong>Copy share link</strong>, or send it by WhatsApp or email. You can also download the card as a picture to post on social media or print.</li></ol>
+    """<h2>How to send a digital postcard</h2><ol><li>Pick a famous place, search for any place in the world, or upload your own holiday photo.</li><li>Choose a design and colours. “Greetings from” and the place name appear on the front.</li><li>Write your message and who it's to and from. You'll see it on the back of the card.</li><li>Press <strong>Copy share link</strong>, or send it by WhatsApp or email. You can also download the card as a picture to post on social media or print.</li></ol>
 <h2>Why use this postcard maker?</h2><ul><li><strong>Completely free:</strong> no membership, no “one free card a month” and no sign-up.</li><li><strong>Private:</strong> your message travels inside the link, and your own photos never leave your device.</li><li><strong>Looks like the real thing:</strong> a stamp, postmark and handwriting on the back, and it turns over like a real card.</li></ul>
+<h2>Any place in the world</h2><p>Type a city, country, landmark or even “Antarctica” into the search box. You'll see freely licensed photos from Wikimedia Commons, the free media library behind Wikipedia. Pick one and it goes straight onto your card.</p>
 <h2>The photos</h2><p>The landmark photos are freely licensed pictures from Wikimedia Commons, taken by the photographers credited on each card. Most are licensed under Creative Commons Attribution-ShareAlike (CC BY-SA). The credit printed on the back of every postcard keeps it in line with the licence.</p>""",
     [("Is it really free?", "Yes. Make and send as many postcards as you like. There's no account and no paid tier for postcards."),
      ("Can the person I send it to see it without an app?", "Yes. The link opens in any web browser on a phone or computer, and the card turns over to show your message."),

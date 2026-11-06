@@ -976,3 +976,8 @@ main { position: relative; }
 .pc-viewer .pc-card.flipped { animation: none; }
 @media (max-width: 900px) { .pc-wrap { grid-template-columns: 1fr; } .pc-side { position: static; order: -1; } .pc-grid { max-height: none; grid-template-columns: repeat(3, 1fr); } }
 @media (prefers-reduced-motion: reduce) { .pc-card { transition: none; } .pc-viewer .pc-card { animation: none; } }
+.pc-search { display: flex; gap: 8px; margin-bottom: 8px; }
+.pc-search input { flex: 1; min-width: 0; }
+.pc-search .btn { padding: 10px 16px; }
+#pc-rgrid { max-height: 300px; }
+#pc-rgrid .pc-tile span { padding-top: 18px; }

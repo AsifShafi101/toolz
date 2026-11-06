@@ -7,6 +7,10 @@ const FAKE = fs.readFileSync('/tmp/fake-landmark.jpg');
 (async () => {
   const b = await chromium.launch(); const ctx = await b.newContext({ viewport: { width: 1300, height: 1000 } });
   await ctx.route('https://upload.wikimedia.org/**', r => r.fulfill({ status: 200, contentType: 'image/jpeg', body: FAKE, headers: { 'Access-Control-Allow-Origin': '*' } }));
+  const mk = (id, title, lic, w, h) => ({ pageid: id, index: id, title: 'File:' + title, imageinfo: [{ url: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/' + encodeURIComponent(title.replace(/ /g, '_')), thumburl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/x/330px-x.jpg', width: w, height: h, mime: 'image/jpeg', extmetadata: { LicenseShortName: { value: lic }, Artist: { value: '<a href="#">Ivan Petrov</a>' }, LicenseUrl: { value: 'https://creativecommons.org/licenses/by-sa/4.0/' } } }] });
+  await ctx.route('https://commons.wikimedia.org/w/api.php**', r => r.fulfill({ status: 200, contentType: 'application/json', headers: { 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify({ query: { pages: {
+    1: mk(1, 'Saint Basil Cathedral Moscow.jpg', 'CC BY-SA 4.0', 3000, 2000), 2: mk(2, 'Red Square at night.jpg', 'CC0', 2400, 1600),
+    3: mk(3, 'Map of Moscow.jpg', 'CC BY-SA 4.0', 3000, 2000), 4: mk(4, 'Kremlin press photo.jpg', 'Fair use', 3000, 2000), 5: mk(5, 'Tiny Moscow.jpg', 'CC0', 400, 300) } } }) }));
   const p = await ctx.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
   await p.goto(`${BASE}/digital-postcard-maker/`);
   ok((await p.$$('.pc-tile[data-id]')).length === 27, '27 famous places offered');
@@ -30,6 +34,16 @@ const FAKE = fs.readFileSync('/tmp/fake-landmark.jpg');
   await v.waitForTimeout(2300); ok(await v.$eval('#pc-card', e => e.classList.contains('flipped')), 'viewer turns the card over by itself');
   await (await v.$('.pc-stage')).screenshot({ path: '/tmp/pc-view.png' });
   await v.goto(`${BASE}/postcard/#garbage`); await v.waitForTimeout(300); ok(await v.$eval('#pc-view', e => e.classList.contains('empty')), 'bad link shows a friendly message');
+  await p.fill('#pc-q', 'moscow'); await p.press('#pc-q', 'Enter');
+  await p.waitForSelector('#pc-rgrid .pc-tile', { timeout: 10000 });
+  ok((await p.$$('#pc-rgrid .pc-tile')).length === 2, 'search shows only free, photo-sized results (maps, non-free and tiny images filtered)');
+  await p.click('#pc-rgrid .pc-tile'); await p.waitForTimeout(900);
+  ok(await p.inputValue('#place') === 'Moscow', 'searched place fills the place name');
+  ok((await p.textContent('#pc-credit')).includes('Ivan Petrov') && (await p.textContent('#pc-credit')).includes('CC BY-SA 4.0'), 'searched photo credited');
+  await p.click('#pc-copy'); const link2 = await p.inputValue('#pc-link');
+  const v2 = await ctx.newPage(); v2.on('pageerror', e => errs.push(e.message)); await v2.goto(link2.replace(/^https?:\/\/[^/]+/, BASE));
+  await v2.waitForSelector('#pc-view.ready', { timeout: 15000 });
+  ok((await v2.textContent('#pc-from-line')).includes('from Moscow') && (await v2.textContent('#pc-credit')).includes('Ivan Petrov'), 'share link works for a searched place');
   await p.setInputFiles('#pc-file', '/tmp/fake-landmark.jpg'); await p.waitForTimeout(800);
   ok(await p.isHidden('#pc-share-wrap') && await p.isVisible('#pc-own-note'), 'own photo: download only, explained');
   const m = await ctx.newPage(); await m.setViewportSize({ width: 375, height: 800 }); await m.goto(`${BASE}/digital-postcard-maker/`);

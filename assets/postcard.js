@@ -47,6 +47,38 @@
   function enc(f) { return encodeURIComponent(f).replace(/\(/g, "%28").replace(/\)/g, "%29").replace(/'/g, "%27"); }
   function imgUrl(c, w) { var e = enc(c.file); return w >= c.ow ? WM + c.h + "/" + e : WM + "thumb/" + c.h + "/" + e + "/" + w + "px-" + e; }
   function pageUrl(c) { return "https://commons.wikimedia.org/wiki/File:" + enc(c.file); }
+  function setCredit(el, c) {
+    if (!c) { el.textContent = "Your own photo: it stays on your device."; return; }
+    el.innerHTML = 'Photo: <a target="_blank" rel="noopener"></a> by <span></span>, <a target="_blank" rel="noopener"></a>, via Wikimedia Commons.';
+    var as = el.querySelectorAll("a"); as[0].href = pageUrl(c); as[0].textContent = c.landmark; el.querySelector("span").textContent = c.author; as[1].href = licUrl(c); as[1].textContent = c.lic;
+  }
+  function licUrl(c) { return LIC[c.lic] || c.licUrl || pageUrl(c); }
+
+  /* ---------- Search any place on Wikimedia Commons (freely licensed photos only) ---------- */
+  var FREE = /^(cc0|public domain|pd\b|cc[ -]by(-sa)?\b|free art licen[cs]e|fal\b|attribution)/i;
+  var BLOCK = /\b(nude|naked|nsfw|sex|porn|erotic|topless|genital|penis|vagina|breast|corpse|dead body|gore|execution|lynch)/i;
+  var NOTPHOTO = /\b(map|flag|logo|coat of arms|emblem|seal|diagram|chart|plan|scan|stamp|banknote|coin|document|letter|signature|svg)\b/i;
+  function clean(s) { var d = document.createElement("div"); d.innerHTML = s || ""; return (d.textContent || "").replace(/\s+/g, " ").trim(); }
+  function searchPlaces(q) {
+    var u = "https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit=40" +
+      "&gsrsearch=" + encodeURIComponent(q + " filetype:bitmap") + "&prop=imageinfo&iiprop=url|size|mime|extmetadata&iiurlwidth=330" +
+      "&iiextmetadatafilter=LicenseShortName|Artist|LicenseUrl";
+    return fetch(u).then(function (r) { return r.json(); }).then(function (j) {
+      var pages = (j.query && j.query.pages) ? Object.keys(j.query.pages).map(function (k) { return j.query.pages[k]; }) : [];
+      pages.sort(function (a, b) { return (a.index || 0) - (b.index || 0); });
+      var out = [];
+      pages.forEach(function (p) {
+        var i = (p.imageinfo || [])[0]; if (!i || i.mime !== "image/jpeg" || i.width < 900 || i.height < 600) return;
+        var m = i.extmetadata || {}, lic = clean((m.LicenseShortName || {}).value), title = p.title.replace(/^File:/, "");
+        if (!FREE.test(lic) || BLOCK.test(title) || NOTPHOTO.test(title.replace(/[_.-]/g, " "))) return;
+        var parts = i.url.split("/commons/")[1].split("/"); // a/ab/File.jpg
+        var name = decodeURIComponent(parts[2]), landmark = title.replace(/\.[a-z]+$/i, "").replace(/[_]+/g, " ").replace(/\s*\(\d+\)\s*$/, "").slice(0, 46);
+        out.push({ id: "wm:" + p.pageid, custom: true, place: "", country: "", landmark: landmark, h: parts[0] + "/" + parts[1], file: name, ow: i.width,
+          portrait: i.height > i.width * 1.05, author: (clean((m.Artist || {}).value) || "Unknown").slice(0, 60), lic: lic.slice(0, 30), licUrl: (m.LicenseUrl || {}).value || "", focus: .5, thumb: i.thumburl });
+      });
+      return out.slice(0, 24);
+    });
+  }
 
   var THEMES = { sunset: ["#ff6b35", "#ff3d7f"], ocean: ["#1fb6ff", "#2a9d8f"], gold: ["#f7c948", "#e07a1f"], white: ["#ffffff", "#f1f1f1"], royal: ["#7c5cff", "#2563eb"] };
   var W = 1500, H = 1000;
@@ -201,9 +233,18 @@
   /* ---------- Share links (#data after the address; never sent to the server) ---------- */
   function b64e(o) { var j = unescape(encodeURIComponent(JSON.stringify(o))); return btoa(j).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); }
   function b64d(s) { s = s.replace(/-/g, "+").replace(/_/g, "/"); while (s.length % 4) s += "="; return JSON.parse(decodeURIComponent(escape(atob(s)))); }
-  function shareUrl(s) { return location.origin + "/postcard/#" + b64e({ c: s.city, g: s.greet, p: s.place, y: s.style, t: s.theme, m: s.msg, to: s.to, f: s.from, i: s.ink }); }
+  function shareUrl(s) {
+    var o = { c: s.city, g: s.greet, p: s.place, y: s.style, t: s.theme, m: s.msg, to: s.to, f: s.from, i: s.ink }, c = BY[s.city];
+    if (c && c.custom) o.x = { h: c.h, f: c.file, w: c.ow, pt: c.portrait ? 1 : 0, a: c.author, l: c.lic, u: c.licUrl, lm: c.landmark };
+    return location.origin + "/postcard/#" + b64e(o);
+  }
+  function fromShare(id, x) {
+    if (!x || !/^[0-9a-f]\/[0-9a-f]{2}$/.test(x.h || "")) return null;
+    return (BY[id] = { id: id, custom: true, place: "", country: "", landmark: String(x.lm || "").slice(0, 46), h: x.h, file: String(x.f), ow: +x.w || 1280, portrait: !!x.pt,
+      author: String(x.a || "").slice(0, 60), lic: String(x.l || "").slice(0, 30), licUrl: /^https:\/\//.test(x.u || "") ? x.u : "", focus: .5 });
+  }
 
-  window.ETBPostcard = { CITIES: CITIES, BY: BY, imgUrl: imgUrl, pageUrl: pageUrl, LIC: LIC, drawFront: drawFront, drawBack: drawBack, loadImg: loadImg, fontsReady: fontsReady, b64d: b64d, shareUrl: shareUrl, W: W, H: H };
+  window.ETBPostcard = { CITIES: CITIES, BY: BY, imgUrl: imgUrl, pageUrl: pageUrl, LIC: LIC, searchPlaces: searchPlaces, drawFront: drawFront, drawBack: drawBack, loadImg: loadImg, fontsReady: fontsReady, b64d: b64d, shareUrl: shareUrl, W: W, H: H };
 
   /* ---------- Maker page ---------- */
   var form = document.querySelector("form[data-postcard]");
@@ -232,7 +273,7 @@
     }
     function select(id) {
       own = null; current = id;
-      Array.prototype.forEach.call(grid.querySelectorAll(".pc-tile"), function (t) { t.classList.toggle("on", t.getAttribute("data-id") === id); });
+      Array.prototype.forEach.call(tiles(), function (t) { t.classList.toggle("on", t.getAttribute("data-id") === id); });
       var c = BY[id]; form.elements.place.value = c.place; render();
     }
     function render() {
@@ -243,16 +284,34 @@
         var img = r[1];
         drawFront(cardEl.f.getContext("2d"), img, s, c); drawBack(cardEl.b.getContext("2d"), img, s, c);
         status.textContent = "";
-        credit.innerHTML = c ? 'Photo: <a href="' + pageUrl(c) + '" target="_blank" rel="noopener">' + c.landmark + "</a> by " + c.author + ', <a href="' + LIC[c.lic] + '" target="_blank" rel="noopener">' + c.lic + "</a>, via Wikimedia Commons." : "Your own photo: it stays on your device.";
+        setCredit(credit, c);
         document.getElementById("pc-share-wrap").hidden = !!own;
         document.getElementById("pc-own-note").hidden = !own;
       }).catch(function () { if (my === token) status.textContent = "Couldn't load that photo. Check your connection or pick another."; });
     }
+    function tiles() { return document.querySelectorAll(".pc-tile"); }
     grid.addEventListener("click", function (e) { var t = e.target.closest(".pc-tile[data-id]"); if (t) select(t.getAttribute("data-id")); });
+    var q = document.getElementById("pc-q"), rbox = document.getElementById("pc-results"), rgrid = document.getElementById("pc-rgrid"), rmsg = document.getElementById("pc-rmsg"), lastQ = "";
+    function titleCase(t) { return t.replace(/\s+/g, " ").trim().replace(/\b\w/g, function (m) { return m.toUpperCase(); }).slice(0, 24); }
+    function search() {
+      var term = q.value.trim(); if (term.length < 2) { q.focus(); return; }
+      lastQ = term; rbox.hidden = false; rgrid.innerHTML = ""; rmsg.textContent = "Searching free photos of " + term + "…";
+      searchPlaces(term).then(function (list) {
+        if (term !== lastQ) return;
+        if (!list.length) { rmsg.textContent = "No free photos found for “" + term + "”. Try another spelling, a nearby city or a landmark."; return; }
+        rmsg.textContent = list.length + " free photos of “" + term + "”. Pick one:";
+        list.forEach(function (c) { c.place = titleCase(term); BY[c.id] = c; });
+        rgrid.innerHTML = list.map(function (c) { return '<button type="button" class="pc-tile" data-id="' + c.id + '"><img alt="" loading="lazy" crossorigin="anonymous"><span><small></small></span></button>'; }).join("");
+        Array.prototype.forEach.call(rgrid.querySelectorAll(".pc-tile"), function (b, i) { b.querySelector("img").src = list[i].thumb; b.title = list[i].landmark; b.querySelector("small").textContent = list[i].landmark; });
+      }).catch(function () { if (term === lastQ) rmsg.textContent = "Search isn't available right now. Check your connection and try again."; });
+    }
+    document.getElementById("pc-go").addEventListener("click", search);
+    q.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); search(); } });
+    rgrid.addEventListener("click", function (e) { var t = e.target.closest(".pc-tile[data-id]"); if (t) select(t.getAttribute("data-id")); });
     document.getElementById("pc-file").addEventListener("change", function (e) {
       var f = e.target.files[0]; if (!f) return;
       if (ownUrl) URL.revokeObjectURL(ownUrl); ownUrl = URL.createObjectURL(f);
-      var i = new Image(); i.onload = function () { own = i; Array.prototype.forEach.call(grid.querySelectorAll(".pc-tile"), function (t) { t.classList.toggle("on", t.classList.contains("pc-own")); }); render(); }; i.src = ownUrl;
+      var i = new Image(); i.onload = function () { own = i; Array.prototype.forEach.call(tiles(), function (t) { t.classList.toggle("on", t.classList.contains("pc-own")); }); render(); }; i.src = ownUrl;
     });
     var tmr; form.addEventListener("input", function () { clearTimeout(tmr); tmr = setTimeout(render, 120); });
     form.addEventListener("submit", function (e) { e.preventDefault(); });
@@ -283,6 +342,7 @@
     var data = null;
     try { data = b64d(location.hash.slice(1)); } catch (e) {}
     var cardEl = card(document.getElementById("pc-card"));
+    if (data && !BY[data.c] && /^wm:\d+$/.test(data.c || "")) fromShare(data.c, data.x);
     if (!data || !BY[data.c]) { box.classList.add("empty"); return; }
     var c = BY[data.c], s = { greet: data.g || "", place: data.p || c.place, style: data.y || "auto", theme: data.t || "sunset", msg: data.m || "", to: data.to || "", addr: "", from: data.f || "", ink: data.i || "hand" };
     document.getElementById("pc-from-line").textContent = s.from ? s.from + " sent you a postcard from " + (s.place || c.place) + " 💌" : "You've got a postcard from " + (s.place || c.place) + " 💌";
@@ -290,7 +350,7 @@
       drawFront(cardEl.f.getContext("2d"), r[1], s, c); drawBack(cardEl.b.getContext("2d"), r[1], s, c);
       box.classList.add("ready");
       setTimeout(function () { cardEl.el.classList.add("flipped"); }, 1800);
-      document.getElementById("pc-credit").innerHTML = 'Photo: <a href="' + pageUrl(c) + '" target="_blank" rel="noopener">' + c.landmark + "</a> by " + c.author + ', <a href="' + LIC[c.lic] + '" target="_blank" rel="noopener">' + c.lic + "</a>, via Wikimedia Commons.";
+      setCredit(document.getElementById("pc-credit"), c);
     });
   }
 })();
