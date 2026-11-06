@@ -119,6 +119,7 @@ CATS = [
         ("hex-to-decimal-converter", "🔢", "Hex, binary & decimal converter", "Convert between hex, decimal, binary and octal, plus bitwise maths."),
     ]),
     ("everyday", "Everyday tools", "Quick answers you need every day.", [
+        ("digital-postcard-maker", "💌", "Digital postcard maker", "Send a free postcard from Paris, London, New York and 18 more famous places, with your message."),
         ("age-calculator", "🎂", "Age calculator", "Exact age in years, months and days."),
         ("days-between-dates", "📅", "Days between dates", "Count days and working days, or add days to a date."),
         ("unit-converter", "📏", "Unit converter", "Length, weight, volume, temperature and more."),
@@ -148,7 +149,7 @@ ICONS = {
     "colour-picker": "pipette", "photo-metadata-remover": "map-pin-off", "meta-description-generator": "search", "website-screenshot": "monitor",
     "json-formatter": "braces", "website-speed-test": "gauge", "dns-checker": "globe", "email-dns-checker": "shield-check", "email-header-analyzer": "mail-search",
     "api-request-builder": "plug", "jwt-decoder": "key-round", "budget-planner": "chart-pie", "subscription-tracker": "refresh-cw",
-    "travel-budget-planner": "luggage", "trip-cost-splitter": "handshake", "meeting-time-finder": "clock", "youtube-thumbnail-downloader": "play", "video-to-mp3": "file-audio",
+    "travel-budget-planner": "luggage", "trip-cost-splitter": "handshake", "meeting-time-finder": "clock", "youtube-thumbnail-downloader": "play", "video-to-mp3": "file-audio", "digital-postcard-maker": "stamp",
     "text-to-speech": "volume-2", "speech-to-text": "mic", "age-calculator": "cake", "days-between-dates": "calendar-days", "unit-converter": "ruler",
     "bmi-calculator": "scale", "recipe-scaler": "chef-hat", "webcam-mic-test": "webcam", "word-counter": "type", "case-converter": "case-sensitive",
     "password-generator": "lock-keyhole", "sign-pdf": "signature", "protect-pdf": "file-lock", "unlock-pdf": "lock-keyhole-open",

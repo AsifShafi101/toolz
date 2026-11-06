@@ -1,0 +1,40 @@
+// Digital postcard maker: renders, downloads both sides, share link opens the viewer with the same message.
+// Wikimedia images are swapped for a local test picture (the test machine has no internet).
+const { chromium } = require('playwright'); const fs = require('fs');
+const BASE = process.env.BASE || 'http://localhost:8765';
+let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++; };
+const FAKE = fs.readFileSync('/tmp/fake-landmark.jpg');
+(async () => {
+  const b = await chromium.launch(); const ctx = await b.newContext({ viewport: { width: 1300, height: 1000 } });
+  await ctx.route('https://upload.wikimedia.org/**', r => r.fulfill({ status: 200, contentType: 'image/jpeg', body: FAKE, headers: { 'Access-Control-Allow-Origin': '*' } }));
+  const p = await ctx.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
+  await p.goto(`${BASE}/digital-postcard-maker/`);
+  ok((await p.$$('.pc-tile[data-id]')).length === 21, '21 famous places offered');
+  await p.click('.pc-tile[data-id="paris"]');
+  ok(await p.inputValue('#place') === 'Paris', 'picking Paris fills the place name');
+  await p.fill('#msg', 'Hello from the Eiffel Tower!'); await p.fill('#to', 'Grandma'); await p.fill('#from', 'Asif');
+  await p.waitForFunction(() => document.getElementById('pc-status').textContent === '', null, { timeout: 15000 });
+  await p.waitForTimeout(400);
+  const painted = await p.evaluate(() => { const c = document.querySelector('.pc-back canvas'), d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; let ink = 0; for (let i = 0; i < d.length; i += 4 * 97) if (d[i] < 80 && d[i + 2] > 60) ink++; return ink; });
+  ok(painted > 50, 'back of card has handwriting drawn (' + painted + ')');
+  ok((await p.textContent('#pc-credit')).includes('Benh LIEU SONG'), 'photo credit shown');
+  const dl = p.waitForEvent('download'); await p.click('#pc-dl-both'); const d = await dl; await d.saveAs('/tmp/pc-both.jpg');
+  ok(d.suggestedFilename() === 'postcard-paris.jpg' && fs.statSync('/tmp/pc-both.jpg').size > 50000, 'downloads both sides: ' + d.suggestedFilename());
+  await ctx.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await p.click('#pc-copy'); const link = await p.inputValue('#pc-link');
+  ok(link.includes('/postcard/#'), 'share link made');
+  const v = await ctx.newPage(); v.on('pageerror', e => errs.push(e.message));
+  await v.goto(link.replace(/^https?:\/\/[^/]+/, BASE));
+  await v.waitForSelector('#pc-view.ready', { timeout: 15000 });
+  ok((await v.textContent('#pc-from-line')).includes('Asif sent you a postcard from Paris'), 'viewer: ' + await v.textContent('#pc-from-line'));
+  await v.waitForTimeout(2300); ok(await v.$eval('#pc-card', e => e.classList.contains('flipped')), 'viewer turns the card over by itself');
+  await (await v.$('.pc-stage')).screenshot({ path: '/tmp/pc-view.png' });
+  await v.goto(`${BASE}/postcard/#garbage`); await v.waitForTimeout(300); ok(await v.$eval('#pc-view', e => e.classList.contains('empty')), 'bad link shows a friendly message');
+  await p.setInputFiles('#pc-file', '/tmp/fake-landmark.jpg'); await p.waitForTimeout(800);
+  ok(await p.isHidden('#pc-share-wrap') && await p.isVisible('#pc-own-note'), 'own photo: download only, explained');
+  const m = await ctx.newPage(); await m.setViewportSize({ width: 375, height: 800 }); await m.goto(`${BASE}/digital-postcard-maker/`);
+  ok(await m.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'no mobile overflow');
+  ok(errs.length === 0, 'no page errors ' + errs.join('; '));
+  await (await p.$('.pc-side')).screenshot({ path: '/tmp/pc-side.png' });
+  await b.close(); console.log(fails ? fails + ' FAILED' : 'ALL PASSED'); process.exit(fails ? 1 : 0);
+})();

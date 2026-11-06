@@ -53,6 +53,8 @@
   Cache-Control: public, max-age=31536000, immutable
 /assets/planners.js
   Cache-Control: public, max-age=31536000, immutable
+/assets/postcard.js
+  Cache-Control: public, max-age=31536000, immutable
 /assets/qrcode.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/scicalc.js
