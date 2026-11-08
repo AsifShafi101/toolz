@@ -237,7 +237,7 @@
     var cat = bmi < 18.5 ? "Underweight range" : bmi < over ? "Healthy weight range" : bmi < obese ? "Overweight range" : bmi < 40 ? "Obese range" : "Severely obese range";
     var lo = 18.5 * h * h, hi = (over - 0.1) * h * h;
     return { rows: [["Your BMI", (Math.round(bmi * 10) / 10).toFixed(1), true], ["Result", cat], ["Healthy weight range for your height", weightText(lo, v.wunit) + " – " + weightText(hi, v.wunit)]],
-             raw: { bmi: Math.round(bmi * 10) / 10, category: cat } };
+             raw: { bmi: Math.round(bmi * 10) / 10, category: cat, h: h, w: w, over: over, obese: obese, lo: lo, hi: hi, wunit: v.wunit, hunit: v.hunit } };
   };
   // Convert entered values when a unit switch is flipped, and remember the choice.
   function bmiUnits(form) {

@@ -276,10 +276,31 @@ tool_page("bmi-calculator", "BMI Calculator UK – Metric & Imperial (NHS Catego
 <div data-show-when="wunit=lb"><label for="lbonly" class="sub">Pounds</label><input type="text" id="lbonly" name="lbonly" inputmode="decimal" placeholder="165"></div>
 <p class="hint" style="margin-top:8px">Mix and match: switch height or weight units at any time, and your numbers are converted for you.</p>
 <label for="ethnic">Family background</label>
-<select id="ethnic" name="ethnic"><option value="no">White or other</option><option value="yes">South Asian, Chinese, other Asian, Middle Eastern, Black African or African-Caribbean</option></select>"""),
+<select id="ethnic" name="ethnic"><option value="no">White or other</option><option value="yes">South Asian, Chinese, other Asian, Middle Eastern, Black African or African-Caribbean</option></select>""") + """
+  <section class="bmi-viz" id="bmi-viz" hidden aria-label="Your BMI explained">
+    <div class="bv-top">
+      <div class="panel bv-gauge" id="bmi-gauge-wrap">
+        <svg viewBox="0 0 320 190" id="bmi-gauge" role="img" aria-label="BMI gauge"></svg>
+        <div class="bv-read"><span id="bmi-big">0.0</span><span class="bv-chip" id="bmi-chip"></span></div>
+      </div>
+      <div class="panel bv-weight">
+        <h3>Your healthy weight</h3>
+        <div class="wbar"><div class="wb-track"><div class="wb-range" id="wb-range"></div><div class="wb-you" id="wb-you"><span>You</span></div></div>
+          <div class="wb-labels"><span>Healthy from <b id="wb-lo"></b></span><span>to <b id="wb-hi"></b></span></div></div>
+        <p id="wb-msg"></p>
+      </div>
+    </div>
+    <div class="panel bv-chart"><h3>Where you are on the BMI chart</h3>
+      <svg viewBox="0 0 560 340" id="bmi-chart" role="img" aria-label="BMI chart of height against weight with your position marked"></svg>
+      <div class="bv-legend"><span style="--c:#3b82f6">Underweight</span><span style="--c:#22c55e">Healthy</span><span style="--c:#f59e0b">Overweight</span><span style="--c:#ef4444">Obese</span></div>
+    </div>
+    <h3 class="bv-adv-title">Tips for a healthy weight</h3>
+    <div class="bv-advice" id="bmi-advice"></div>
+    <p class="note">Based on the World Health Organization's <a href="https://www.who.int/news-room/fact-sheets/detail/healthy-diet" target="_blank" rel="noopener">healthy diet</a> and <a href="https://www.who.int/publications/i/item/9789240015128" target="_blank" rel="noopener">physical activity</a> guidelines, and NHS advice. This is general information, not medical advice. Talk to your GP before big changes, especially if you have a health condition.</p>
+  </section>""",
     """<h2>About BMI</h2><p>BMI is your weight in kilograms divided by your height in metres squared. It's a quick screening measure for adults (18+), but it doesn't tell the whole story. It doesn't account for muscle, age or where weight is carried, and it isn't suitable during pregnancy.</p>
 <p>UK guidance uses lower thresholds for people from South Asian, Chinese, other Asian, Middle Eastern, Black African and African-Caribbean backgrounds. For them, 23–27.4 is classed as overweight and 27.5 or over as obese, because health risks start at a lower BMI.</p>
 <p>If you're worried about your weight or health, talk to your GP or practice nurse. The NHS advises not using BMI calculators if you have, or think you may have, an eating disorder. Support is available from Beat (beateatingdisorders.org.uk).</p>""",
     [("What's a healthy BMI?", "For most adults, 18.5 to 24.9. For people from the backgrounds listed above, it's 18.5 to 22.9."),
      ("Can children use this?", "No. Children's BMI is worked out differently, using age- and sex-specific charts. Use the NHS BMI calculator for children.")],
-    ("calc.js",))
+    ("calc.js", "bmi-viz.js"))

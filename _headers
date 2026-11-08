@@ -21,6 +21,8 @@
   Cache-Control: public, max-age=31536000, immutable
 /assets/bgremove.js
   Cache-Control: public, max-age=31536000, immutable
+/assets/bmi-viz.js
+  Cache-Control: public, max-age=31536000, immutable
 /assets/calc.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/colour.js
