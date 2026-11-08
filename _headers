@@ -43,6 +43,12 @@
   Cache-Control: public, max-age=31536000, immutable
 /assets/heic.js
   Cache-Control: public, max-age=31536000, immutable
+/assets/i18n-ar.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/i18n-es.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/i18n.js
+  Cache-Control: public, max-age=31536000, immutable
 /assets/image.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/invoice.js

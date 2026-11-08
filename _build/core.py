@@ -162,7 +162,7 @@ CAT_ICON = {"docs": "receipt", "pdf": "file-text", "files": "folder-search", "mo
             "web": "globe", "plan": "calendar-days", "media": "volume-2", "everyday": "calculator", "maths": "sigma"}
 CAT_SHORT = {"docs": "Business docs", "pdf": "PDF", "files": "Files", "money": "Money & tax", "qr": "QR codes", "images": "Images",
              "web": "Website", "plan": "Planners", "media": "Media", "maths": "Maths", "everyday": "Everyday"}
-UI_ICONS = ["lock", "shield", "sparkles", "zap", "smartphone", "badge-percent", "search", "arrow-right", "check", "upload", "download", "x", "share-2", "link", "message-circle", "mail"]
+UI_ICONS = ["globe", "lock", "shield", "sparkles", "zap", "smartphone", "badge-percent", "search", "arrow-right", "check", "upload", "download", "x", "share-2", "link", "message-circle", "mail"]
 
 
 def svg(name, cls="ic"):
@@ -219,11 +219,66 @@ def write_cache_headers():
     open(fp, "w").write(txt.rstrip("\n") + "\n\n" + block)
 
 
+# ---------- Languages ----------
+# English is the main site. Translated sections live under /es/ and /ar/ (data in i18n_es.py / i18n_ar.py).
+LANG = "en"
+L10N = {}
+LANG_LIST = [("en", "English"), ("es", "Español"), ("ar", "العربية")]
+CHROME_EN = {"skip": "Skip to content", "logo": "etoolbox home", "search_label": "Search tools", "search_tip": "Tip: press / to search",
+             "pricing": "Pricing", "contact": "Contact", "theme": "Switch light or dark mode", "theme_t": "Light / dark mode",
+             "pro": "Pro is active on this device", "lang": "Language", "main_nav": "Main"}
+
+
+def CH(k):
+    d = L10N[LANG]["chrome"] if LANG != "en" else CHROME_EN
+    return d.get(k, CHROME_EN.get(k, ""))
+
+
+def lpath(slug, lang):
+    """Path of a tool page (or the homepage when slug is '') in a language."""
+    if lang == "en":
+        return "/" + (slug + "/" if slug else "")
+    return L10N[lang]["home"] + (L10N[lang]["slugs"][slug] + "/" if slug else "")
+
+
+def alternates(path):
+    """{lang: path} for a page that exists in every language, else None."""
+    if len(L10N) + 1 < len(LANG_LIST):
+        return None
+    for s in [""] + list(L10N["es"]["slugs"]):
+        group = {c: lpath(s, c) for c, _ in LANG_LIST}
+        if path in group.values():
+            return group
+    return None
+
+
+def lang_menu(path):
+    alts = alternates(path)
+    items = "".join(
+        '<li><a href="' + (alts[c] if alts else lpath("", c)) + f'" hreflang="{c}" lang="{c}"' + (' dir="rtl"' if c == "ar" else "")
+        + (' aria-current="true"' if c == LANG else "") + f">{n}</a></li>" for c, n in LANG_LIST)
+    short = {"en": "EN", "es": "ES", "ar": "عربي"}[LANG]
+    return (f'<details class="lang-menu"><summary title="{CH("lang")}" aria-label="{CH("lang")}: {dict(LANG_LIST)[LANG]}">{svg("globe")}<span>{short}</span></summary>'
+            f'<ul>{items}</ul></details>')
+
+
+def hreflang_links(path):
+    alts = alternates(path)
+    if not alts:
+        return ""
+    tags = "".join(f'<link rel="alternate" hreflang="{"en-GB" if c == "en" else c}" href="{SITE}{p}">\n' for c, p in alts.items())
+    return tags + f'<link rel="alternate" hreflang="x-default" href="{SITE}{alts["en"]}">\n'
+
+
 def head(title, desc, path, extra="", body_class=""):
     url = SITE + path
-    navlinks = "".join(f'<a class="hide-md" href="/#{k}">{t}</a>' for k, t in NAV)
+    loc = L10N.get(LANG)
+    home = loc["home"] if loc else "/"
+    navlinks = "".join(f'<a class="hide-md" href="{home}#{k}">{t}</a>' for k, t in (loc["chrome"]["nav"] if loc else NAV))
+    search_ph = loc["chrome"]["search_ph"] if loc else f"Search {len(TOOLS)} free tools…"
+    font_pre = "plex-arabic-400.woff2" if LANG == "ar" else "instrument-serif.woff2"
     return f"""<!doctype html>
-<html lang="en-GB">
+<html lang="{loc["html"] if loc else "en-GB"}" dir="{loc["dir"] if loc else "ltr"}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -232,7 +287,8 @@ def head(title, desc, path, extra="", body_class=""):
 <link rel="canonical" href="{url}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="etoolbox">
-<meta property="og:locale" content="en_GB">
+<meta property="og:locale" content="{loc["og"] if loc else "en_GB"}">
+{hreflang_links(path)}
 <meta property="og:title" content="{html.escape(title)}">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:url" content="{url}">
@@ -243,22 +299,23 @@ def head(title, desc, path, extra="", body_class=""):
 <meta name="theme-color" content="#14213d">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="preload" href="/assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/{font_pre}" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{ver("style.css")}">
 <script>try{{var t=localStorage.getItem("etb-theme");if(t)document.documentElement.setAttribute("data-theme",t);}}catch(e){{}}</script>
 {extra}</head>
 <body{(' class="' + body_class + '"') if body_class else ""}>
-<a class="skip" href="#main">Skip to content</a>
+<a class="skip" href="#main">{CH("skip")}</a>
 <header class="site-header"><div class="wrap">
-  <a class="logo" href="/" aria-label="etoolbox home">{LOGO}<span>e<b>tool</b>box</span><span class="pro-badge" title="Pro is active on this device">PRO</span></a>
-  <div class="search" role="search"><label for="tool-search" class="sr-only">Search tools</label>
-    {svg("search", "ic search-ic")}<input type="search" id="tool-search" placeholder="Search {len(TOOLS)} free tools…" title="Tip: press / to search" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false">
+  <a class="logo" href="{home}" aria-label="{CH("logo")}">{LOGO}<span>e<b>tool</b>box</span><span class="pro-badge" title="{CH("pro")}">PRO</span></a>
+  <div class="search" role="search"><label for="tool-search" class="sr-only">{CH("search_label")}</label>
+    {svg("search", "ic search-ic")}<input type="search" id="tool-search" placeholder="{search_ph}" title="{CH("search_tip")}" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false">
     <ul class="search-results" id="search-results" role="listbox" hidden></ul></div>
-  <nav class="nav" aria-label="Main">
+  <nav class="nav" aria-label="{CH("main_nav")}">
     {navlinks}
-    <a href="/pricing/"{' aria-current="page"' if path == '/pricing/' else ''}>Pricing</a>
-    <a class="nav-contact" href="/contact/"{' aria-current="page"' if path == '/contact/' else ''} title="hello@etoolbox.co.uk">{svg("mail")}<span>Contact</span></a>
-    <button type="button" class="icon-toggle" id="theme-toggle" aria-label="Switch light or dark mode" title="Light / dark mode">◐</button>
+    <a href="/pricing/"{' aria-current="page"' if path == '/pricing/' else ''}>{CH("pricing")}</a>
+    <a class="nav-contact" href="/contact/"{' aria-current="page"' if path == '/contact/' else ''} title="hello@etoolbox.co.uk">{svg("mail")}<span>{CH("contact")}</span></a>
+    {lang_menu(path)}
+    <button type="button" class="icon-toggle" id="theme-toggle" aria-label="{CH("theme")}" title="{CH("theme_t")}">◐</button>
   </nav>
 </div></header>
 <main id="main">
@@ -293,9 +350,38 @@ AD_HTML = f"""<aside class="fad" id="fad" aria-label="Featured local business" h
 </aside>"""
 
 
+I18N_CATS = [("pdf", ["merge-pdf", "compress-pdf", "split-pdf", "jpg-to-pdf", "pdf-to-jpg"]),
+             ("images", ["image-compressor", "image-resizer", "png-to-jpg"]),
+             ("more", ["qr-code-generator", "bmi-calculator"])]
+
+
+def foot_localized(tags):
+    loc = L10N[LANG]; c = loc["chrome"]; P = loc["pages"]
+    cols = "".join(f'<div><h3><a href="{loc["home"]}#{k}">{loc["cats"][k][0]}</a></h3><ul>'
+                   + "".join(f'<li><a href="{lpath(s, LANG)}">{P[s]["name"]}</a></li>' for s in ss) + "</ul></div>" for k, ss in I18N_CATS)
+    return f"""</main>
+<footer class="site-footer"><div class="wrap">
+  <nav class="directory" aria-label="{c["dir"]}">{cols}</nav>
+  <div class="foot-bottom">
+    <div class="foot-brand"><a class="logo" href="{loc["home"]}">{LOGO}<span>e<b>tool</b>box</span></a><p>{c["blurb"]}</p>
+      <p class="foot-mail">{svg("mail")} <a href="mailto:hello@etoolbox.co.uk">hello@etoolbox.co.uk</a></p></div>
+    <div class="foot-links"><a href="{loc["home"]}">{c["home"]}</a><a href="/">{c["all_en"]}</a><a href="/contact/">{c["contact"]}</a><a href="/privacy/">{c["privacy"]}</a><a href="/terms/">{c["terms"]}</a></div>
+  </div>
+  <p class="foot-copy">© {YEAR} etoolbox.co.uk · {c["made"]}</p>
+</div></footer>
+{tags}
+</body>
+</html>
+"""
+
+
 def foot(scripts=("qrcode.js",)):
     files = ["config.js", "tools-index.js"] + list(scripts) + ["app.js"] + ([] if "network-bg.js" in scripts else ["network-bg.js"])
+    if LANG != "en":
+        files = [f"i18n-{LANG}.js", "i18n.js"] + files
     tags = "\n".join(f'<script src="{ver(x)}"></script>' for x in files)
+    if LANG != "en":
+        return foot_localized(tags)
     return f"""</main>
 <footer class="site-footer"><div class="wrap">
   {directory()}

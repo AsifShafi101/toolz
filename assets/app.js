@@ -257,20 +257,22 @@
 
   /* ---------- Platform: theme, search, favourites, recently used ---------- */
   function store(k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem(k) || "null"); localStorage.setItem(k, JSON.stringify(v)); } catch (e) { return null; } }
-  var TOOLS = (window.ETB_TOOLS || []).map(function (t) { return { slug: t[0], icon: t[1], name: t[2], desc: t[3], cat: t[4], key: t[5] }; });
+  var LT = (window.ETB_I18N && window.ETB_I18N.tools) || {};
+  var TOOLS = (window.ETB_TOOLS || []).map(function (t) { var o = { slug: t[0], icon: t[1], name: t[2], desc: t[3], cat: t[4], key: t[5], url: "/" + t[0] + "/", en: "" }, l = LT[t[0]]; if (l) { o.en = o.name + " " + o.desc; o.name = l[0]; o.desc = l[1]; o.url = l[2]; } return o; });
+  if (window.ETB_I18N) TOOLS.sort(function (a, b) { return (LT[b.slug] ? 1 : 0) - (LT[a.slug] ? 1 : 0); });
   var BY = {}; TOOLS.forEach(function (t) { BY[t.slug] = t; });
 
   function initTheme() {
     var b = document.getElementById("theme-toggle"); if (!b) return;
     function current() { var a = document.documentElement.getAttribute("data-theme"); return a || (matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); }
-    function label() { var d = current() === "dark"; b.textContent = d ? "☀" : "☾"; b.setAttribute("aria-label", d ? "Switch to light mode" : "Switch to dark mode"); }
+    function label() { var d = current() === "dark"; b.textContent = d ? "☀" : "☾"; b.setAttribute("aria-label", d ? T("Switch to light mode") : T("Switch to dark mode")); }
     b.addEventListener("click", function () { var n = current() === "dark" ? "light" : "dark"; document.documentElement.setAttribute("data-theme", n); try { localStorage.setItem("etb-theme", n); } catch (e) {} label(); });
     label();
   }
 
   var SYN = { pdf: "document acrobat", jpg: "jpeg photo picture image", png: "image picture", compress: "reduce shrink smaller size", convert: "change", word: "docx doc", qr: "qrcode barcode", vat: "tax", money: "finance £ pounds", password: "secure", ocr: "text scan read extract", dns: "domain nameserver", email: "mail gmail outlook", photo: "image picture", resize: "scale dimensions", merge: "combine join", split: "separate extract", rename: "files bulk batch", duplicate: "same identical files", speed: "performance pagespeed core web vitals lcp", budget: "money spending", time: "zone clock meeting", recipe: "cooking food ingredients", webcam: "camera microphone mic test", invoice: "bill receipt", background: "remove bg cutout transparent erase", watermark: "stamp logo copyright protect confidential draft brand", signature: "sign" };
   function score(t, q) {
-    var hay = (t.name + " " + t.desc + " " + t.cat + " " + t.slug.replace(/-/g, " ")).toLowerCase(), words = q.toLowerCase().split(/\s+/).filter(Boolean), sc = 0;
+    var hay = (t.name + " " + t.desc + " " + t.cat + " " + t.slug.replace(/-/g, " ") + " " + t.en).toLowerCase(), words = q.toLowerCase().split(/\s+/).filter(Boolean), sc = 0;
     Object.keys(SYN).forEach(function (k) { if (hay.indexOf(k) >= 0) hay += " " + SYN[k]; });
     for (var i = 0; i < words.length; i++) {
       var w = words[i]; if (hay.indexOf(w) < 0) return 0;
@@ -288,14 +290,14 @@
       if (!q) { list.hidden = true; input.setAttribute("aria-expanded", "false"); return; }
       items = search(q);
       var pre = list.id + "-";
-      list.innerHTML = items.length ? items.map(function (t, i) { return '<li role="option" id="' + pre + i + '"><a href="/' + t.slug + '/">' + t.icon + "<span><strong>" + esc(t.name) + '</strong><span class="muted">' + esc(t.desc) + "</span></span></a></li>"; }).join("") : '<li class="empty">No tools match "' + esc(q) + '". Try another word.</li>';
+      list.innerHTML = items.length ? items.map(function (t, i) { return '<li role="option" id="' + pre + i + '"><a href="' + t.url + '">' + t.icon + "<span><strong>" + esc(t.name) + '</strong><span class="muted">' + esc(t.desc) + "</span></span></a></li>"; }).join("") : '<li class="empty">' + T('No tools match "{q}". Try another word.', { q: esc(q) }) + "</li>";
       list.hidden = false; input.setAttribute("aria-expanded", "true");
     }
     function move(d) { var lis = list.querySelectorAll("li[role=option]"); if (!lis.length) return; active = (active + d + lis.length) % lis.length; lis.forEach(function (li, i) { li.classList.toggle("active", i === active); }); input.setAttribute("aria-activedescendant", list.id + "-" + active); }
     input.addEventListener("input", render);
     input.addEventListener("keydown", function (e) {
       if (e.key === "ArrowDown") { e.preventDefault(); move(1); } else if (e.key === "ArrowUp") { e.preventDefault(); move(-1); }
-      else if (e.key === "Enter") { var t = items[active >= 0 ? active : 0]; if (t) { e.preventDefault(); location.href = "/" + t.slug + "/"; } }
+      else if (e.key === "Enter") { var t = items[active >= 0 ? active : 0]; if (t) { e.preventDefault(); location.href = t.url; } }
       else if (e.key === "Escape") { input.value = ""; render(); input.blur(); }
     });
     document.addEventListener("click", function (e) { if (!box.contains(e.target)) list.hidden = true; });
@@ -334,19 +336,19 @@
       rec.unshift(slug); store("etb-recent", rec.slice(0, 8));
       var b = head.querySelector(".fav-btn"), fresh = !b;
       if (fresh) { b = document.createElement("button"); b.type = "button"; b.className = "fav-btn"; }
-      var set = function (on) { b.setAttribute("aria-pressed", on ? "true" : "false"); b.textContent = on ? "★ Saved to favourites" : "☆ Add to favourites"; };
+      var set = function (on) { b.setAttribute("aria-pressed", on ? "true" : "false"); b.textContent = on ? T("★ Saved to favourites") : T("☆ Add to favourites"); };
       set(favs.indexOf(slug) >= 0);
       b.addEventListener("click", function () { var f = store("etb-favs") || [], i = f.indexOf(slug); if (i >= 0) f.splice(i, 1); else f.unshift(slug); store("etb-favs", f); set(i < 0); });
       if (fresh) head.querySelector("h1").appendChild(b);
     }
     var mine = document.getElementById("my-tools");
     if (mine) {
-      var card = function (t) { return '<a class="tool-card" href="/' + t.slug + '/">' + t.icon + "<h3>" + t.name + "</h3><p>" + t.desc + "</p></a>"; };
+      var card = function (t) { return '<a class="tool-card" href="' + t.url + '">' + t.icon + "<h3>" + t.name + "</h3><p>" + t.desc + "</p></a>"; };
       var f = (store("etb-favs") || []).filter(function (x) { return BY[x]; }).map(function (x) { return BY[x]; });
       var r = (store("etb-recent") || []).filter(function (x) { return BY[x]; }).map(function (x) { return BY[x]; }).slice(0, 6);
       var html = "";
-      if (f.length) html += '<section id="favourites"><h2>Your favourites</h2><div class="grid">' + f.map(card).join("") + "</div></section>";
-      if (r.length) html += '<section id="recent"><h2>Recently used</h2><div class="grid">' + r.map(card).join("") + "</div></section>";
+      if (f.length) html += '<section id="favourites"><h2>' + T("Your favourites") + '</h2><div class="grid">' + f.map(card).join("") + "</div></section>";
+      if (r.length) html += '<section id="recent"><h2>' + T("Recently used") + '</h2><div class="grid">' + r.map(card).join("") + "</div></section>";
       mine.innerHTML = html;
     }
   }
@@ -386,13 +388,13 @@
     function post(path, body) { return fetch(path, { method: "POST", keepalive: true, headers: { "content-type": "application/json", "x-etb": "1" }, body: JSON.stringify(body) }).then(function (r) { return r.json(); }); }
     var seenKey = "etb-v:" + slug;
     try { if (!sessionStorage.getItem(seenKey)) { sessionStorage.setItem(seenKey, "1"); post("/api/hit", { tool: slug, kind: "visit" }).catch(function () {}); } } catch (e) {}
-    var fmt = function (n) { return Number(n).toLocaleString("en-GB"); };
+    var fmt = function (n) { return Number(n).toLocaleString(document.documentElement.lang || "en-GB"); };
     var stats = null;
     fetch("/api/stats?tool=" + slug).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
       if (!j) return; stats = j;
       var pill = document.querySelector(".hero .pill");
-      if (isHome && pill && j.total >= (CFG2.showSiteCounterFrom || 1000)) pill.insertAdjacentHTML("beforeend", ' · <span id="site-count">Used ' + fmt(j.total) + " times</span>");
-      if (head && j.toolUses >= (CFG2.showToolCounterFrom || 100)) { var t = head.querySelector(".privacy-tag"); if (t) t.insertAdjacentHTML("afterend", ' <span class="privacy-tag use-count">✓ Used ' + fmt(j.toolUses) + " times</span>"); }
+      if (isHome && pill && j.total >= (CFG2.showSiteCounterFrom || 1000)) pill.insertAdjacentHTML("beforeend", ' · <span id="site-count">' + T("Used {n} times", { n: fmt(j.total) }) + "</span>");
+      if (head && j.toolUses >= (CFG2.showToolCounterFrom || 100)) { var t = head.querySelector(".privacy-tag"); if (t) t.insertAdjacentHTML("afterend", ' <span class="privacy-tag use-count">✓ ' + T("Used {n} times", { n: fmt(j.toolUses) }) + "</span>"); }
       renderRating();
     }).catch(function () {});
     if (!head) return;
@@ -404,7 +406,7 @@
     if (anchor) anchor.parentNode.insertBefore(box, anchor); else document.querySelector("main .wrap").appendChild(box);
     function renderRating() {
       var r = box.querySelector(".fb-rating"); if (!r || !stats) return; var n = stats.up + stats.down;
-      r.textContent = n >= ((window.ETB_CONFIG || {}).showRatingFrom || 5) ? Math.round(stats.up / n * 100) + "% of " + fmt(n) + " people found this helpful" : "";
+      r.textContent = n >= ((window.ETB_CONFIG || {}).showRatingFrom || 5) ? T("{p}% of {n} people found this helpful", { p: Math.round(stats.up / n * 100), n: fmt(n) }) : "";
     }
     function vote(v, where) {
       voted = { vote: v, ts: Date.now() }; try { localStorage.setItem(VKEY, JSON.stringify(voted)); } catch (e) {}
@@ -480,7 +482,7 @@
     if (nat && navigator.share) { nat.hidden = false; nat.addEventListener("click", function () { navigator.share({ title: text, url: url }).catch(function () {}); }); }
     var cp = bar.querySelector(".sh-copy");
     if (cp) cp.addEventListener("click", function () {
-      var done = function () { var s = cp.querySelector("span"); s.textContent = "Copied!"; setTimeout(function () { s.textContent = "Copy link"; }, 1800); };
+      var done = function () { var s = cp.querySelector("span"); s.textContent = T("Copied!"); setTimeout(function () { s.textContent = T("Copy link"); }, 1800); };
       if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, done); else done();
     });
   });
@@ -520,4 +522,16 @@
     d.querySelector(".pn-x").addEventListener("click", close);
     setTimeout(close, 12000);
   };
+})();
+
+/* Language menu: close when clicking elsewhere or pressing Escape; remember the choice. */
+(function () {
+  document.addEventListener("click", function (e) {
+    Array.prototype.forEach.call(document.querySelectorAll(".lang-menu[open]"), function (d) { if (!d.contains(e.target)) d.removeAttribute("open"); });
+    var a = e.target.closest && e.target.closest(".lang-menu a[hreflang]");
+    if (a) try { localStorage.setItem("etb-lang", a.getAttribute("hreflang")); } catch (x) {}
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") Array.prototype.forEach.call(document.querySelectorAll(".lang-menu[open]"), function (d) { d.removeAttribute("open"); d.querySelector("summary").focus(); });
+  });
 })();

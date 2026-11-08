@@ -12,7 +12,7 @@
     return new Promise(function (res, rej) {
       var url = URL.createObjectURL(file), img = new Image();
       img.onload = function () { res({ img: img, url: url }); };
-      img.onerror = function () { URL.revokeObjectURL(url); rej(new Error("This file couldn't be opened. Try a JPG, PNG or WebP image.")); };
+      img.onerror = function () { URL.revokeObjectURL(url); rej(new Error(T("This file couldn't be opened. Try a JPG, PNG or WebP image."))); };
       img.src = url;
     });
   }
@@ -85,7 +85,7 @@
       list.innerHTML = ""; results = []; allBtn.hidden = true;
       var chain = Promise.resolve();
       files.forEach(function (file, i) {
-        var li = document.createElement("li"); li.className = "img-item"; li.innerHTML = '<span class="muted">Processing ' + file.name + "…</span>"; list.appendChild(li);
+        var li = document.createElement("li"); li.className = "img-item"; li.innerHTML = '<span class="muted">' + T("Processing {f}…", { f: file.name }) + "</span>"; list.appendChild(li);
         chain = chain.then(function () {
           return process(file, o).then(function (r) {
             if (run.token !== token) return;
@@ -94,8 +94,8 @@
             results[i] = { url: url, name: name };
             li.innerHTML = '<img src="' + url + '" alt="">' +
               '<div class="img-info"><strong>' + name.replace(/</g, "&lt;") + '</strong><span class="muted">' + r.ow + "×" + r.oh + " → " + r.w + "×" + r.h + " · " + kb(file.size) + " → " + kb(r.blob.size) +
-              (r.keptOriginal ? " · already well compressed, original kept" : saved > 0 ? ' · <b class="good">' + saved + "% smaller</b>" : saved < 0 ? " · " + -saved + "% larger" : "") + "</span></div>" +
-              '<a class="btn small" download="' + name.replace(/"/g, "") + '" href="' + url + '">Download</a>';
+              (r.keptOriginal ? " · " + T("already well compressed, original kept") : saved > 0 ? ' · <b class="good">' + T("{n}% smaller", { n: saved }) + "</b>" : saved < 0 ? " · " + T("{n}% larger", { n: -saved }) : "") + "</span></div>" +
+              '<a class="btn small" download="' + name.replace(/"/g, "") + '" href="' + url + '">' + T("Download") + '</a>';
             li.setAttribute("data-out", JSON.stringify({ w: r.w, h: r.h, type: r.type, size: r.blob.size, in: file.size }));
           }).catch(function (err) { li.innerHTML = '<span class="warn">' + file.name + ": " + err.message + "</span>"; li.setAttribute("data-error", "1"); });
         });
@@ -105,7 +105,7 @@
 
     function take(fileList) {
       files = Array.prototype.filter.call(fileList, function (f) { return /^image\//.test(f.type); }).slice(0, 30);
-      if (!files.length) { list.innerHTML = '<li class="warn">Please choose JPG, PNG or WebP images.</li>'; return; }
+      if (!files.length) { list.innerHTML = '<li class="warn">' + T("Please choose JPG, PNG or WebP images.") + "</li>"; return; }
       run();
     }
 

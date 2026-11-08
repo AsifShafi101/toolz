@@ -224,19 +224,19 @@
   function bmiHeight(v) { return v.hunit === "cm" ? num(v.cm) / 100 : ((num(v.ft) || 0) * 12 + (num(v.inch) || 0)) * 0.0254; }
   function bmiWeight(v) { return v.wunit === "stlb" ? ((num(v.st) || 0) * 14 + (num(v.lb) || 0)) * 0.45359237 : v.wunit === "lb" ? num(v.lbonly) * 0.45359237 : num(v.kg); }
   function weightText(kg, unit) {
-    if (unit === "stlb") { var lb = Math.round(kg / 0.45359237), st = Math.floor(lb / 14); return st + "st " + (lb - st * 14) + "lb"; }
-    if (unit === "lb") return Math.round(kg / 0.45359237) + " lb";
-    return (Math.round(kg * 10) / 10) + " kg";
+    if (unit === "stlb") { var lb = Math.round(kg / 0.45359237), st = Math.floor(lb / 14); return T("{s} st {l} lb", { s: st, l: lb - st * 14 }); }
+    if (unit === "lb") return T("{n} lb", { n: Math.round(kg / 0.45359237) });
+    return T("{n} kg", { n: ETB_DEC(Math.round(kg * 10) / 10) });
   }
   more.bmi = function (v) {
     var h = bmiHeight(v), w = bmiWeight(v);
-    if (!h || h < 0.5 || h > 2.6) return { error: "Enter your height." };
-    if (!w || w < 10 || w > 400) return { error: "Enter your weight." };
+    if (!h || h < 0.5 || h > 2.6) return { error: T("Enter your height.") };
+    if (!w || w < 10 || w > 400) return { error: T("Enter your weight.") };
     var bmi = w / (h * h), lower = v.ethnic === "yes";
     var over = lower ? 23 : 25, obese = lower ? 27.5 : 30;
     var cat = bmi < 18.5 ? "Underweight range" : bmi < over ? "Healthy weight range" : bmi < obese ? "Overweight range" : bmi < 40 ? "Obese range" : "Severely obese range";
     var lo = 18.5 * h * h, hi = (over - 0.1) * h * h;
-    return { rows: [["Your BMI", (Math.round(bmi * 10) / 10).toFixed(1), true], ["Result", cat], ["Healthy weight range for your height", weightText(lo, v.wunit) + " – " + weightText(hi, v.wunit)]],
+    return { rows: [[T("Your BMI"), ETB_DEC((Math.round(bmi * 10) / 10).toFixed(1)), true], [T("Result"), T(cat)], [T("Healthy weight range for your height"), weightText(lo, v.wunit) + " – " + weightText(hi, v.wunit)]],
              raw: { bmi: Math.round(bmi * 10) / 10, category: cat, h: h, w: w, over: over, obese: obese, lo: lo, hi: hi, wunit: v.wunit, hunit: v.hunit } };
   };
   // Convert entered values when a unit switch is flipped, and remember the choice.

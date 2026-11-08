@@ -8,9 +8,9 @@
   var COL = { under: "#3b82f6", healthy: "#22c55e", over: "#f59e0b", obese: "#ef4444", severe: "#b91c1c" };
   function el(tag, attrs) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
   function kgText(kg, unit) {
-    if (unit === "stlb") { var lb = Math.round(kg / 0.45359237), st = Math.floor(lb / 14); return st + " st " + (lb - st * 14) + " lb"; }
-    if (unit === "lb") return Math.round(kg / 0.45359237) + " lb";
-    return (Math.round(kg * 10) / 10) + " kg";
+    if (unit === "stlb") { var lb = Math.round(kg / 0.45359237), st = Math.floor(lb / 14); return T("{s} st {l} lb", { s: st, l: lb - st * 14 }); }
+    if (unit === "lb") return T("{n} lb", { n: Math.round(kg / 0.45359237) });
+    return T("{n} kg", { n: ETB_DEC(Math.round(kg * 10) / 10) });
   }
   function band(b, r) { return b < 18.5 ? "under" : b < r.over ? "healthy" : b < r.obese ? "over" : b < 40 ? "obese" : "severe"; }
 
@@ -25,7 +25,7 @@
   function drawGauge(r) {
     g.innerHTML = "";
     [[MIN, 18.5, COL.under], [18.5, r.over, COL.healthy], [r.over, r.obese, COL.over], [r.obese, 40, COL.obese]].forEach(function (s) { g.appendChild(arc(s[0], s[1], RAD, 26, s[2])); });
-    [18.5, r.over, r.obese].forEach(function (v) { var p = pt(ang(v), RAD + 24); var t = el("text", { x: p[0], y: p[1], "text-anchor": "middle", class: "gz-tick" }); t.textContent = v; g.appendChild(t); });
+    [18.5, r.over, r.obese].forEach(function (v) { var p = pt(ang(v), RAD + 24); var t = el("text", { x: p[0], y: p[1], "text-anchor": "middle", class: "gz-tick" }); t.textContent = ETB_DEC(v); g.appendChild(t); });
     var needle = el("g", { class: "gz-needle", id: "gz-needle" });
     needle.appendChild(el("path", { d: "M" + (CX - 6) + " " + CY + " L" + CX + " " + (CY - RAD + 18) + " L" + (CX + 6) + " " + CY + " Z" }));
     needle.appendChild(el("circle", { cx: CX, cy: CY, r: 11 }));
@@ -37,7 +37,7 @@
     cancelAnimationFrame(anim);
     (function step(now) {
       var k = Math.min(1, (now - t0) / 900), e = 1 - Math.pow(1 - k, 3), v = start + (target - start) * e;
-      shown = v; num.textContent = v.toFixed(1);
+      shown = v; num.textContent = ETB_DEC(v.toFixed(1));
       needle.setAttribute("transform", "rotate(" + (90 - ang(v) * 180 / Math.PI) + " " + CX + " " + CY + ")");
       if (k < 1) anim = requestAnimationFrame(step);
     })(t0);
@@ -59,12 +59,12 @@
     }
     for (var cm = 150; cm <= 200; cm += 10) { chart.appendChild(el("line", { x1: sx(cm), x2: sx(cm), y1: PT, y2: CH - PB, class: "ch-grid" })); var t = el("text", { x: sx(cm), y: CH - PB + 18, "text-anchor": "middle", class: "ch-lab" }); t.textContent = cm; chart.appendChild(t); }
     for (var kg = 40; kg <= 160; kg += 20) { chart.appendChild(el("line", { x1: PL, x2: CW - PR, y1: sy(kg), y2: sy(kg), class: "ch-grid" })); var t2 = el("text", { x: PL - 8, y: sy(kg) + 4, "text-anchor": "end", class: "ch-lab" }); t2.textContent = kg; chart.appendChild(t2); }
-    var xl = el("text", { x: (CW + PL) / 2, y: CH - 4, "text-anchor": "middle", class: "ch-axis" }); xl.textContent = "Height (cm)"; chart.appendChild(xl);
-    var yl = el("text", { x: 12, y: (CH - PB) / 2, "text-anchor": "middle", class: "ch-axis", transform: "rotate(-90 12 " + (CH - PB) / 2 + ")" }); yl.textContent = "Weight (kg)"; chart.appendChild(yl);
+    var xl = el("text", { x: (CW + PL) / 2, y: CH - 4, "text-anchor": "middle", class: "ch-axis" }); xl.textContent = T("Height (cm)"); chart.appendChild(xl);
+    var yl = el("text", { x: 12, y: (CH - PB) / 2, "text-anchor": "middle", class: "ch-axis", transform: "rotate(-90 12 " + (CH - PB) / 2 + ")" }); yl.textContent = T("Weight (kg)"); chart.appendChild(yl);
     var cmU = Math.min(H1, Math.max(H0, r.h * 100)), kgU = Math.min(W1, Math.max(W0, r.w)), x = sx(cmU), y = sy(kgU);
     chart.appendChild(el("circle", { cx: x, cy: y, r: 16, class: "ch-pulse" }));
     chart.appendChild(el("circle", { cx: x, cy: y, r: 7, class: "ch-dot" }));
-    var lab = el("text", { x: x + (x > CW - 120 ? -14 : 14), y: y - 12, "text-anchor": x > CW - 120 ? "end" : "start", class: "ch-you" }); lab.textContent = "You · " + r.bmi.toFixed(1); chart.appendChild(lab);
+    var lab = el("text", { x: x + (x > CW - 120 ? -14 : 14), y: y - 12, "text-anchor": x > CW - 120 ? "end" : "start", class: "ch-you" }); lab.textContent = T("You") + " · " + ETB_DEC(r.bmi.toFixed(1)); chart.appendChild(lab);
   }
 
   /* ---------- healthy-weight bar + advice ---------- */
@@ -75,10 +75,10 @@
     document.getElementById("wb-you").style.left = pos(w) + "%";
     document.getElementById("wb-lo").textContent = kgText(lo, r.wunit); document.getElementById("wb-hi").textContent = kgText(hi, r.wunit);
     var m = document.getElementById("wb-msg"), gap;
-    if (b === "healthy") m.innerHTML = "<strong>You're in the healthy range for your height.</strong> Keep doing what you're doing.";
-    else if (b === "under") { gap = lo - w; m.innerHTML = "You're <strong>" + kgText(gap, r.wunit) + "</strong> below the healthy range. It's worth a chat with your GP to check everything is OK."; }
+    if (b === "healthy") m.innerHTML = T("<strong>You're in the healthy range for your height.</strong> Keep doing what you're doing.");
+    else if (b === "under") { gap = lo - w; m.innerHTML = T("You're <strong>{g}</strong> below the healthy range. It's worth a chat with your GP to check everything is OK.", { g: kgText(gap, r.wunit) }); }
     else { gap = w - hi; var wk1 = Math.ceil(gap / 1), wk2 = Math.ceil(gap / 0.5);
-      m.innerHTML = "You're <strong>" + kgText(gap, r.wunit) + "</strong> above the healthy range. At the NHS's safe pace of 0.5–1 kg a week, that's about <strong>" + (wk1 === wk2 ? wk1 : wk1 + "–" + wk2) + " weeks</strong>. Even losing 5% of your weight (" + kgText(w * 0.05, r.wunit) + ") brings real health benefits."; }
+      m.innerHTML = T("You're <strong>{g}</strong> above the healthy range. At the NHS's safe pace of 0.5–1 kg a week, that's about <strong>{w} weeks</strong>. Even losing 5% of your weight ({f}) brings real health benefits.", { g: kgText(gap, r.wunit), w: wk1 === wk2 ? wk1 : wk1 + "–" + wk2, f: kgText(w * 0.05, r.wunit) }); }
   }
   var ADV = {
     move: { t: "Move more", i: "🚶", p: ["Aim for <strong>150–300 minutes</strong> of moderate activity a week (brisk walking, cycling, dancing), or 75–150 minutes of vigorous activity like running.", "Do <strong>muscle-strengthening</strong> exercises (weights, resistance bands, yoga, heavy gardening) on 2 or more days a week.", "Sit less. Every bit of movement counts, even taking the stairs."] },
@@ -89,7 +89,7 @@
   };
   function advice(b) {
     var keys = b === "under" ? ["gain", "eat", "move"] : b === "healthy" ? ["keep", "eat", "move"] : ["move", "eat", "pace"];
-    document.getElementById("bmi-advice").innerHTML = keys.map(function (k) { var a = ADV[k]; return '<div class="adv"><div class="adv-h"><span>' + a.i + "</span>" + a.t + "</div><ul>" + a.p.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul></div>"; }).join("");
+    document.getElementById("bmi-advice").innerHTML = keys.map(function (k) { var a = ADV[k]; return '<div class="adv"><div class="adv-h"><span>' + a.i + "</span>" + T(a.t) + "</div><ul>" + a.p.map(function (x) { return "<li>" + T(x) + "</li>"; }).join("") + "</ul></div>"; }).join("");
   }
   var LABEL = { under: "Underweight", healthy: "Healthy weight", over: "Overweight", obese: "Obese", severe: "Severely obese" };
   function update() {
@@ -98,7 +98,7 @@
     var b = band(r.bmi, r);
     box.hidden = false; box.setAttribute("data-band", b);
     drawGauge(r); animateTo(r); drawChart(r); weightBar(r, b); advice(b);
-    var chip = document.getElementById("bmi-chip"); chip.textContent = LABEL[b]; chip.style.background = COL[b];
+    var chip = document.getElementById("bmi-chip"); chip.textContent = T(LABEL[b]); chip.style.background = COL[b];
     if (b === "healthy" && !box.dataset.cheered) { box.dataset.cheered = "1"; cheer(); }
   }
   function cheer() {

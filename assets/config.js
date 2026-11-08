@@ -16,3 +16,8 @@ window.ETB_CONFIG = {
   // Ratings ("92% found this helpful") are shown once a tool has at least this many votes.
   showRatingFrom: 5
 };
+
+// Translation hook: on /es/ and /ar/ pages ETB_I18N holds the strings; elsewhere T() returns the English text.
+window.T = function (s, v) { var d = window.ETB_I18N && window.ETB_I18N.s, r = (d && d[s]) || s; if (v) r = r.replace(/\{(\w+)\}/g, function (m, k) { return k in v ? v[k] : m; }); return r; };
+// Decimal comma for Spanish pages (24.5 -> 24,5); other languages keep the point.
+window.ETB_DEC = function (x) { x = String(x); return /^es/.test(document.documentElement.lang || "") ? x.replace(/(\d)\.(\d)/g, "$1,$2") : x; };

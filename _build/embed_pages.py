@@ -13,7 +13,7 @@ def embed_code(key, height):
 
 for key, base, name, height in EMBEDS:
     src = TOOL_SRC[base]
-    scripts = "\n".join(f'<script src="{ver(x)}"></script>' for x in src["scripts"])
+    scripts = "\n".join(f'<script src="{ver(x)}"></script>' for x in ("config.js",) + tuple(src["scripts"]))
     write(f"/embed/{key}/", f"""<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{name} – etoolbox</title><meta name="robots" content="noindex, follow"><link rel="canonical" href="{SITE}/{base}/">
 <link rel="stylesheet" href="{ver("style.css")}"><style>html,body{{background:transparent!important}}body{{margin:0;padding:8px}}#page-net,.fad{{display:none!important}}
