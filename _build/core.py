@@ -388,7 +388,7 @@ def foot(scripts=("qrcode.js",)):
   <div class="foot-bottom">
     <div class="foot-brand"><a class="logo" href="/">{LOGO}<span>e<b>tool</b>box</span></a><p>Free online tools for UK small businesses, freelancers and everyone else. Files are processed in your browser.</p>
       <p class="foot-mail">{svg("mail")} <a href="mailto:hello@etoolbox.co.uk">hello@etoolbox.co.uk</a></p></div>
-    <div class="foot-links"><a href="/pricing/">Pricing</a><a href="/guides/">Guides</a><a href="/embed/">Free calculators for your site</a><a href="/salary-after-tax/">Salary after tax</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div>
+    <div class="foot-links"><a href="/web-development/">Website &amp; tool development</a><a href="/pricing/">Pricing</a><a href="/guides/">Guides</a><a href="/embed/">Free calculators for your site</a><a href="/salary-after-tax/">Salary after tax</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div>
   </div>
   <p class="foot-copy">© {YEAR} etoolbox.co.uk · Made in the UK</p>
 </div></footer>

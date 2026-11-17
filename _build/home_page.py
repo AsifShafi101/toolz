@@ -73,6 +73,7 @@ home = head("Free Online Tools – PDF, Image & Calculators, No Sign-up | etoolb
     <li><span class="num">1</span><h3>Choose a tool</h3><p>Search or browse {len(TOOLS)} tools for PDFs, images, documents and money.</p></li>
     <li><span class="num">2</span><h3>Add your file</h3><p>Drop in a file or type your details. It's processed right there in your browser.</p></li>
     <li><span class="num">3</span><h3>Download</h3><p>Get your result straight away. No email, no account, no waiting.</p></li></ol></section>
+  {services_band()}
   {UPSELL}
   <section class="prose">
     <h2>Why etoolbox?</h2>
@@ -87,3 +88,5 @@ home = head("Free Online Tools – PDF, Image & Calculators, No Sign-up | etoolb
 </div>
 """ + foot(("network-bg.js",))
 write("/", home)
+services_page()
+EXTRA_PATHS = globals().get("EXTRA_PATHS", []) + [SERVICES_PATH]
