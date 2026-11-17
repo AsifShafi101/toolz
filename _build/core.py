@@ -191,7 +191,7 @@ def build_sprite(src_dir):
         f.write("".join(out))
 
 
-NAV = [("pdf", "PDF tools"), ("images", "Image tools"), ("docs", "Invoices"), ("money", "Calculators")]
+NAV = [("pdf", "PDF tools"), ("images", "Image tools"), ("money", "Calculators")]
 
 
 import hashlib as _hl
@@ -312,7 +312,8 @@ def head(title, desc, path, extra="", body_class=""):
     <ul class="search-results" id="search-results" role="listbox" hidden></ul></div>
   <nav class="nav" aria-label="{CH("main_nav")}">
     {navlinks}
-    <a href="/pricing/"{' aria-current="page"' if path == '/pricing/' else ''}>{CH("pricing")}</a>
+    {'<a class="nav-svc" href="/web-development/"' + (' aria-current="page"' if path == '/web-development/' else '') + '>Web design</a>' if LANG == "en" else ''}
+    <a class="nav-pricing" href="/pricing/"{' aria-current="page"' if path == '/pricing/' else ''}>{CH("pricing")}</a>
     <a class="nav-contact" href="/contact/"{' aria-current="page"' if path == '/contact/' else ''} title="hello@etoolbox.co.uk">{svg("mail")}<span>{CH("contact")}</span></a>
     {lang_menu(path)}
     <button type="button" class="icon-toggle" id="theme-toggle" aria-label="{CH("theme")}" title="{CH("theme_t")}">◐</button>

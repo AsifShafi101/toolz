@@ -68,12 +68,12 @@ home = head("Free Online Tools – PDF, Image & Calculators, No Sign-up | etoolb
 <div class="wrap">
   <div id="my-tools"></div>
   <section id="popular"><div class="sec-head"><h2>Most popular</h2></div><div class="grid">{featured}</div></section>
+  {services_band()}
   <div id="tools" class="all-tools"><div class="sec-head"><h2>All {len(TOOLS)} tools</h2>{tabs()}</div>{cat_grid()}</div>
   <section class="how"><h2>How it works</h2><ol class="steps">
     <li><span class="num">1</span><h3>Choose a tool</h3><p>Search or browse {len(TOOLS)} tools for PDFs, images, documents and money.</p></li>
     <li><span class="num">2</span><h3>Add your file</h3><p>Drop in a file or type your details. It's processed right there in your browser.</p></li>
     <li><span class="num">3</span><h3>Download</h3><p>Get your result straight away. No email, no account, no waiting.</p></li></ol></section>
-  {services_band()}
   {UPSELL}
   <section class="prose">
     <h2>Why etoolbox?</h2>
