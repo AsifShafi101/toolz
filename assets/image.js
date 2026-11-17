@@ -82,7 +82,7 @@
       syncUi();
       if (!files.length) return;
       var o = opts(form), token = {}; run.token = token;
-      list.innerHTML = ""; results = []; allBtn.hidden = true;
+      list.innerHTML = ""; list.removeAttribute("data-done"); results = []; allBtn.hidden = true;
       var chain = Promise.resolve();
       files.forEach(function (file, i) {
         var li = document.createElement("li"); li.className = "img-item"; li.innerHTML = '<span class="muted">' + T("Processing {f}…", { f: file.name }) + "</span>"; list.appendChild(li);

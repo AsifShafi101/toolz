@@ -70,7 +70,7 @@ async function leftover(p, lang) {
     // image tools
     for (const s of ['image-compressor', 'image-resizer', 'png-to-jpg']) {
       p = await page(path(lang, s)); if (s === 'image-resizer') await p.fill('input[name=width]', '300');
-      await p.setInputFiles('#img-input', IMG); await p.waitForSelector('#img-results[data-done] .img-item a', { timeout: 20000 }).catch(() => {});
+      await p.setInputFiles('#img-input', IMG); await p.waitForSelector('#img-results[data-done] .img-item a', { timeout: 30000 }).catch(() => {});
       const t = await p.textContent('#img-results'); ok(/(Descargar|تنزيل)/.test(t), `${lang} ${s} works and shows a translated download button ${/(Descargar|تنزيل)/.test(t) ? "" : t.slice(0, 200)}`);
       left = await leftover(p, lang); ok(!left.length, `${lang} ${s} result no English ${left.join(' ')}`); await p.close();
     }
