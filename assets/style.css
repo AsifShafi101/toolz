@@ -1180,3 +1180,22 @@ html[lang="ar"] .greet-h1 .h1-greet { font-weight: 700; }
 }
 .nav a.nav-svc { color: var(--brand); font-weight: 700; }
 @media (max-width: 480px) { html[lang="en-GB"] .nav a.nav-pricing { display: none; } }
+
+/* ---------- Shipping label maker ---------- */
+.lb-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 24px; align-items: start; }
+.lb-h { margin: 22px 0 4px; font-size: 1.02rem; } .lb-h .muted { font-weight: 400; font-size: .85rem; }
+.lb-more { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 12px; } .lb-more summary { cursor: pointer; font-weight: 700; }
+.lb-form .check { display: flex; gap: 8px; align-items: center; margin-top: 10px; font-weight: 500; }
+.lb-side { position: sticky; top: 84px; }
+.lb-preview { background: repeating-linear-gradient(45deg, var(--soft, #f1f4f9) 0 10px, transparent 10px 20px); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: grid; place-items: center; }
+.lb-preview canvas { width: 100%; max-width: 330px; height: auto; background: #fff; border-radius: 6px; box-shadow: 0 10px 30px rgba(15, 23, 42, .18); }
+.lb-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+#lb-warn { margin: 12px 0 0; }
+#lb-print { display: none; }
+@media print {
+  html.lb-printing body > *:not(#lb-print) { display: none !important; }
+  html.lb-printing #lb-print { display: block !important; }
+  html.lb-printing #lb-print img { display: block; page-break-after: always; break-after: page; }
+  html.lb-printing body { margin: 0; background: #fff; }
+}
+@media (max-width: 860px) { .lb-wrap { grid-template-columns: 1fr; } .lb-side { position: static; } }

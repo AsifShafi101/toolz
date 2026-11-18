@@ -1,0 +1,30 @@
+// Shipping label maker: paste parsing, postcode check, PDF size and copies, PNG, Pro credit.
+const { chromium } = require('playwright');
+const fs = require('fs');
+const BASE = process.env.BASE || 'http://localhost:8765';
+let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++; };
+const SAMPLE = `Post to\tJane Smith\nUnit 4 Riverside Works\nMill Lane\nLeeds\nls14ab\nPhone\t07700 900123\n\nFrom : Acme Crafts`;
+(async () => {
+  const b = await chromium.launch(); const ctx = await b.newContext({ acceptDownloads: true }); const p = await ctx.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
+  await p.goto(BASE + '/shipping-label-maker/', { waitUntil: 'networkidle' });
+  await p.fill('#lb-paste', SAMPLE);
+  const v = await p.evaluate(() => Object.fromEntries(['name', 'company', 'line1', 'line2', 'town', 'postcode', 'phone', 'fromName'].map(k => [k, document.querySelector('form[data-label]').elements[k].value])));
+  ok(v.name === 'Jane Smith' && v.line1 === 'Unit 4 Riverside Works' && v.line2 === 'Mill Lane' && v.town === 'Leeds' && v.postcode === 'LS1 4AB' && v.phone === '07700 900123' && v.fromName === 'Acme Crafts', 'paste fills every field ' + JSON.stringify(v));
+  ok(await p.isHidden('#lb-warn'), 'no warnings for a complete UK address');
+  await p.fill('#lb-postcode', 'XYZ'); await p.waitForTimeout(100); ok(/doesn't look like a UK postcode/.test(await p.textContent('#lb-warn')), 'bad postcode warning');
+  await p.fill('#lb-postcode', 'LS1 4AB'); await p.fill('#lb-ref', 'ORD-1042'); await p.fill('#lb-service', 'Tracked 48'); await p.fill('#lb-copies', '3');
+  const [dl] = await Promise.all([p.waitForEvent('download'), p.click('#lb-pdf')]); const f = '/tmp/label/t.pdf'; await dl.saveAs(f);
+  const info = await p.evaluate(async (bytes) => { const d = await PDFLib.PDFDocument.load(new Uint8Array(bytes)); return { n: d.getPageCount(), s: d.getPage(0).getSize() }; }, [...fs.readFileSync(f)]);
+  ok(dl.suggestedFilename() === 'label-ls1-4ab.pdf' && info.n === 3 && Math.round(info.s.width) === 288 && Math.round(info.s.height) === 432, `PDF is 4x6 in with 3 copies (${dl.suggestedFilename()} ${info.n} ${JSON.stringify(info.s)})`);
+  await p.selectOption('#lb-size', 'a6'); await p.fill('#lb-copies', '1');
+  const [d2] = await Promise.all([p.waitForEvent('download'), p.click('#lb-pdf')]); await d2.saveAs('/tmp/label/a6.pdf');
+  const i2 = await p.evaluate(async (bytes) => { const d = await PDFLib.PDFDocument.load(new Uint8Array(bytes)); return d.getPage(0).getSize(); }, [...fs.readFileSync('/tmp/label/a6.pdf')]);
+  ok(Math.round(i2.width) === 298 && Math.round(i2.height) === 420, 'A6 size option');
+  const [d3] = await Promise.all([p.waitForEvent('download'), p.click('#lb-png')]); await d3.saveAs('/tmp/label/t.png');
+  ok(fs.statSync('/tmp/label/t.png').size > 10000, 'PNG download');
+  const cw = await p.evaluate(() => [document.getElementById('lb-canvas').width, document.getElementById('lb-canvas').height]); ok(cw[0] === 1240 && cw[1] === 1748, 'A6 canvas at 300 dpi ' + cw);
+  await p.reload({ waitUntil: 'networkidle' }); ok(await p.inputValue('#lb-fname') === 'Acme Crafts', 'return address remembered');
+  await p.click('#lb-pdf'); ok(/recipient's name and postcode/.test(await p.textContent('#lb-warn')), 'asks for an address before saving');
+  ok(!errs.length, 'no page errors ' + errs.join('|'));
+  await b.close(); console.log(fails ? fails + ' FAILED' : 'ALL PASS'); process.exit(fails ? 1 : 0);
+})();

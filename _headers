@@ -53,6 +53,8 @@
   Cache-Control: public, max-age=31536000, immutable
 /assets/invoice.js
   Cache-Control: public, max-age=31536000, immutable
+/assets/label.js
+  Cache-Control: public, max-age=31536000, immutable
 /assets/media.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/network-bg.js

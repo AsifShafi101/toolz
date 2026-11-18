@@ -28,6 +28,7 @@ CATS = [
     ("docs", "Invoices & business documents", "Professional documents in minutes, saved as a PDF.", [
         ("invoice-generator", "🧾", "Invoice generator", "Make a professional invoice with VAT and save it as a PDF."),
         ("quote-generator", "📝", "Quote generator", "Send customers a clear, professional quote or estimate."),
+        ("shipping-label-maker", "📦", "4×6 shipping label maker", "Make a print-ready 4×6 address label for a parcel, with a barcode."),
         ("email-signature-generator", "✉️", "Email signature generator", "A professional signature for Gmail, Outlook and Apple Mail."),
         ("barcode-generator", "▥", "Barcode generator", "EAN-13, UPC-A and Code 128 barcodes for products and stock."),
     ]),
@@ -137,7 +138,7 @@ TOOLS = [t for c in CATS for t in c[3]]
 CAT_OF = {t[0]: c for c in CATS for t in c[3]}
 
 ICONS = {
-    "invoice-generator": "receipt", "quote-generator": "file-pen-line", "email-signature-generator": "mail", "barcode-generator": "barcode",
+    "invoice-generator": "receipt", "shipping-label-maker": "package", "quote-generator": "file-pen-line", "email-signature-generator": "mail", "barcode-generator": "barcode",
     "merge-pdf": "files", "split-pdf": "scissors", "jpg-to-pdf": "file-image", "pdf-to-jpg": "image-down", "rotate-pdf": "rotate-cw",
     "add-page-numbers-to-pdf": "list-ordered", "compress-pdf": "file-down", "add-watermark-to-pdf": "stamp", "pdf-to-word": "file-type",
     "word-to-pdf": "file-output", "compare-documents": "git-compare", "image-to-text": "scan-text", "invoice-data-extractor": "file-spreadsheet",
