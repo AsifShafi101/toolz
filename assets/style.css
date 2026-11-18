@@ -1199,3 +1199,5 @@ html[lang="ar"] .greet-h1 .h1-greet { font-weight: 700; }
   html.lb-printing body { margin: 0; background: #fff; }
 }
 @media (max-width: 860px) { .lb-wrap { grid-template-columns: 1fr; } .lb-side { position: static; } }
+.lb-pro { display: inline-block; margin-inline-start: 6px; padding: 1px 7px; border-radius: 999px; background: linear-gradient(135deg, #f59e0b, #ff6b35); color: #fff; font-size: .68rem; font-weight: 800; letter-spacing: .05em; vertical-align: 1px; }
+.is-pro .lb-pro { background: #16a34a; }

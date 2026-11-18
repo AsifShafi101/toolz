@@ -34,8 +34,10 @@ tool_page("shipping-label-maker",
         <div><label for="lb-weight">Weight <span class="muted">(optional)</span></label><input type="text" id="lb-weight" name="weight" maxlength="12" placeholder="e.g. 1.2 kg"></div></div>
         <div class="row"><div><label for="lb-size">Label size</label><select id="lb-size" name="size"><option value="4x6">4 × 6 inch (thermal printers)</option><option value="100x150">100 × 150 mm</option><option value="a6">A6 (105 × 148 mm)</option></select></div>
         <div><label for="lb-copies">Copies</label><input type="number" id="lb-copies" name="copies" min="1" max="50" value="1"></div></div>
+        <div class="row"><div><label for="lb-dt">Date &amp; time stamp <span class="lb-pro">PRO</span></label><select id="lb-dt" name="dt"><option value="datetime">Date and time</option><option value="date">Date only</option><option value="custom">Choose a date and time…</option><option value="none">No date or time</option></select></div>
+        <div id="lb-dtc-wrap" hidden><label for="lb-dtc">Date and time</label><input type="datetime-local" id="lb-dtc" name="dtc"></div></div>
+        <p class="hint" id="lb-dt-hint">Free labels show the date and time the label was made. With Pro you can change it or leave it off.</p>
         <label class="check"><input type="checkbox" name="stamp"> Leave space for stamps</label>
-        <label class="check"><input type="checkbox" name="date" checked> Add today's date</label>
         <label class="check"><input type="checkbox" name="caps"> Address in capital letters</label>
       </details>
     </form>
@@ -53,10 +55,18 @@ tool_page("shipping-label-maker",
     </div>
   </div>
   <div id="lb-print" aria-hidden="true"></div><style id="lb-page"></style>
+  <div class="modal" id="lb-pro-modal" hidden role="dialog" aria-modal="true" aria-labelledby="lb-pro-title"><div class="modal-box">
+    <button type="button" class="modal-x" data-close aria-label="Close">×</button>
+    <h3 id="lb-pro-title" style="margin-top:0">That's a Pro feature ⭐</h3>
+    <p>With Pro you can change the date and time on your labels or leave them off, and your labels have no etoolbox credit line. Pro also includes branded invoices, dynamic QR codes and unbranded table cards.</p>
+    <label for="lb-pro-key">Have a Pro key?</label><div class="row" style="grid-template-columns:1fr auto"><input type="text" id="lb-pro-key" placeholder="ETB-XXXX-XXXX-XXXX-XXXX" autocomplete="off"><button type="button" class="btn" id="lb-pro-activate">Unlock</button></div>
+    <p id="lb-pro-msg" class="muted" role="status"></p>
+    <div class="btn-row"><a class="btn secondary" href="/pricing/">See Pro plans</a><button type="button" class="btn secondary" data-close>Keep the date and time</button></div>
+  </div></div>
 """,
     """<h2>How to make a shipping label</h2><ol><li>Paste the address from an order email or message, or type it in. We'll split it into name, street, town and postcode for you.</li>
 <li>Add your return address once. It's remembered on this device for next time.</li>
-<li>Pick extras if you need them: a service note like <em>Tracked 48</em>, an order number barcode, the number of parcels or the weight.</li>
+<li>Pick extras if you need them: a service note like <em>Tracked 48</em>, an order number barcode, the number of parcels or the weight. Every label is stamped with the date and time it was made.</li>
 <li>Download the PDF and print it on a 4×6 label, or on A6 or 100×150 mm labels.</li></ol>
 <h2>Printing tips</h2><ul><li><strong>Thermal label printers</strong> (Zebra, Rollo, MUNBYN, DYMO 4XL and others): choose the 4×6 paper size and print at 100%. The label is black and white at 300 dpi, so it prints sharp.</li>
 <li><strong>Normal printers:</strong> print on A6 sticky labels, or on plain paper and tape it to the parcel with clear tape over the whole label.</li>
@@ -66,5 +76,6 @@ tool_page("shipping-label-maker",
      ("What size is a 4×6 label?", "4 × 6 inches, which is 101.6 × 152.4 mm. It's the standard size for thermal label printers. We also make 100 × 150 mm and A6 (105 × 148 mm) labels."),
      ("Can I print several copies?", "Yes. Set the number of copies and the PDF has one label per page, ready for a roll of labels."),
      ("Is my customer's address safe?", "Yes. The label is drawn in your browser and nothing is uploaded or stored on our servers. Only your own return address is remembered, and only on your device."),
+     ("Why is there a date and time on the label?", "It shows when the parcel was labelled, which helps when you send a lot of parcels or need to check when something went out. Pro users can change the date and time or leave it off."),
      ("What is the barcode for?", "If you add an order or reference number, we print it as a Code 128 barcode, so you or your courier can scan it to match the parcel to the order.")],
     ("vendor/pdf-lib.min.js", "barcode.js", "label.js"))

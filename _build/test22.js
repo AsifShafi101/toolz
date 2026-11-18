@@ -25,6 +25,18 @@ const SAMPLE = `Post to\tJane Smith\nUnit 4 Riverside Works\nMill Lane\nLeeds\nl
   const cw = await p.evaluate(() => [document.getElementById('lb-canvas').width, document.getElementById('lb-canvas').height]); ok(cw[0] === 1240 && cw[1] === 1748, 'A6 canvas at 300 dpi ' + cw);
   await p.reload({ waitUntil: 'networkidle' }); ok(await p.inputValue('#lb-fname') === 'Acme Crafts', 'return address remembered');
   await p.click('#lb-pdf'); ok(/recipient's name and postcode/.test(await p.textContent('#lb-warn')), 'asks for an address before saving');
+  // date & time stamp: on by default, Pro-only to change
+  ok(/^\d{1,2} \w{3} \d{4}, \d{2}:\d{2}$/.test(await p.evaluate(() => ETBLabel.stampText({ dt: 'datetime' }))), 'stamp shows date and time');
+  ok(await p.evaluate(() => ETBLabel.stampText({ dt: 'custom', dtc: '2026-12-01T09:30' })) === '1 Dec 2026, 09:30' && await p.evaluate(() => ETBLabel.stampText({ dt: 'none' })) === '', 'custom and no stamp');
+  await p.selectOption('#lb-dt', 'none');
+  ok(await p.isVisible('#lb-pro-modal') && await p.inputValue('#lb-dt') === 'datetime', 'free users get the Pro dialog and keep the stamp');
+  await p.click('#lb-pro-modal [data-close]'); ok(await p.isHidden('#lb-pro-modal'), 'dialog closes');
+  await p.evaluate(() => { localStorage.setItem('etb-pro', JSON.stringify({ key: 'ETB-TEST-TEST-TEST-TEST', expires: '2099-01-01' })); document.dispatchEvent(new Event('etb-pro-change')); });
+  await p.selectOption('#lb-dt', 'custom');
+  ok(await p.isHidden('#lb-pro-modal') && await p.isVisible('#lb-dtc') && (await p.inputValue('#lb-dtc')).length === 16, 'Pro can pick a custom date and time');
+  await p.selectOption('#lb-dt', 'none'); ok(await p.inputValue('#lb-dt') === 'none', 'Pro can remove the stamp');
+  await p.evaluate(() => { localStorage.removeItem('etb-pro'); document.dispatchEvent(new Event('etb-pro-change')); });
+  ok(await p.inputValue('#lb-dt') === 'datetime', 'stamp returns when Pro ends');
   ok(!errs.length, 'no page errors ' + errs.join('|'));
   await b.close(); console.log(fails ? fails + ' FAILED' : 'ALL PASS'); process.exit(fails ? 1 : 0);
 })();

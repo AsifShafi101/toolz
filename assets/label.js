@@ -41,6 +41,14 @@
     return r;
   }
 
+  function stampText(d) {
+    if (d.dt === "none") return "";
+    var t = d.dt === "custom" && d.dtc ? new Date(d.dtc) : new Date();
+    if (isNaN(t)) t = new Date();
+    var day = t.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+    return d.dt === "date" ? day : day + ", " + t.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+  }
+
   function wrap(ctx, text, maxW) {
     var words = String(text).split(/\s+/), lines = [], cur = "";
     words.forEach(function (w) { var t = cur ? cur + " " + w : w; if (ctx.measureText(t).width <= maxW || !cur) cur = t; else { lines.push(cur); cur = w; } });
@@ -92,7 +100,7 @@
     }
 
     // Footer zone (barcode, details, credit)
-    var foot = 0, info = [d.ref ? "Ref: " + d.ref : "", d.items ? "Items: " + d.items : "", d.weight ? "Weight: " + d.weight : "", d.date ? new Date().toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : ""].filter(Boolean);
+    var foot = 0, info = [d.ref ? "Ref: " + d.ref : "", d.items ? "Items: " + d.items : "", d.weight ? "Weight: " + d.weight : "", stampText(d)].filter(Boolean);
     var bc = null;
     if (d.ref && window.ETBBarcode) { try { bc = window.ETBBarcode.encode("code128", String(d.ref).trim()); } catch (e) { bc = null; } }
     if (bc) foot += 210 * u; if (info.length) foot += 66 * u; if (!d.pro) foot += 44 * u;
@@ -137,12 +145,37 @@
     var KEY = "etb-label-from";
     try { var saved = JSON.parse(localStorage.getItem(KEY) || "null"); if (saved) ["fromName", "fromAddr", "fromPhone"].forEach(function (k) { if (saved[k] && E[k] && !E[k].value) E[k].value = saved[k]; }); } catch (e) {}
 
+    function isPro() { return !!(window.ETBPro && window.ETBPro.isPro()); }
+    // Date & time stamp: always on for free labels; Pro can change it or turn it off
+    var modal = document.getElementById("lb-pro-modal"), dtWrap = document.getElementById("lb-dtc-wrap");
+    function nowLocal() { var t = new Date(); t.setMinutes(t.getMinutes() - t.getTimezoneOffset()); return t.toISOString().slice(0, 16); }
+    function syncDt() {
+      dtWrap.hidden = E.dt.value !== "custom";
+      if (E.dt.value === "custom" && !E.dtc.value) E.dtc.value = nowLocal();
+      document.getElementById("lb-dt-hint").textContent = isPro() ? "Pro: change the date and time or leave them off." : "Free labels show the date and time the label was made. With Pro you can change it or leave it off.";
+    }
+    function closeModal() { modal.hidden = true; document.getElementById("lb-pro-msg").textContent = ""; }
+    E.dt.addEventListener("change", function () {
+      if (!isPro() && E.dt.value !== "datetime") { E.dt.setAttribute("data-want", E.dt.value); E.dt.value = "datetime"; modal.hidden = false; document.getElementById("lb-pro-key").focus(); }
+      syncDt();
+    });
+    modal.addEventListener("click", function (e) { if (e.target === modal || e.target.closest("[data-close]")) closeModal(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !modal.hidden) closeModal(); });
+    document.getElementById("lb-pro-activate").addEventListener("click", function () {
+      var b = this, msg = document.getElementById("lb-pro-msg"); b.disabled = true; msg.className = "muted"; msg.textContent = "Checking…";
+      window.ETBPro.activate(document.getElementById("lb-pro-key").value).then(function () {
+        msg.className = "good"; msg.textContent = "✓ Pro unlocked. Thank you!";
+        var want = E.dt.getAttribute("data-want"); if (want) E.dt.value = want;
+        syncDt(); upd(); setTimeout(closeModal, 900);
+      }).catch(function (err) { msg.className = "warn"; msg.textContent = err.message; }).then(function () { b.disabled = false; });
+    });
+
     function data() {
       var g = function (n) { return E[n] ? String(E[n].value || "").trim() : ""; };
       return { name: g("name"), company: g("company"), line1: g("line1"), line2: g("line2"), town: g("town"), county: g("county"), postcode: fmtPostcode(g("postcode")),
         country: g("country"), phone: g("phone"), fromName: g("fromName"), fromAddr: g("fromAddr"), fromPhone: g("fromPhone"), service: g("service"), ref: g("ref"),
-        items: g("items"), weight: g("weight"), date: E.date.checked, stamp: E.stamp.checked, caps: E.caps.checked, size: E.size.value,
-        copies: Math.max(1, Math.min(50, parseInt(E.copies.value, 10) || 1)), pro: !!(window.ETBPro && window.ETBPro.isPro()) };
+        items: g("items"), weight: g("weight"), dt: isPro() ? E.dt.value : "datetime", dtc: g("dtc"), stamp: E.stamp.checked, caps: E.caps.checked, size: E.size.value,
+        copies: Math.max(1, Math.min(50, parseInt(E.copies.value, 10) || 1)), pro: isPro() };
     }
     function upd() {
       var d = data(), msgs = [];
@@ -211,12 +244,14 @@
     });
     form.addEventListener("input", function (e) { if (e.target !== paste) upd(); }); form.addEventListener("change", upd);
     form.addEventListener("submit", function (e) { e.preventDefault(); pdf(); });
-    window.addEventListener("etb-pro-change", upd);
+    document.addEventListener("etb-pro-change", function () { if (!isPro()) E.dt.value = "datetime"; syncDt(); upd(); });
+    syncDt();
+    setInterval(function () { if (E.dt.value !== "custom" && E.dt.value !== "none") upd(); }, 30000);
     window.addEventListener("afterprint", function () { document.documentElement.classList.remove("lb-printing"); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(upd);
     upd();
   }
 
-  window.ETBLabel = { parse: parse, fmtPostcode: fmtPostcode };
+  window.ETBLabel = { parse: parse, fmtPostcode: fmtPostcode, stampText: stampText };
   document.addEventListener("DOMContentLoaded", function () { var f = document.querySelector("form[data-label]"); if (f) init(f); });
 })();
