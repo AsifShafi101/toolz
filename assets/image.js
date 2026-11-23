@@ -100,7 +100,7 @@
           }).catch(function (err) { li.innerHTML = '<span class="warn">' + file.name + ": " + err.message + "</span>"; li.setAttribute("data-error", "1"); });
         });
       });
-      chain.then(function () { if (run.token === token && results.filter(Boolean).length > 1) allBtn.hidden = false; list.setAttribute("data-done", files.length); });
+      chain.then(function () { if (run.token !== token) return; if (results.filter(Boolean).length > 1) allBtn.hidden = false; list.setAttribute("data-done", files.length); });
     }
 
     function take(fileList) {

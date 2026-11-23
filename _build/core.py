@@ -35,6 +35,11 @@ CATS = [
     ("pdf", "PDF tools", "Merge, split, convert and number PDFs. Files never leave your device.", [
         ("merge-pdf", "📑", "Merge PDF", "Combine several PDFs into one file, in any order."),
         ("split-pdf", "✂️", "Split PDF", "Extract pages, remove pages or split into separate files."),
+        ("delete-pdf-pages", "🗑️", "Delete PDF pages", "Remove pages from a PDF by clicking them. See every page first."),
+        ("extract-pdf-pages", "📑", "Extract PDF pages", "Pick the pages you need and save them as a new PDF."),
+        ("reorder-pdf-pages", "🔀", "Reorder PDF pages", "Drag pages into a new order, rotate them and save."),
+        ("pdf-to-text", "📝", "PDF to text", "Get all the text out of a PDF, including scanned pages."),
+        ("ocr-pdf", "🔍", "OCR PDF", "Read the text in a scanned PDF so you can copy and search it."),
         ("jpg-to-pdf", "🖼️", "JPG to PDF", "Turn photos and scans into a single PDF."),
         ("pdf-to-jpg", "🏞️", "PDF to JPG", "Save every PDF page as a JPG or PNG image."),
         ("rotate-pdf", "🔃", "Rotate PDF", "Fix sideways or upside-down pages."),
@@ -78,6 +83,9 @@ CATS = [
         ("whatsapp-qr-code-generator", "💬", "WhatsApp QR code", "Customers scan to start a WhatsApp chat with you."),
     ]),
     ("images", "Image tools", "Resize and shrink photos for your website and social media. Nothing is uploaded.", [
+        ("passport-photo-maker", "🛂", "Passport photo maker", "UK and international passport and visa photos, plus a 6×4 print sheet."),
+        ("image-cropper", "✂️", "Image cropper", "Crop photos freely or to an exact ratio, rotate and flip."),
+        ("circle-crop-image", "⭕", "Circle crop & profile picture maker", "Crop any photo into a circle for profile pictures and logos."),
         ("image-compressor", "🗜️", "Image compressor", "Make JPG, PNG and WebP files smaller without visible quality loss."),
         ("image-resizer", "📐", "Image resizer", "Resize photos to exact pixels or by percentage."),
         ("image-converter", "🔄", "Image converter", "Convert between JPG, PNG and WebP."),
@@ -127,6 +135,8 @@ CATS = [
         ("days-between-dates", "📅", "Days between dates", "Count days and working days, or add days to a date."),
         ("unit-converter", "📏", "Unit converter", "Length, weight, volume, temperature and more."),
         ("bmi-calculator", "⚖️", "BMI calculator", "Body mass index with NHS categories, in metric or imperial."),
+        ("pregnancy-due-date-calculator", "🤰", "Pregnancy due date calculator", "Your due date, how many weeks pregnant you are, and key dates."),
+        ("ovulation-calculator", "🌸", "Ovulation calculator", "Your fertile window and ovulation day for the next 3 cycles."),
         ("recipe-scaler", "🍳", "Recipe scaler", "Scale ingredients up or down and convert cups to grams."),
         ("webcam-mic-test", "🎥", "Webcam & mic test", "Check your camera, microphone and speakers before a call."),
         ("word-counter", "🔤", "Word counter", "Count words, characters and reading time."),
@@ -138,7 +148,7 @@ TOOLS = [t for c in CATS for t in c[3]]
 CAT_OF = {t[0]: c for c in CATS for t in c[3]}
 
 ICONS = {
-    "invoice-generator": "receipt", "shipping-label-maker": "package", "quote-generator": "file-pen-line", "email-signature-generator": "mail", "barcode-generator": "barcode",
+    "invoice-generator": "receipt", "passport-photo-maker": "id-card", "image-cropper": "crop", "circle-crop-image": "circle-user", "delete-pdf-pages": "file-minus", "extract-pdf-pages": "file-output", "reorder-pdf-pages": "list-ordered", "pdf-to-text": "file-text", "ocr-pdf": "scan-text", "pregnancy-due-date-calculator": "baby", "ovulation-calculator": "calendar-heart", "shipping-label-maker": "package", "quote-generator": "file-pen-line", "email-signature-generator": "mail", "barcode-generator": "barcode",
     "merge-pdf": "files", "split-pdf": "scissors", "jpg-to-pdf": "file-image", "pdf-to-jpg": "image-down", "rotate-pdf": "rotate-cw",
     "add-page-numbers-to-pdf": "list-ordered", "compress-pdf": "file-down", "add-watermark-to-pdf": "stamp", "pdf-to-word": "file-type",
     "word-to-pdf": "file-output", "compare-documents": "git-compare", "image-to-text": "scan-text", "invoice-data-extractor": "file-spreadsheet",

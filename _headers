@@ -2,6 +2,10 @@
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Embedder-Policy: credentialless
 
+/passport-photo-maker/
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: credentialless
+
 /assets/models/*
   Cache-Control: public, max-age=31536000, immutable
 
@@ -28,6 +32,8 @@
 /assets/colour.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/config.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/cropper.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/currency.js
   Cache-Control: public, max-age=31536000, immutable
@@ -59,7 +65,13 @@
   Cache-Control: public, max-age=31536000, immutable
 /assets/network-bg.js
   Cache-Control: public, max-age=31536000, immutable
+/assets/passport.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/pdfpages.js
+  Cache-Control: public, max-age=31536000, immutable
 /assets/pdfplus.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/pdftext.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/pdftools.js
   Cache-Control: public, max-age=31536000, immutable
@@ -68,6 +80,8 @@
 /assets/planners.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/postcard.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/pregnancy.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/qrcode.js
   Cache-Control: public, max-age=31536000, immutable
