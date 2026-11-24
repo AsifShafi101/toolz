@@ -154,6 +154,14 @@ CATS = [
         ("webcam-mic-test", "🎥", "Webcam & mic test", "Check your camera, microphone and speakers before a call."),
         ("word-counter", "🔤", "Word counter", "Count words, characters and reading time."),
         ("case-converter", "🔠", "Case converter", "UPPER, lower, Title Case, Sentence case and more."),
+        ("lorem-ipsum-generator", "📃", "Lorem ipsum generator", "Placeholder text by paragraphs, sentences or words."),
+        ("find-and-replace-text", "🔁", "Find and replace text", "Replace words in any text, with regex support."),
+        ("sort-lines-remove-duplicates", "🔤", "Sort lines & remove duplicates", "Sort lists A–Z, remove duplicate and empty lines."),
+        ("slug-generator", "🔗", "URL slug generator", "Turn titles into clean, SEO-friendly URL slugs."),
+        ("text-diff-checker", "🆚", "Text diff checker", "Compare two texts and highlight every change."),
+        ("degree-classification-calculator", "🎓", "Degree classification calculator", "First, 2:1 or 2:2? Work out your UK degree class."),
+        ("final-grade-calculator", "💯", "Final grade calculator", "What you need on your final exam to get your target grade."),
+        ("harvard-referencing-generator", "📚", "Harvard referencing generator", "Cite Them Right references for books, journals and websites."),
         ("password-generator", "🔐", "Password generator", "Strong random passwords, made on your device."),
     ]),
 ]
@@ -161,7 +169,7 @@ TOOLS = [t for c in CATS for t in c[3]]
 CAT_OF = {t[0]: c for c in CATS for t in c[3]}
 
 ICONS = {
-    "invoice-generator": "receipt", "calorie-calculator": "flame", "body-fat-calculator": "activity", "ideal-weight-calculator": "scale", "stamp-duty-calculator": "house", "student-loan-repayment-calculator": "graduation-cap", "wheel-spinner": "disc-3", "random-name-picker": "users", "coin-flip": "coins", "dice-roller": "dice-5", "working-days-calculator": "briefcase", "countdown-timer": "hourglass", "stopwatch": "timer", "pomodoro-timer": "alarm-clock", "passport-photo-maker": "id-card", "image-cropper": "crop", "circle-crop-image": "circle-user", "delete-pdf-pages": "file-minus", "extract-pdf-pages": "file-output", "reorder-pdf-pages": "list-ordered", "pdf-to-text": "file-text", "ocr-pdf": "scan-text", "pregnancy-due-date-calculator": "baby", "ovulation-calculator": "calendar-heart", "shipping-label-maker": "package", "quote-generator": "file-pen-line", "email-signature-generator": "mail", "barcode-generator": "barcode",
+    "invoice-generator": "receipt", "lorem-ipsum-generator": "pilcrow", "find-and-replace-text": "replace", "sort-lines-remove-duplicates": "arrow-down-a-z", "slug-generator": "link-2", "text-diff-checker": "diff", "degree-classification-calculator": "award", "final-grade-calculator": "percent", "harvard-referencing-generator": "book-open", "calorie-calculator": "flame", "body-fat-calculator": "activity", "ideal-weight-calculator": "scale", "stamp-duty-calculator": "house", "student-loan-repayment-calculator": "graduation-cap", "wheel-spinner": "disc-3", "random-name-picker": "users", "coin-flip": "coins", "dice-roller": "dice-5", "working-days-calculator": "briefcase", "countdown-timer": "hourglass", "stopwatch": "timer", "pomodoro-timer": "alarm-clock", "passport-photo-maker": "id-card", "image-cropper": "crop", "circle-crop-image": "circle-user", "delete-pdf-pages": "file-minus", "extract-pdf-pages": "file-output", "reorder-pdf-pages": "list-ordered", "pdf-to-text": "file-text", "ocr-pdf": "scan-text", "pregnancy-due-date-calculator": "baby", "ovulation-calculator": "calendar-heart", "shipping-label-maker": "package", "quote-generator": "file-pen-line", "email-signature-generator": "mail", "barcode-generator": "barcode",
     "merge-pdf": "files", "split-pdf": "scissors", "jpg-to-pdf": "file-image", "pdf-to-jpg": "image-down", "rotate-pdf": "rotate-cw",
     "add-page-numbers-to-pdf": "list-ordered", "compress-pdf": "file-down", "add-watermark-to-pdf": "stamp", "pdf-to-word": "file-type",
     "word-to-pdf": "file-output", "compare-documents": "git-compare", "image-to-text": "scan-text", "invoice-data-extractor": "file-spreadsheet",

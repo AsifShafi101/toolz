@@ -1320,3 +1320,23 @@ html[lang="ar"] .greet-h1 .h1-greet { font-weight: 700; }
 .bf-bar span { display: grid; place-items: center; } .bf-bar span:nth-child(1) { background: #60a5fa; } .bf-bar span:nth-child(2) { background: #22c55e; } .bf-bar span:nth-child(3) { background: #16a34a; } .bf-bar span:nth-child(4) { background: #f59e0b; } .bf-bar span:nth-child(5) { background: #ef4444; }
 .bf-scale i { position: absolute; top: -6px; width: 4px; height: 42px; margin-left: -2px; border-radius: 2px; background: var(--ink); box-shadow: 0 0 0 2px var(--card); }
 .sl-proj { margin-top: 14px; padding-top: 6px; border-top: 1px solid var(--line); }
+/* ---------- Batch 4: study and text tools ---------- */
+.dg-year { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px 12px; margin-top: 12px; }
+.dg-yh { display: flex; justify-content: space-between; align-items: center; gap: 10px; } .dg-w { display: inline-flex; align-items: center; gap: 6px; margin: 0; font-weight: 600; font-size: .88rem; } .dg-w input { width: 80px; padding: 6px 8px; }
+.dg-year .row { align-items: end; } .dg-mods { margin-top: 10px; display: grid; gap: 6px; }
+.dg-mh, .dg-mod { display: grid; grid-template-columns: minmax(0, 1fr) 80px 90px 32px; gap: 6px; align-items: center; } .dg-mh { font-size: .78rem; font-weight: 700; color: var(--ink-soft); }
+.dg-mod input { padding: 7px 8px; } .dg-x { width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
+.dg-border { padding: 10px 12px; border-radius: 10px; background: rgba(245, 158, 11, .12); border: 1px solid rgba(245, 158, 11, .35); margin: 12px 0 0; }
+.hv-ref { font-size: 1.02rem; line-height: 1.6; padding: 14px; border-radius: 12px; background: var(--soft, #f4f6fa); margin: 0 0 8px; }
+.hv-list { padding-inline-start: 0; list-style: none; display: grid; gap: 8px; margin: 6px 0; } .hv-list li { display: flex; gap: 10px; align-items: flex-start; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; font-size: .92rem; } .hv-list li > span { flex: 1; }
+#lo-out, #so-out, #sg-out, #so-text, #sg-text, #fr-text, #df-a, #df-b { width: 100%; }
+.fr-opts { display: flex; flex-wrap: wrap; gap: 4px 18px; align-items: center; margin-top: 8px; } .fr-opts .check { margin-top: 0; }
+.fr-prev { max-height: 260px; overflow: auto; white-space: pre-wrap; word-break: break-word; padding: 12px; border: 1px dashed var(--line); border-radius: 10px; font-size: .92rem; line-height: 1.55; }
+.fr-prev mark { background: #fde68a; color: #111; border-radius: 3px; padding: 0 1px; }
+.df-wrap { overflow-x: auto; margin-top: 10px; } .df { width: 100%; border-collapse: collapse; font: .88rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; table-layout: fixed; }
+.df td { padding: 2px 8px; vertical-align: top; white-space: pre-wrap; word-break: break-word; border-bottom: 1px solid rgba(127, 127, 127, .12); } .df .df-n { width: 3.2em; color: var(--ink-soft); text-align: end; user-select: none; }
+.df tr.df-a td:nth-child(4), .df tr.df-c td:nth-child(4) { background: rgba(34, 197, 94, .14); } .df tr.df-r td:nth-child(2), .df tr.df-c td:nth-child(2) { background: rgba(239, 68, 68, .12); }
+.df del { background: rgba(239, 68, 68, .35); text-decoration: line-through; } .df ins { background: rgba(34, 197, 94, .4); text-decoration: none; }
+.df-add { color: #16a34a; font-weight: 700; } .df-del { color: #dc2626; font-weight: 700; }
+@media (max-width: 600px) { .dg-mh, .dg-mod { grid-template-columns: minmax(0, 1fr) 62px 70px 30px; } }
+.df-chg { color: #b45309; font-weight: 700; }

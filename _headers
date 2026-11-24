@@ -97,9 +97,13 @@
   Cache-Control: public, max-age=31536000, immutable
 /assets/signature.js
   Cache-Control: public, max-age=31536000, immutable
+/assets/study.js
+  Cache-Control: public, max-age=31536000, immutable
 /assets/style.css
   Cache-Control: public, max-age=31536000, immutable
 /assets/text.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/texttools.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/timers.js
   Cache-Control: public, max-age=31536000, immutable
