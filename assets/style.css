@@ -1313,3 +1313,10 @@ html[lang="ar"] .greet-h1 .h1-greet { font-weight: 700; }
 .po-center { position: absolute; inset: 0; display: grid; place-content: center; } .po-time { font: 700 clamp(2.6rem, 9vw, 4rem)/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; } .po-phase { color: var(--ink-soft); font-weight: 600; margin-top: 6px; }
 @media (max-width: 860px) { .wh-wrap { grid-template-columns: 1fr; } .wh-main { order: -1; } }
 @media (max-width: 520px) { .row3 { grid-template-columns: 1fr 1fr 1fr; gap: 8px; } }
+/* ---------- Batch 3 ---------- */
+.lbl { display: block; font-weight: 600; margin: 14px 0 6px; }
+.sd-table td:last-child, .sd-table th:last-child { text-align: end; } .sd-notes { margin: 10px 0 0; padding-inline-start: 1.2em; color: var(--ink-soft); font-size: .92rem; }
+.bf-scale { position: relative; margin: 16px 0 10px; } .bf-bar { display: flex; height: 30px; border-radius: 8px; overflow: hidden; font-size: .72rem; font-weight: 700; color: #fff; }
+.bf-bar span { display: grid; place-items: center; } .bf-bar span:nth-child(1) { background: #60a5fa; } .bf-bar span:nth-child(2) { background: #22c55e; } .bf-bar span:nth-child(3) { background: #16a34a; } .bf-bar span:nth-child(4) { background: #f59e0b; } .bf-bar span:nth-child(5) { background: #ef4444; }
+.bf-scale i { position: absolute; top: -6px; width: 4px; height: 42px; margin-left: -2px; border-radius: 2px; background: var(--ink); box-shadow: 0 0 0 2px var(--card); }
+.sl-proj { margin-top: 14px; padding-top: 6px; border-top: 1px solid var(--line); }

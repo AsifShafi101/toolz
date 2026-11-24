@@ -63,6 +63,8 @@ CATS = [
         ("file-checksum", "🔏", "File checksum checker", "Get MD5/SHA-256 hashes and verify downloads."),
     ]),
     ("money", "Money & tax calculators", "UK pay, VAT, pricing and borrowing, using 2026/27 rates.", [
+        ("stamp-duty-calculator", "🏠", "Stamp duty calculator", "SDLT, LBTT and LTT for first-time buyers, movers and second homes."),
+        ("student-loan-repayment-calculator", "🎓", "Student loan repayment calculator", "Monthly repayments for Plan 1, 2, 4, 5 and Postgraduate loans."),
         ("take-home-pay-calculator", "💰", "Take-home pay calculator", "Your UK salary after tax, NI, pension and student loan (2026/27)."),
         ("vat-calculator", "💷", "VAT calculator", "Add or remove UK VAT at 20%, 5% or any rate."),
         ("profit-margin-calculator", "📈", "Profit margin calculator", "Work out margin, markup and the right selling price."),
@@ -143,6 +145,9 @@ CATS = [
         ("days-between-dates", "📅", "Days between dates", "Count days and working days, or add days to a date."),
         ("unit-converter", "📏", "Unit converter", "Length, weight, volume, temperature and more."),
         ("bmi-calculator", "⚖️", "BMI calculator", "Body mass index with NHS categories, in metric or imperial."),
+        ("calorie-calculator", "🔥", "Calorie calculator", "Calories you burn each day, and how many to eat to lose or gain weight."),
+        ("body-fat-calculator", "📏", "Body fat calculator", "Estimate body fat with a tape measure (US Navy method)."),
+        ("ideal-weight-calculator", "🎯", "Ideal weight calculator", "Healthy weight range for your height, plus four classic formulas."),
         ("pregnancy-due-date-calculator", "🤰", "Pregnancy due date calculator", "Your due date, how many weeks pregnant you are, and key dates."),
         ("ovulation-calculator", "🌸", "Ovulation calculator", "Your fertile window and ovulation day for the next 3 cycles."),
         ("recipe-scaler", "🍳", "Recipe scaler", "Scale ingredients up or down and convert cups to grams."),
@@ -156,7 +161,7 @@ TOOLS = [t for c in CATS for t in c[3]]
 CAT_OF = {t[0]: c for c in CATS for t in c[3]}
 
 ICONS = {
-    "invoice-generator": "receipt", "wheel-spinner": "disc-3", "random-name-picker": "users", "coin-flip": "coins", "dice-roller": "dice-5", "working-days-calculator": "briefcase", "countdown-timer": "hourglass", "stopwatch": "timer", "pomodoro-timer": "alarm-clock", "passport-photo-maker": "id-card", "image-cropper": "crop", "circle-crop-image": "circle-user", "delete-pdf-pages": "file-minus", "extract-pdf-pages": "file-output", "reorder-pdf-pages": "list-ordered", "pdf-to-text": "file-text", "ocr-pdf": "scan-text", "pregnancy-due-date-calculator": "baby", "ovulation-calculator": "calendar-heart", "shipping-label-maker": "package", "quote-generator": "file-pen-line", "email-signature-generator": "mail", "barcode-generator": "barcode",
+    "invoice-generator": "receipt", "calorie-calculator": "flame", "body-fat-calculator": "activity", "ideal-weight-calculator": "scale", "stamp-duty-calculator": "house", "student-loan-repayment-calculator": "graduation-cap", "wheel-spinner": "disc-3", "random-name-picker": "users", "coin-flip": "coins", "dice-roller": "dice-5", "working-days-calculator": "briefcase", "countdown-timer": "hourglass", "stopwatch": "timer", "pomodoro-timer": "alarm-clock", "passport-photo-maker": "id-card", "image-cropper": "crop", "circle-crop-image": "circle-user", "delete-pdf-pages": "file-minus", "extract-pdf-pages": "file-output", "reorder-pdf-pages": "list-ordered", "pdf-to-text": "file-text", "ocr-pdf": "scan-text", "pregnancy-due-date-calculator": "baby", "ovulation-calculator": "calendar-heart", "shipping-label-maker": "package", "quote-generator": "file-pen-line", "email-signature-generator": "mail", "barcode-generator": "barcode",
     "merge-pdf": "files", "split-pdf": "scissors", "jpg-to-pdf": "file-image", "pdf-to-jpg": "image-down", "rotate-pdf": "rotate-cw",
     "add-page-numbers-to-pdf": "list-ordered", "compress-pdf": "file-down", "add-watermark-to-pdf": "stamp", "pdf-to-word": "file-type",
     "word-to-pdf": "file-output", "compare-documents": "git-compare", "image-to-text": "scan-text", "invoice-data-extractor": "file-spreadsheet",

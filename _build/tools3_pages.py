@@ -300,7 +300,8 @@ tool_page("bmi-calculator", "BMI Calculator UK – Metric & Imperial (NHS Catego
   </section>""",
     """<h2>About BMI</h2><p>BMI is your weight in kilograms divided by your height in metres squared. It's a quick screening measure for adults (18+), but it doesn't tell the whole story. It doesn't account for muscle, age or where weight is carried, and it isn't suitable during pregnancy.</p>
 <p>UK guidance uses lower thresholds for people from South Asian, Chinese, other Asian, Middle Eastern, Black African and African-Caribbean backgrounds. For them, 23–27.4 is classed as overweight and 27.5 or over as obese, because health risks start at a lower BMI.</p>
-<p>If you're worried about your weight or health, talk to your GP or practice nurse. The NHS advises not using BMI calculators if you have, or think you may have, an eating disorder. Support is available from Beat (beateatingdisorders.org.uk).</p>""",
+<p>If you're worried about your weight or health, talk to your GP or practice nurse. The NHS advises not using BMI calculators if you have, or think you may have, an eating disorder. Support is available from Beat (beateatingdisorders.org.uk).</p>
+<h2>More health calculators</h2><p><a href="/calorie-calculator/">Calorie calculator</a> · <a href="/body-fat-calculator/">Body fat calculator</a> · <a href="/ideal-weight-calculator/">Ideal weight calculator</a> · <a href="/pregnancy-due-date-calculator/">Pregnancy due date calculator</a></p>""",
     [("What's a healthy BMI?", "For most adults, 18.5 to 24.9. For people from the backgrounds listed above, it's 18.5 to 22.9."),
      ("Can children use this?", "No. Children's BMI is worked out differently, using age- and sex-specific charts. Use the NHS BMI calculator for children.")],
     ("calc.js", "bmi-viz.js"))

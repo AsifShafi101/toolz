@@ -49,6 +49,8 @@
   Cache-Control: public, max-age=31536000, immutable
 /assets/fun.js
   Cache-Control: public, max-age=31536000, immutable
+/assets/health.js
+  Cache-Control: public, max-age=31536000, immutable
 /assets/heic.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/i18n-ar.js
@@ -84,6 +86,8 @@
 /assets/postcard.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/pregnancy.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/property.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/qrcode.js
   Cache-Control: public, max-age=31536000, immutable
