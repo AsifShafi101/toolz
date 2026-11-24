@@ -9,7 +9,7 @@ async function run(p, file, opts = {}) {
   const info = await p.textContent('#v2m-info');
   if (opts.bitrate) await p.selectOption('#bitrate', opts.bitrate);
   if (opts.mono) await p.selectOption('#channels', '1');
-  if (opts.start) { await p.click('summary'); await p.fill('#start', opts.start); await p.fill('#end', opts.end); }
+  if (opts.start) { await p.click('form[data-v2m] summary'); await p.fill('#start', opts.start); await p.fill('#end', opts.end); }
   const t0 = Date.now();
   const dl = p.waitForEvent('download', { timeout: 900000 });
   await p.click('#v2m-go');

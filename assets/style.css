@@ -1369,3 +1369,22 @@ html[lang="ar"] .greet-h1 .h1-greet { font-weight: 700; }
 .pl-strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin: 12px 0; }
 .pl-sw { border: 0; border-radius: 10px; min-height: 92px; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; padding: 10px; font: inherit; font-size: .8rem; text-align: left; cursor: pointer; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
 .pl-sw b { font-size: 1rem; }
+/* Batch 6: PDF & audio */
+.cp-m { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 8px 0; }
+.cp-m label { display: inline-flex; gap: 6px; align-items: center; margin: 0; font-weight: 500; }
+.cp-m input { width: 84px; }
+.hf-prev { border: 1px solid var(--line, #d0d5dd); border-radius: 8px; background: #fff; color: #444; max-width: 320px; aspect-ratio: 1 / 1.1; display: flex; flex-direction: column; justify-content: space-between; padding: 10px 12px; margin: 12px 0; font: 11px/1.3 Arial, sans-serif; }
+.hf-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; } .hf-row span:nth-child(2) { text-align: center; } .hf-row span:nth-child(3) { text-align: right; }
+.hf-row span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-height: 1em; }
+.hf-body { flex: 1; margin: 10px 0; background: repeating-linear-gradient(#fff 0 10px, #e5e7eb 10px 12px); opacity: .7; }
+.rd-q { display: flex; gap: 8px; flex-wrap: wrap; } .rd-q input { flex: 1; min-width: 200px; }
+.rd-nav { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 14px; }
+#rd-view, #cp-view { cursor: crosshair; }
+.ff-fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 4px 16px; margin: 10px 0; }
+.ff-f textarea, .ff-f input[type=text], .ff-f select { width: 100%; }
+.ex-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; margin: 10px 0; }
+.ex-item { margin: 0; padding: 8px; border: 1px solid var(--line, #d0d5dd); border-radius: 10px; text-align: center; font-size: .8rem; }
+.ex-item canvas { display: block; margin: 0 auto 4px; max-width: 100%; }
+.nu-order { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; font-size: .85rem; } .nu-order span { border: 1px solid var(--line, #d0d5dd); border-radius: 999px; padding: 3px 10px; }
+.cu-wave { width: 100%; height: 140px; display: block; margin: 14px 0 4px; border-radius: 10px; background: rgba(127,127,127,.08); cursor: ew-resize; touch-action: none; }
+.cu-playbox { display: flex; align-items: flex-end; }

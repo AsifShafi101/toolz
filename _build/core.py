@@ -38,6 +38,14 @@ CATS = [
         ("delete-pdf-pages", "🗑️", "Delete PDF pages", "Remove pages from a PDF by clicking them. See every page first."),
         ("extract-pdf-pages", "📑", "Extract PDF pages", "Pick the pages you need and save them as a new PDF."),
         ("reorder-pdf-pages", "🔀", "Reorder PDF pages", "Drag pages into a new order, rotate them and save."),
+        ("crop-pdf", "✂️", "Crop PDF", "Trim margins or cut pages down to the part you need."),
+        ("redact-pdf", "⬛", "Redact PDF", "Black out names and numbers permanently, with text search."),
+        ("fill-pdf-form", "📝", "Fill PDF form", "Type into fillable PDF forms and download the completed file."),
+        ("pdf-header-footer", "📑", "Add header & footer to PDF", "Page X of Y, dates, file names and text on every page."),
+        ("flatten-pdf", "🧱", "Flatten PDF", "Lock form fields, comments and stamps so they can't be edited."),
+        ("extract-images-from-pdf", "🖼️", "Extract images from PDF", "Save every picture inside a PDF as PNG or JPG."),
+        ("n-up-pdf", "🔲", "Multiple pages per sheet", "Print 2, 4, 6, 8, 9 or 16 PDF pages on each sheet."),
+        ("pdf-booklet-maker", "📖", "PDF booklet maker", "Print, fold and staple an A5 booklet from any PDF."),
         ("pdf-to-text", "📝", "PDF to text", "Get all the text out of a PDF, including scanned pages."),
         ("ocr-pdf", "🔍", "OCR PDF", "Read the text in a scanned PDF so you can copy and search it."),
         ("jpg-to-pdf", "🖼️", "JPG to PDF", "Turn photos and scans into a single PDF."),
@@ -132,6 +140,8 @@ CATS = [
     ]),
     ("media", "Media & audio", "Video to MP3, YouTube, speech and audio helpers.", [
         ("video-to-mp3", "🎵", "Video to MP3 converter", "Extract MP3 audio from any video, even 2-hour files. Nothing uploaded."),
+        ("audio-cutter", "✂️", "Audio cutter", "Trim MP3, WAV and M4A with fades. Make ringtones and clips."),
+        ("mp3-to-wav", "🎼", "MP3 to WAV", "Convert MP3 and other audio to standard WAV."),
         ("youtube-thumbnail-downloader", "▶️", "YouTube thumbnail downloader", "Get any video's thumbnail in HD."),
         ("text-to-speech", "🔊", "Text to speech", "Listen to any text read aloud in natural voices."),
         ("speech-to-text", "🎙️", "Speech to text", "Dictate and get a written transcript."),
@@ -177,7 +187,7 @@ TOOLS = [t for c in CATS for t in c[3]]
 CAT_OF = {t[0]: c for c in CATS for t in c[3]}
 
 ICONS = {
-    "invoice-generator": "receipt", "add-text-to-image": "type", "meme-generator": "laugh", "photo-collage-maker": "layout-grid", "social-media-image-resizer": "scaling", "instagram-grid-splitter": "grid-3x3", "favicon-generator": "app-window", "svg-to-png": "file-image", "colour-palette-from-image": "palette", "lorem-ipsum-generator": "pilcrow", "find-and-replace-text": "replace", "sort-lines-remove-duplicates": "arrow-down-a-z", "slug-generator": "link-2", "text-diff-checker": "diff", "degree-classification-calculator": "award", "final-grade-calculator": "percent", "harvard-referencing-generator": "book-open", "calorie-calculator": "flame", "body-fat-calculator": "activity", "ideal-weight-calculator": "scale", "stamp-duty-calculator": "house", "student-loan-repayment-calculator": "graduation-cap", "wheel-spinner": "disc-3", "random-name-picker": "users", "coin-flip": "coins", "dice-roller": "dice-5", "working-days-calculator": "briefcase", "countdown-timer": "hourglass", "stopwatch": "timer", "pomodoro-timer": "alarm-clock", "passport-photo-maker": "id-card", "image-cropper": "crop", "circle-crop-image": "circle-user", "delete-pdf-pages": "file-minus", "extract-pdf-pages": "file-output", "reorder-pdf-pages": "list-ordered", "pdf-to-text": "file-text", "ocr-pdf": "scan-text", "pregnancy-due-date-calculator": "baby", "ovulation-calculator": "calendar-heart", "shipping-label-maker": "package", "quote-generator": "file-pen-line", "email-signature-generator": "mail", "barcode-generator": "barcode",
+    "invoice-generator": "receipt", "crop-pdf": "crop", "redact-pdf": "eye-off", "fill-pdf-form": "text-cursor-input", "pdf-header-footer": "panel-top", "flatten-pdf": "layers", "extract-images-from-pdf": "images", "n-up-pdf": "layout-grid", "pdf-booklet-maker": "book-open-text", "audio-cutter": "scissors", "mp3-to-wav": "file-music", "add-text-to-image": "type", "meme-generator": "laugh", "photo-collage-maker": "layout-grid", "social-media-image-resizer": "scaling", "instagram-grid-splitter": "grid-3x3", "favicon-generator": "app-window", "svg-to-png": "file-image", "colour-palette-from-image": "palette", "lorem-ipsum-generator": "pilcrow", "find-and-replace-text": "replace", "sort-lines-remove-duplicates": "arrow-down-a-z", "slug-generator": "link-2", "text-diff-checker": "diff", "degree-classification-calculator": "award", "final-grade-calculator": "percent", "harvard-referencing-generator": "book-open", "calorie-calculator": "flame", "body-fat-calculator": "activity", "ideal-weight-calculator": "scale", "stamp-duty-calculator": "house", "student-loan-repayment-calculator": "graduation-cap", "wheel-spinner": "disc-3", "random-name-picker": "users", "coin-flip": "coins", "dice-roller": "dice-5", "working-days-calculator": "briefcase", "countdown-timer": "hourglass", "stopwatch": "timer", "pomodoro-timer": "alarm-clock", "passport-photo-maker": "id-card", "image-cropper": "crop", "circle-crop-image": "circle-user", "delete-pdf-pages": "file-minus", "extract-pdf-pages": "file-output", "reorder-pdf-pages": "list-ordered", "pdf-to-text": "file-text", "ocr-pdf": "scan-text", "pregnancy-due-date-calculator": "baby", "ovulation-calculator": "calendar-heart", "shipping-label-maker": "package", "quote-generator": "file-pen-line", "email-signature-generator": "mail", "barcode-generator": "barcode",
     "merge-pdf": "files", "split-pdf": "scissors", "jpg-to-pdf": "file-image", "pdf-to-jpg": "image-down", "rotate-pdf": "rotate-cw",
     "add-page-numbers-to-pdf": "list-ordered", "compress-pdf": "file-down", "add-watermark-to-pdf": "stamp", "pdf-to-word": "file-type",
     "word-to-pdf": "file-output", "compare-documents": "git-compare", "image-to-text": "scan-text", "invoice-data-extractor": "file-spreadsheet",
