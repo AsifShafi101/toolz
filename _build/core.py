@@ -111,6 +111,9 @@ CATS = [
         ("jwt-decoder", "🔑", "JWT decoder", "Decode JSON Web Tokens and check expiry."),
     ]),
     ("plan", "Planners & trackers", "Saved privately in your browser, with no account needed.", [
+        ("countdown-timer", "⏳", "Countdown timer", "Count down a time or to a date, with an alarm and full screen."),
+        ("stopwatch", "⏱️", "Stopwatch", "Accurate stopwatch with laps and splits."),
+        ("pomodoro-timer", "🍅", "Pomodoro timer", "25-minute focus sessions with breaks and notifications."),
         ("budget-planner", "📊", "Monthly budget planner", "Plan income and spending with the 50/30/20 rule."),
         ("subscription-tracker", "🔁", "Subscription tracker", "Track every subscription and add renewal reminders to your calendar."),
         ("travel-budget-planner", "🧳", "Travel budget planner", "Estimate trip costs per person, in pounds and local currency."),
@@ -130,6 +133,11 @@ CATS = [
         ("hex-to-decimal-converter", "🔢", "Hex, binary & decimal converter", "Convert between hex, decimal, binary and octal, plus bitwise maths."),
     ]),
     ("everyday", "Everyday tools", "Quick answers you need every day.", [
+        ("wheel-spinner", "🎡", "Wheel spinner", "Spin a wheel to pick a random name, prize or decision."),
+        ("random-name-picker", "🎯", "Random name picker & teams", "Pick names at random without repeats, or make fair teams."),
+        ("coin-flip", "🪙", "Flip a coin", "Heads or tails, with a tally and streaks."),
+        ("dice-roller", "🎲", "Dice roller", "Roll up to 10 dice, from d4 to d20."),
+        ("working-days-calculator", "💼", "Working days calculator", "Working days between dates, skipping UK bank holidays."),
         ("digital-postcard-maker", "💌", "Digital postcard maker", "Send a free postcard from Paris, London, New York, Lahore and 23 more famous places, with your message."),
         ("age-calculator", "🎂", "Age calculator", "Exact age in years, months and days."),
         ("days-between-dates", "📅", "Days between dates", "Count days and working days, or add days to a date."),
@@ -148,7 +156,7 @@ TOOLS = [t for c in CATS for t in c[3]]
 CAT_OF = {t[0]: c for c in CATS for t in c[3]}
 
 ICONS = {
-    "invoice-generator": "receipt", "passport-photo-maker": "id-card", "image-cropper": "crop", "circle-crop-image": "circle-user", "delete-pdf-pages": "file-minus", "extract-pdf-pages": "file-output", "reorder-pdf-pages": "list-ordered", "pdf-to-text": "file-text", "ocr-pdf": "scan-text", "pregnancy-due-date-calculator": "baby", "ovulation-calculator": "calendar-heart", "shipping-label-maker": "package", "quote-generator": "file-pen-line", "email-signature-generator": "mail", "barcode-generator": "barcode",
+    "invoice-generator": "receipt", "wheel-spinner": "disc-3", "random-name-picker": "users", "coin-flip": "coins", "dice-roller": "dice-5", "working-days-calculator": "briefcase", "countdown-timer": "hourglass", "stopwatch": "timer", "pomodoro-timer": "alarm-clock", "passport-photo-maker": "id-card", "image-cropper": "crop", "circle-crop-image": "circle-user", "delete-pdf-pages": "file-minus", "extract-pdf-pages": "file-output", "reorder-pdf-pages": "list-ordered", "pdf-to-text": "file-text", "ocr-pdf": "scan-text", "pregnancy-due-date-calculator": "baby", "ovulation-calculator": "calendar-heart", "shipping-label-maker": "package", "quote-generator": "file-pen-line", "email-signature-generator": "mail", "barcode-generator": "barcode",
     "merge-pdf": "files", "split-pdf": "scissors", "jpg-to-pdf": "file-image", "pdf-to-jpg": "image-down", "rotate-pdf": "rotate-cw",
     "add-page-numbers-to-pdf": "list-ordered", "compress-pdf": "file-down", "add-watermark-to-pdf": "stamp", "pdf-to-word": "file-type",
     "word-to-pdf": "file-output", "compare-documents": "git-compare", "image-to-text": "scan-text", "invoice-data-extractor": "file-spreadsheet",

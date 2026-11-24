@@ -47,6 +47,8 @@
   Cache-Control: public, max-age=31536000, immutable
 /assets/files.js
   Cache-Control: public, max-age=31536000, immutable
+/assets/fun.js
+  Cache-Control: public, max-age=31536000, immutable
 /assets/heic.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/i18n-ar.js
@@ -95,6 +97,8 @@
   Cache-Control: public, max-age=31536000, immutable
 /assets/text.js
   Cache-Control: public, max-age=31536000, immutable
+/assets/timers.js
+  Cache-Control: public, max-age=31536000, immutable
 /assets/tools-index.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/units.js
@@ -106,5 +110,7 @@
 /assets/web.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/word2pdf.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/workdays.js
   Cache-Control: public, max-age=31536000, immutable
 # END versioned assets
