@@ -91,6 +91,16 @@
   <url><loc>https://etoolbox.co.uk/email-header-analyzer/</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://etoolbox.co.uk/api-request-builder/</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://etoolbox.co.uk/jwt-decoder/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/regex-tester/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/base64-encode-decode/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/url-encode-decode/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/uuid-generator/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/hash-generator/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/unix-timestamp-converter/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/csv-to-json/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/sql-formatter/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/cron-expression-generator/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/css-gradient-generator/</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://etoolbox.co.uk/countdown-timer/</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://etoolbox.co.uk/stopwatch/</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://etoolbox.co.uk/pomodoro-timer/</loc><lastmod>2026-11-24</lastmod></url>
@@ -140,6 +150,48 @@
   <url><loc>https://etoolbox.co.uk/contact/</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://etoolbox.co.uk/privacy/</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://etoolbox.co.uk/terms/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/cm-to-inches/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/inches-to-cm/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/mm-to-inches/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/inches-to-mm/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/feet-to-metres/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/metres-to-feet/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/cm-to-feet/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/feet-to-cm/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/km-to-miles/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/miles-to-km/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/yards-to-metres/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/metres-to-yards/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/kg-to-lbs/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/lbs-to-kg/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/kg-to-stone/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/stone-to-kg/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/stone-to-lbs/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/lbs-to-stone/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/grams-to-ounces/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/ounces-to-grams/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/celsius-to-fahrenheit/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/fahrenheit-to-celsius/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/celsius-to-kelvin/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/litres-to-gallons/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/gallons-to-litres/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/ml-to-fl-oz/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/fl-oz-to-ml/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/litres-to-pints/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/pints-to-litres/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/cups-to-ml/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/ml-to-cups/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/square-metres-to-square-feet/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/square-feet-to-square-metres/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/acres-to-hectares/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/hectares-to-acres/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/mph-to-kmh/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/kmh-to-mph/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/knots-to-mph/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/mb-to-gb/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/gb-to-mb/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/mpg-to-litres-per-100km/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://etoolbox.co.uk/litres-per-100km-to-mpg/</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://etoolbox.co.uk/mp4-to-mp3/</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://etoolbox.co.uk/mov-to-mp3/</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://etoolbox.co.uk/mkv-to-mp3/</loc><lastmod>2026-11-24</lastmod></url>

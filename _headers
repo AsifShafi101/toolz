@@ -41,6 +41,8 @@
   Cache-Control: public, max-age=31536000, immutable
 /assets/devtools.js
   Cache-Control: public, max-age=31536000, immutable
+/assets/devtools2.js
+  Cache-Control: public, max-age=31536000, immutable
 /assets/docs.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/eraser.js
@@ -114,6 +116,8 @@
 /assets/timers.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/tools-index.js
+  Cache-Control: public, max-age=31536000, immutable
+/assets/unitpage.js
   Cache-Control: public, max-age=31536000, immutable
 /assets/units.js
   Cache-Control: public, max-age=31536000, immutable
