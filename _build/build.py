@@ -4,7 +4,7 @@ here = os.path.dirname(os.path.abspath(__file__))
 G = {}
 exec(open(os.path.join(here, "core.py")).read(), G)
 G["OUT"] = os.path.dirname(here)  # site root = repo root
-for part in ("i18n_es.py", "i18n_ar.py", "variants_data.py", "qr_pages.py", "tools_pages.py", "tools2_pages.py", "tools3_pages.py", "tools4_pages.py", "tools5_pages.py", "tools6_pages.py", "tools7_pages.py", "tools8_pages.py", "tools9_pages.py", "tools10_pages.py", "tools11_pages.py", "tools12_pages.py", "tools13_pages.py", "variants_pages.py",
+for part in ("i18n_es.py", "i18n_ar.py", "variants_data.py", "qr_pages.py", "tools_pages.py", "tools2_pages.py", "tools3_pages.py", "tools4_pages.py", "tools5_pages.py", "tools6_pages.py", "tools7_pages.py", "tools8_pages.py", "tools9_pages.py", "tools10_pages.py", "tools11_pages.py", "tools12_pages.py", "tools13_pages.py", "tools14_pages.py", "variants_pages.py",
              "services_page.py", "home_page.py", "salary_pages.py", "pay_pages.py", "embed_pages.py", "guides_pages.py", "i18n_pages.py", "rest_pages.py"):
     exec(open(os.path.join(here, part)).read(), G)
 G["write_index"]()
